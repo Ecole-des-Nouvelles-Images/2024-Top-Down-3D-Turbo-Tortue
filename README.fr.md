@@ -33,13 +33,21 @@
 <h2 id="équipe" align="center">
   <strong>Équipe</strong>
 </h2>
-<p>
-  L'équipe <strong>Game Gurus</strong> est composée de 3 étudiants : <a href="https://github.com/GiuPH">Giulia HAUT PERUCCA</a>, <strong>Product Owner</strong> et <strong>Artiste 2D & 3D</strong>, <a href="https://github.com/Michael-elie">Michaël ELIE</a>, et <a href="https://github.com/NoahMil">Noah MILIANI</a>, tous deux <strong>Game Designers</strong> et <strong>Développeurs</strong>.
-</p>
+<ul>
+  <li>
+    <a href="https://github.com/GiuliaHP">Giulia HAUT PERUCCA</a> – <strong>Product Owner</strong> & <strong>Artiste 2D/3D</strong>
+  </li>
+  <li>
+    <a href="https://github.com/Michael-elie">Michael ELIE</a> – <strong>Game Designer</strong> & <strong>Développeur</strong>
+  </li>
+    <li>
+    <a href="https://github.com/NoahMil">Noah MILIANI</a> – <strong>Game Designer</strong> & <strong>Développeur</strong>
+  </li>
+</ul>
 
 <div align="center">
-  <a href="https://github.com/GiuPH">
-    <img src="https://github.com/user-attachments/assets/abfea9c2-0f03-4a30-b9f8-93ece0954c80" width="300px" alt="avatar giulia-rond">
+  <a href="https://github.com/GiuliaHP">
+    <img src="https://github.com/user-attachments/assets/050c3a0a-4467-45a6-847c-85183913477b" width="300px" alt="avatar giulia-rond">
   </a>
   <a href="https://github.com/Michael-elie">
     <img src="https://github.com/user-attachments/assets/501d8a9a-d5c5-4e7b-8321-08c1dc5233c8" width="300px" alt="avatar michael-rond">
