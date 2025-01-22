@@ -10,11 +10,11 @@
 ![TurboTortue](https://github.com/user-attachments/assets/63703d10-dc62-467a-9cbb-803ed9e0abcd)
 
 <h2 align="center">
-  <strong>Table of Contents</strong>
+  <strong>Summary</strong>
 </h2>
 
 <details>
-  <summary>Contents</summary>
+  <summary>Table of Contents</summary>
   <ol>
     <li><a href="#introduction">Introduction</a></li>
     <li><a href="#team">Team</a></li>
