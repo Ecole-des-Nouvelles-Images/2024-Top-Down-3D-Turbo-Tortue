@@ -4,15 +4,17 @@ using System.Collections.Generic;
 using Michael.Scripts.Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.DualShock;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.InputSystem.XInput;
 
 [System.Serializable]
 public class PlayerData
 {
-    public int PlayerID;             // ID unique du joueur (PlayerIndex)
+    public int PlayerID;            
     public int CharacterID;          // ID du personnage sélectionné
-    public InputDevice Device;       // Périphérique associé au joueur
+    public InputDevice Device;     
 }
 
 public class CharacterSelectionManager : MonoBehaviourSingleton<CharacterSelectionManager>
@@ -20,9 +22,21 @@ public class CharacterSelectionManager : MonoBehaviourSingleton<CharacterSelecti
     public GameObject[] characterPrefabs;
    private Dictionary<int, PlayerData> playerChoices = new Dictionary<int, PlayerData>();
 
-   
 
-    // Lorsque le joueur rejoint
+   void Start()
+   {
+       InputSystem.onDeviceChange += (device, change) =>
+        {
+            Debug.Log(device+ " est en train de "+change);
+            InputSystem.GetDeviceById(device.deviceId);
+        };
+       foreach (var gamepad in Gamepad.all)
+       {
+           Debug.Log(gamepad.device);
+       }
+   }
+
+   // Lorsque le joueur rejoint
     public void OnPlayerJoined(PlayerInput playerInput)
     {
         int playerIndex = playerInput.playerIndex;
