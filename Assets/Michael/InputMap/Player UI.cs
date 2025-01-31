@@ -118,6 +118,15 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NavigateLeft"",
+                    ""type"": ""Button"",
+                    ""id"": ""a5987a91-98fc-43dc-9267-3ea52ce0c1fe"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -538,6 +547,17 @@ namespace UnityEngine.InputSystem
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""948d198b-090a-4ea9-8dda-ac86bd096921"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""NavigateLeft"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -617,6 +637,7 @@ namespace UnityEngine.InputSystem
             m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
             m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
             m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+            m_UI_NavigateLeft = m_UI.FindAction("NavigateLeft", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -688,6 +709,7 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_UI_RightClick;
         private readonly InputAction m_UI_TrackedDevicePosition;
         private readonly InputAction m_UI_TrackedDeviceOrientation;
+        private readonly InputAction m_UI_NavigateLeft;
         public struct UIActions
         {
             private @PlayerUI m_Wrapper;
@@ -702,6 +724,7 @@ namespace UnityEngine.InputSystem
             public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
             public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
             public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+            public InputAction @NavigateLeft => m_Wrapper.m_UI_NavigateLeft;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -741,6 +764,9 @@ namespace UnityEngine.InputSystem
                 @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+                @NavigateLeft.started += instance.OnNavigateLeft;
+                @NavigateLeft.performed += instance.OnNavigateLeft;
+                @NavigateLeft.canceled += instance.OnNavigateLeft;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -775,6 +801,9 @@ namespace UnityEngine.InputSystem
                 @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
                 @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+                @NavigateLeft.started -= instance.OnNavigateLeft;
+                @NavigateLeft.performed -= instance.OnNavigateLeft;
+                @NavigateLeft.canceled -= instance.OnNavigateLeft;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -849,6 +878,7 @@ namespace UnityEngine.InputSystem
             void OnRightClick(InputAction.CallbackContext context);
             void OnTrackedDevicePosition(InputAction.CallbackContext context);
             void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+            void OnNavigateLeft(InputAction.CallbackContext context);
         }
     }
 }

@@ -49,6 +49,7 @@ namespace Intégration.V1.Scripts.Game
                     foreach (Transform t in _fractObject.transform)
                     {
                         var rb = t.GetComponent<Rigidbody>();
+                        Collider collider = t.GetComponent<Collider>();
 
                         if (rb != null)
                         {
@@ -56,6 +57,11 @@ namespace Intégration.V1.Scripts.Game
                                 originalObject.transform.position, explosionForceRadius);
 
                             ShrinkAndDestroy(t);
+                        }
+
+                        if (!collider)
+                        {
+                            collider.enabled = false;
                         }
                     }
 

@@ -47,7 +47,7 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void PassiveCapacity()
         {
-            if (!isBoosted && GameManager.Instance.FlowersAlive.Count == 1)
+            if (!isBoosted && GameManager.Instance.FlowersAlive!.Count == 1)
             {
                 MeshTrail.InvokePassive();
                 moveSpeed += 150;

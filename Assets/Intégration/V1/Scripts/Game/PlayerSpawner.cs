@@ -7,6 +7,7 @@ using Michael.Scripts;
 using Michael.Scripts.Manager;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem.Users;
 
 namespace Intégration.V1.Scripts.Game
 {
@@ -58,6 +59,7 @@ namespace Intégration.V1.Scripts.Game
                             FlowerUis[2].FlowerPlayer = character.GetComponent<FlowerController>();
                             FlowerUis[2].GameObject().SetActive(true);
                             player3spawned = true;
+                            
                         }
 
                         _targetGroup.AddMember(character.transform, 1, 2);
