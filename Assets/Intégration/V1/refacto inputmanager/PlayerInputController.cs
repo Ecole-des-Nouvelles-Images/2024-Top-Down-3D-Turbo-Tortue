@@ -43,7 +43,7 @@ public class PlayerInputController : MonoBehaviour
     public void OnDeviceLost()
     {
       CharacterSelectionManager.Instance.OnPlayerLeft(_playerInput);
-       Destroy(gameObject,0.5f);
+      Destroy(gameObject,0.5f);
     }
     
     

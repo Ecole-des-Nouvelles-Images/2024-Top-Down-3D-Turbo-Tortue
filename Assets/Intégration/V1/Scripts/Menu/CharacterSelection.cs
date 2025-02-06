@@ -112,10 +112,10 @@ namespace Intégration.V1.Scripts.Menu
             }
         }
 
-        public void SelectionScreen(bool canJoin)
+        /*public void SelectionScreen(bool canJoin)
         {
             CanJoin = canJoin;
-        }
+        }*/
 
 
         public void OnNavigate()
@@ -147,6 +147,20 @@ namespace Intégration.V1.Scripts.Menu
                     _joinButton.transform.DOScale(1f, 0.5f);
                     transform.localScale = _initialTransform;
                 }
+            }
+        }
+        
+        public void PlayerJoined()
+        {
+            if (CanJoin)
+            {
+                PlayerIsJoined[PlayerIndex] = true;
+                MooveSelectorPosition();
+                Debug.Log("un joueur " + PlayerIndex + " a rejoin");
+                Selector.SetActive(true);
+                joinedText.SetActive(false);
+                readyText.SetActive(true);
+                CapacityImage.gameObject.SetActive(true);
             }
         }
 
@@ -285,20 +299,7 @@ namespace Intégration.V1.Scripts.Menu
         }
 
 
-        public void PlayerJoined()
-        {
-            if (CanJoin)
-            {
-                PlayerIsJoined[PlayerIndex] = true;
-                MooveSelectorPosition();
-                Debug.Log("un joueur " + PlayerIndex + " a rejoin");
-                Selector.SetActive(true);
-                joinedText.SetActive(false);
-                readyText.SetActive(true);
-                CapacityImage.gameObject.SetActive(true);
-            }
-        }
-
+      
 
         public void StartHold()
         {

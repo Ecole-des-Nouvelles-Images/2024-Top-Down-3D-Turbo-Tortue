@@ -21,20 +21,30 @@ public class CharacterSelectionManager : MonoBehaviourSingleton<CharacterSelecti
 {
     public GameObject[] characterPrefabs;
    private Dictionary<int, PlayerData> playerChoices = new Dictionary<int, PlayerData>();
-
-
+  
+   [SerializeField] private GameObject _joinPanel;
+   [SerializeField] private Transform _joinlayout;
+   private PlayerInputManager _playerInputManager;
    void Start()
    {
-       InputSystem.onDeviceChange += (device, change) =>
-        {
-            Debug.Log(device+ " est en train de "+change);
-            InputSystem.GetDeviceById(device.deviceId);
-        };
-       foreach (var gamepad in Gamepad.all)
+       _playerInputManager = GetComponent<PlayerInputManager>();
+       DetectDevices();
+   }
+
+
+   void DetectDevices()
+   {
+       foreach (var device in InputSystem.devices)
        {
-           Debug.Log(gamepad.device);
+           if (device is Gamepad)
+           {
+               Debug.Log(device.name + device.deviceId );
+               Instantiate(_joinPanel, _joinlayout);
+               _playerInputManager.JoinPlayer(pairWithDevice: device);
+           }
        }
    }
+   
 
    // Lorsque le joueur rejoint
     public void OnPlayerJoined(PlayerInput playerInput)
