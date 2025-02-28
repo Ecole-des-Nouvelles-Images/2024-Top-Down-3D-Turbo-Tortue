@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using DG.Tweening;
+using UnityEngine.InputSystem.Users;
 
 public class PlayerJoinUI : MonoBehaviour
 {
@@ -11,11 +12,13 @@ public class PlayerJoinUI : MonoBehaviour
 
     private PlayerInput playerInput;
     public bool isJoined = false;
-
-    public void SetPlayer(PlayerInput input)
+    private InputDevice playerDevice;
+    
+    public void SetPlayer(InputDevice device)
     {
-        playerInput = input;
-        playerText.text = $"Player {input.playerIndex + 1}";
+        playerDevice = device;
+      //  playerText.text = $"Player {Gamepad.all.IndexOf(device as Gamepad) + 1}";
+        joinPrompt.SetActive(true);
     }
 
     public void Join()
@@ -31,10 +34,15 @@ public class PlayerJoinUI : MonoBehaviour
         // Vibration manette
         if (playerInput.devices.Count > 0 && playerInput.devices[0] is Gamepad gamepad)
         {
-            gamepad.SetMotorSpeeds(0.5f, 0.5f);
+            gamepad.SetMotorSpeeds(0.5f, 0.5f); 
             Invoke(nameof(StopVibration), 0.2f);
         }
-       
+
+        void ResetUI()
+        {
+            playerText.text = "";
+            joinPrompt.SetActive(false);
+        }
     }
 
     public void Disconnect()
