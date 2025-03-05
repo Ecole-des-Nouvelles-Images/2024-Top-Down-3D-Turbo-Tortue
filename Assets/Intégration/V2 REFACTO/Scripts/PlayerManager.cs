@@ -47,7 +47,7 @@ public class PlayerManager : MonoBehaviour
     private void CheckCurrentGamepads(InputDevice device)
     {
         // Verifie si la manette a deja été connectée
-        if (deviceToPlayerInput.ContainsKey(device)) return;
+        if (deviceToPlayerInput.ContainsKey(device) || _playerInputManager.playerCount >= _playerInputManager.maxPlayerCount) return;
         
         Debug.Log($"Manette {device.displayName} branchée !");
         _playerInputManager.JoinPlayer(-1, -1, null, device);
