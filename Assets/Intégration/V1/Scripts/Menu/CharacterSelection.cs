@@ -244,8 +244,7 @@ namespace Intégration.V1.Scripts.Menu
 
         public void OnCancel()
         {
-            // Annulé la la selection d'un personnage 
-
+            // Annulé la la selection d'un personnage
             if (CanJoin)
             {
                 if (PlayerIsReady[PlayerIndex])
