@@ -7,114 +7,114 @@ using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : MonoBehaviour
-{
- 
-    public GameObject playerUIPrefab; // Prefab de l'UI Player avec "Rejoindre"
-    public Transform playerSlotsParent; // Parent qui contient les slots UI
+{ 
+    public PlayerInputManager playerInputManager;
+    public GameObject joinUIPrefab;
+    public Transform joinUIParent;
 
-    private Dictionary<InputDevice, GameObject> playerMap = new Dictionary<InputDevice, GameObject>();
-    private Dictionary<InputDevice, int> playerCharacterMap = new Dictionary<InputDevice, int>(); // Stocke le personnage choisi
+    private Dictionary<InputDevice, GameObject> deviceToUI = new();
+    private Dictionary<InputDevice, PlayerInput> deviceToPlayerInput = new();
 
-    void Start()
-    {
-        
-        PlayerInput playerInput = FindObjectOfType<PlayerInput>();
-        Debug.Log($"Player Index: {playerInput.playerIndex}"); // Index logique
-        Debug.Log($"InputUser ID: {playerInput.user.id}");      // User interne
-    }
     private void Awake()
     {
-        InputSystem.onDeviceChange += OnDeviceChanged;
-        DetectConnectedControllers();
-    }
-
-    private void DetectConnectedControllers()
-    {
+        playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
+        // 🔥 Détection des manettes déjà branchées au lancement
         foreach (var device in InputSystem.devices)
         {
-            if (device is Gamepad /*&& !playerMap.ContainsKey(device)*/)
+            if (device is Gamepad && !deviceToPlayerInput.ContainsKey(device))
             {
-                AddPlayer(device);
-               // Debug.Log(InputUser.GetUnpairedInputDevices());
+                Debug.Log($"Manette {device.displayName} déjà branchée au lancement !");
+                playerInputManager.JoinPlayer(-1, -1, null, device);
             }
         }
         
     }
 
-    private void OnDeviceChanged(InputDevice device, InputDeviceChange change)
+    private void OnEnable()
     {
-       
-        if (device is Gamepad)
+        playerInputManager.onPlayerJoined += OnPlayerJoined;
+        InputSystem.onDeviceChange += OnDeviceChange;
+    }
+
+    private void OnDisable()
+    {
+        playerInputManager.onPlayerJoined -= OnPlayerJoined;
+        InputSystem.onDeviceChange -= OnDeviceChange;
+    }
+
+    private void OnDeviceChange(InputDevice device, InputDeviceChange change)
+    {
+        if (!(device is Gamepad)) return;
+
+        switch (change)
         {
-            if (change == InputDeviceChange.Added && !playerMap.ContainsKey(device))
-            {
-                AddPlayer(device);
-                Debug.Log("unpairs devices : "+ InputUser.GetUnpairedInputDevices());
-            }
-            else if (change == InputDeviceChange.Removed /*&& playerMap.ContainsKey(device)*/)
-            {
-                RemovePlayer(device);
-                Debug.Log("unpairs devices : "+ InputUser.GetUnpairedInputDevices());
-            }
+            case InputDeviceChange.Added:
+                if (!deviceToPlayerInput.ContainsKey(device))
+                {
+                    Debug.Log($"Manette {device.displayName} branchée !");
+                    playerInputManager.JoinPlayer(-1, -1, null, device);
+                }
+                break;
+
+            case InputDeviceChange.Disconnected:
+                if (deviceToPlayerInput.ContainsKey(device))
+                {
+                    //OnDeviceLost(deviceToPlayerInput[device]);
+                }
+                break;
+
+            case InputDeviceChange.Reconnected:
+                if (deviceToPlayerInput.ContainsKey(device))
+                {
+                   // OnDeviceRegained(deviceToPlayerInput[device]);
+                }
+                break;
         }
     }
 
-    private void AddPlayer(InputDevice device)
+    private void OnPlayerJoined(PlayerInput playerInput)
     {
-        GameObject slot = GetFreeSlot();
-        if (slot != null)
+        InputDevice device = playerInput.devices[0];
+
+        if (deviceToPlayerInput.ContainsKey(device))
         {
-            GameObject playerUI = Instantiate(playerUIPrefab, slot.transform);
-            PlayerJoinUI joinUI = playerUI.GetComponent<PlayerJoinUI>();
-            joinUI.SetPlayer(device);
-          //  joinUI.OnCharacterSelected += StoreCharacterChoice; // Abonnement à l'événement de choix de personnage
-            playerUI.SetActive(true);
-            playerMap.Add(device, playerUI);
+            Debug.Log($"Manette {device.displayName} reconnue !");
+          //  OnDeviceRegained(playerInput);
+            Destroy(playerInput.gameObject);
+            return;
         }
+
+        Debug.Log($"Nouvelle manette {device.displayName} !");
+        deviceToPlayerInput[device] = playerInput;
+       // playerInput.onDeviceLost += OnDeviceLost;
+        //playerInput.onDeviceRegained += OnDeviceRegained;
+
+        GameObject ui = Instantiate(joinUIPrefab, joinUIParent);
+        Debug.Log("player instancié");
+        deviceToUI[device] = ui;
+       // ui.SetActive(false);
     }
 
-    private void StoreCharacterChoice(InputDevice device, int characterIndex)
-    {
-        if (playerCharacterMap.ContainsKey(device))
-        {
-            playerCharacterMap[device] = characterIndex;
-        }
-        else
-        {
-            playerCharacterMap.Add(device, characterIndex);
-        }
-    }
-
-    public Dictionary<InputDevice, int> GetCharacterChoices()
-    {
-        return playerCharacterMap;
-    }
-
-    public void StartGame(string sceneName)
-    {
-        SceneManager.LoadScene(sceneName);
-    }
-
-    private void RemovePlayer(InputDevice device)
-    {
-        if (playerMap.TryGetValue(device, out GameObject playerUI))
-        {
-          //  playerUI.GetComponent<PlayerJoinUI>().ResetUI();
-            playerUI.SetActive(false);
-            playerMap.Remove(device);
-            playerCharacterMap.Remove(device);
-        }
-    }
-
-    private GameObject GetFreeSlot()
-    {
-        foreach (Transform slot in playerSlotsParent)
-        {
-            if (slot.childCount == 0)
-            {
-                return slot.gameObject;
-            }
-        }
-        return null;
-    }
+    /* private void OnDeviceLost(PlayerInput playerInput)
+     {
+         InputDevice device = playerInput.devices[0];
+ 
+         Debug.Log($"Manette {device.displayName} déconnectée !");
+         if (deviceToUI.ContainsKey(device))
+         {
+             deviceToUI[device].SetActive(true);
+         }
+     }
+ 
+     private void OnDeviceRegained(PlayerInput playerInput)
+     {
+         InputDevice device = playerInput.devices[0];
+ 
+         Debug.Log($"Manette {device.displayName} reconnectée !");
+         if (deviceToUI.ContainsKey(device))
+         {
+             deviceToUI[device].SetActive(false);
+         }
+     }*/
+  
 }

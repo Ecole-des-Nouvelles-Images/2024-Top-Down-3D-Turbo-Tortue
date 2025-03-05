@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6807120684264725123}
-  - component: {fileID: 4309583251238971936}
   - component: {fileID: 6834704439680715635}
   m_Layer: 0
   m_Name: PlayerCharacterSelection
@@ -33,18 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4309583251238971936
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6171861545340594434}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 87c7b9a37808c7d4f81071bcde61c13f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6834704439680715635
 MonoBehaviour:
   m_ObjectHideFlags: 0
