@@ -1,62 +1,57 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 using DG.Tweening;
-using UnityEngine.InputSystem.Users;
+using TMPro;
+using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public class PlayerJoinUI : MonoBehaviour
 {
-    public TextMeshProUGUI playerText;
-    public GameObject avatar;
-    public GameObject joinPrompt;
-
-    private PlayerInput playerInput;
-    public bool isJoined = false;
-    private InputDevice playerDevice;
-    
-    public void SetPlayer(InputDevice device)
+    [SerializeField] private GameObject _playerUi;
+    [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private int _userIndex;
+    [SerializeField] private TextMeshProUGUI _playerIndexText;
+    [SerializeField] private Image _playerIndeximage;
+    [SerializeField] private Gamepad _gamepad;
+    private void Awake()
     {
-        playerDevice = device;
-      //  playerText.text = $"Player {Gamepad.all.IndexOf(device as Gamepad) + 1}";
-        joinPrompt.SetActive(true);
+        _playerUi = transform.parent.gameObject;
+        playerInput = transform.parent.GetComponentInChildren<PlayerInput>();
+        _userIndex = playerInput.user.index;
+        _playerIndexText.text = (_userIndex + 1).ToString() ;
+        _playerIndeximage.color = new Color(Random.value, Random.value, Random.value);
+        _gamepad = playerInput.devices[0] as Gamepad;
     }
 
+    private void Start()
+    {
+        playerInput.gameObject.transform.SetParent(playerInput.transform.parent.parent);
+        Join();
+    }
+    
     public void Join()
     {
-        isJoined = true;
-        joinPrompt.SetActive(false);
-        avatar.SetActive(true);
-        transform.DOScale(Vector3.one * 1.2f, 0.2f).SetEase(Ease.OutBounce).OnComplete(() =>
+        Debug.Log("Join");
+        _playerUi.transform.DOScale(Vector3.one * 1.2f, 0.2f).SetEase(Ease.Linear).OnComplete(() =>
         {
-            transform.DOScale(Vector3.one, 0.1f);
+            _playerUi.transform.DOScale(Vector3.one, 0.1f);
         });
-        
-        // Vibration manette
-        if (playerInput.devices.Count > 0 && playerInput.devices[0] is Gamepad gamepad)
-        {
-            gamepad.SetMotorSpeeds(0.5f, 0.5f); 
-            Invoke(nameof(StopVibration), 0.2f);
-        }
-
-        void ResetUI()
-        {
-            playerText.text = "";
-            joinPrompt.SetActive(false);
-        }
-    }
-
-    public void Disconnect()
-    {
-        isJoined = false;
-        joinPrompt.SetActive(true);
-        avatar.SetActive(false);
     }
     
-    void StopVibration()
+    public void OnDeviceLost()
     {
-        if (playerInput.devices.Count > 0 && playerInput.devices[0] is Gamepad gamepad)
-        {
-            gamepad.SetMotorSpeeds(0f, 0f);
-        }
+        Debug.Log("OnDeviceLost");
+        _playerUi.SetActive(false); 
     }
+    
+    public void OnDeviceRegained()
+    {
+        Debug.Log("OndeviceRegained");
+        _playerUi.SetActive(true); 
+        Join();
+    }
+
+ 
+   
 }

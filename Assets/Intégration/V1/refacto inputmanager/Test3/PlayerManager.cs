@@ -9,16 +9,14 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : MonoBehaviour
 { 
     public PlayerInputManager playerInputManager;
-    public GameObject joinUIPrefab;
     public Transform joinUIParent;
-
-    private Dictionary<InputDevice, GameObject> deviceToUI = new();
+    
     private Dictionary<InputDevice, PlayerInput> deviceToPlayerInput = new();
 
     private void Awake()
     {
-        playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
-        // 🔥 Détection des manettes déjà branchées au lancement
+       // playerInputManager.joinBehavior = PlayerJoinBehavior.JoinPlayersManually;
+       //Détection des manettes déjà branchées au lancement
         foreach (var device in InputSystem.devices)
         {
             if (device is Gamepad && !deviceToPlayerInput.ContainsKey(device))
@@ -26,48 +24,35 @@ public class PlayerManager : MonoBehaviour
                 Debug.Log($"Manette {device.displayName} déjà branchée au lancement !");
                 playerInputManager.JoinPlayer(-1, -1, null, device);
             }
+            
         }
         
     }
 
     private void OnEnable()
     {
-        playerInputManager.onPlayerJoined += OnPlayerJoined;
         InputSystem.onDeviceChange += OnDeviceChange;
     }
 
     private void OnDisable()
     {
-        playerInputManager.onPlayerJoined -= OnPlayerJoined;
         InputSystem.onDeviceChange -= OnDeviceChange;
     }
 
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
-        if (!(device is Gamepad)) return;
-
+        
+        if (!(device is Gamepad gamepad)) return;
+       
         switch (change)
         {
             case InputDeviceChange.Added:
+                RumbleManager.Instance.RumblePulse(1f, 1f, 0.1f,(Gamepad)device);
                 if (!deviceToPlayerInput.ContainsKey(device))
                 {
                     Debug.Log($"Manette {device.displayName} branchée !");
                     playerInputManager.JoinPlayer(-1, -1, null, device);
-                }
-                break;
-
-            case InputDeviceChange.Disconnected:
-                if (deviceToPlayerInput.ContainsKey(device))
-                {
-                    //OnDeviceLost(deviceToPlayerInput[device]);
-                }
-                break;
-
-            case InputDeviceChange.Reconnected:
-                if (deviceToPlayerInput.ContainsKey(device))
-                {
-                   // OnDeviceRegained(deviceToPlayerInput[device]);
-                }
+                } 
                 break;
         }
     }
@@ -75,46 +60,19 @@ public class PlayerManager : MonoBehaviour
     private void OnPlayerJoined(PlayerInput playerInput)
     {
         InputDevice device = playerInput.devices[0];
-
+        playerInput.gameObject.transform.parent.transform.SetParent(joinUIParent);
         if (deviceToPlayerInput.ContainsKey(device))
         {
             Debug.Log($"Manette {device.displayName} reconnue !");
-          //  OnDeviceRegained(playerInput);
             Destroy(playerInput.gameObject);
             return;
         }
 
         Debug.Log($"Nouvelle manette {device.displayName} !");
         deviceToPlayerInput[device] = playerInput;
-       // playerInput.onDeviceLost += OnDeviceLost;
-        //playerInput.onDeviceRegained += OnDeviceRegained;
-
-        GameObject ui = Instantiate(joinUIPrefab, joinUIParent);
+        
         Debug.Log("player instancié");
-        deviceToUI[device] = ui;
-       // ui.SetActive(false);
     }
-
-    /* private void OnDeviceLost(PlayerInput playerInput)
-     {
-         InputDevice device = playerInput.devices[0];
+    
  
-         Debug.Log($"Manette {device.displayName} déconnectée !");
-         if (deviceToUI.ContainsKey(device))
-         {
-             deviceToUI[device].SetActive(true);
-         }
-     }
- 
-     private void OnDeviceRegained(PlayerInput playerInput)
-     {
-         InputDevice device = playerInput.devices[0];
- 
-         Debug.Log($"Manette {device.displayName} reconnectée !");
-         if (deviceToUI.ContainsKey(device))
-         {
-             deviceToUI[device].SetActive(false);
-         }
-     }*/
-  
 }
