@@ -8022,11 +8022,11 @@ Transform:
   m_GameObject: {fileID: 1179003328}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 723.73, y: 743.7451, z: -76.3479}
+  m_LocalPosition: {x: -236.27002, y: 203.74512, z: -76.3479}
   m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1985942668}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1179003331
 MonoBehaviour:
@@ -8042,8 +8042,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerInputManager: {fileID: 0}
   _playerUIParent: {fileID: 259788973}
-  playerInputs: []
-  players: []
+  playerInputsList: []
+  playersUiList: []
 --- !u!1 &1196131237
 GameObject:
   m_ObjectHideFlags: 0
@@ -13584,6 +13584,7 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1179003330}
   - {fileID: 868636975}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -14283,7 +14284,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2109186286}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -16609,5 +16610,4 @@ SceneRoots:
   - {fileID: 1508595155}
   - {fileID: 167681435}
   - {fileID: 1915367910}
-  - {fileID: 1179003330}
   - {fileID: 1985942668}
