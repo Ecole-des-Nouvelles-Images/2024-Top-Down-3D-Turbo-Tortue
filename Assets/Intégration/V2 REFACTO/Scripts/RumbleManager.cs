@@ -8,11 +8,7 @@ using UnityEngine.InputSystem;
 public class RumbleManager : MonoBehaviourSingleton<RumbleManager>
 {
     private Coroutine _stopRumbleCoroutine;
-
-   
-
-   
-
+    
     public void RumblePulse(float lowFrequency, float highFrequency, float duration, Gamepad gamepad)
     {
         gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
