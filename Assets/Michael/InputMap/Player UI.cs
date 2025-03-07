@@ -31,9 +31,9 @@ namespace UnityEngine.InputSystem
             ""actions"": [
                 {
                     ""name"": ""Navigate"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""c95b2375-e6d9-4b88-9c4c-c5e76515df4b"",
-                    ""expectedControlType"": ""Vector2"",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": ""StickDeadzone(min=0.2)"",
                     ""interactions"": """",
                     ""initialStateCheck"": true

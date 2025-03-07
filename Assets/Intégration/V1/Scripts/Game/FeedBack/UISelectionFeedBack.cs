@@ -1,29 +1,39 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Intégration.V1.Scripts.Game.FeedBack
 {
     public class UISelectionFeedBack : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
-        [SerializeField] private GameObject OutlineSelector;
-        [SerializeField] private AudioSource selectedSound;
+       [SerializeField] private GameObject _outlineSelector;
+       [SerializeField] private AudioSource _selectedSound;
+       [SerializeField] private Color _outlineColor;
 
-        public void OnSelect(BaseEventData eventData)
+       private void Start()
+       {
+           _outlineSelector.GetComponent<Image>().color = _outlineColor;
+       }
+
+       public void OnSelect(BaseEventData eventData)
         {
-            OutlineSelector.SetActive(true);
+            _outlineSelector.SetActive(true);
             transform.DOScale(1.1f, 0.5f);
-            selectedSound.Play();
+            _selectedSound.Play();
         }
 
         public void OnDeselect(BaseEventData eventData)
         {
-            if (GetComponentInChildren<HorizontalLayoutGroup>().transform.childCount <= 1)
+           /* if (GetComponentInChildren<HorizontalLayoutGroup>().transform.childCount <= 1)
             {
-                OutlineSelector.SetActive(false);
+                _outlineSelector.SetActive(false);
                 transform.DOScale(1.0f, 0.5f);
-            }
+            }*/
+           _outlineSelector.SetActive(false);
+           transform.DOScale(1.0f, 0.5f);
         }
     }
 }

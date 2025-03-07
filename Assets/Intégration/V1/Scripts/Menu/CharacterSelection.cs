@@ -121,12 +121,13 @@ namespace Intégration.V1.Scripts.Menu
         public void OnNavigate()
         {
             //Bouger le cursor du player 
+            //
             //PlayerSelector();
         }
 
         void PlayerSelector()
         {
-            if (_eventSystem.currentSelectedGameObject &&
+            if (_eventSystem.currentSelectedGameObject && 
                 _eventSystem.currentSelectedGameObject.GetComponentInChildren<HorizontalLayoutGroup>())
             {
                 transform.SetParent(_eventSystem.currentSelectedGameObject
