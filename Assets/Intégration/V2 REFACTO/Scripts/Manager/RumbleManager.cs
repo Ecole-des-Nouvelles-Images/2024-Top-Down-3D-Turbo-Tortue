@@ -1,4 +1,5 @@
 using System.Collections;
+using Intégration.V1.Scripts.SharedScene;
 using Michael.Scripts.Manager;
 using Unity.VisualScripting;
 using UnityEditor;
@@ -11,6 +12,7 @@ public class RumbleManager : MonoBehaviourSingleton<RumbleManager>
     
     public void RumblePulse(float lowFrequency, float highFrequency, float duration, Gamepad gamepad)
     {
+        if (!DataManager.CanVibrate) return;
         gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
         _stopRumbleCoroutine = StartCoroutine(StopRumblePulse(duration, gamepad));
     }

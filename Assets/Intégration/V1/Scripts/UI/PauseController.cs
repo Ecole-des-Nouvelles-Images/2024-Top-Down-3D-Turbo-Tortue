@@ -1,5 +1,7 @@
+using DG.Tweening;
 using Michael.Scripts.Manager;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 
 namespace Intégration.V1.Scripts.UI
@@ -10,7 +12,7 @@ namespace Intégration.V1.Scripts.UI
         [SerializeField] private GameObject _pausePanel;
         [SerializeField] private GameObject _eventSystem;
         [SerializeField] private GameObject _playButton;
-
+        [SerializeField] private AudioMixer _musicMixer;
         private void Start()
         {
             IsPaused = false;
@@ -27,6 +29,7 @@ namespace Intégration.V1.Scripts.UI
                 _pausePanel.SetActive(true);
                 _eventSystem.SetActive(true);
                 _eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(_playButton);
+                _musicMixer?.DOSetFloat("MusicLowPass", 500f,0.5f);
             }
         }
 
@@ -38,6 +41,7 @@ namespace Intégration.V1.Scripts.UI
                 Time.timeScale = 1;
                 IsPaused = false;
                 _pausePanel.SetActive(false);
+                _musicMixer?.DOSetFloat("MusicLowPass", 5000f,0.5f);
             }
         }
     }

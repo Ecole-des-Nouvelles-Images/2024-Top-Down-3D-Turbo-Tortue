@@ -1,19 +1,33 @@
 using System;
 using System.Collections.Generic;
+using Intégration.V1.Scripts.SharedScene;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
+    //public static Action<PlayerInput> OnPlayerJoined;
     public static Action<PlayerInput> OnPlayerReady;
+    public static Action<PlayerInput> OnPlayerCanceled;
+    
+    
+    
+    
     [SerializeField] private PlayerInputManager _playerInputManager;
     [SerializeField] private Transform _playerUIParent;
-    
+    [SerializeField] private int _minPlayers;
+        
     private Dictionary<InputDevice, PlayerInput> deviceToPlayerInput = new();
+    
     private List<PlayerInput> playerInputsList = new List<PlayerInput>() ;
     private List<GameObject> playersUiList = new List<GameObject>();
-   // private List<InputDevice> playerDeviceList ;
+    
+    
+    [SerializeField] private List<PlayerInput> playersReadyList; 
+    
+    
+    
     private void Awake()
     {
         _playerInputManager = GetComponent<PlayerInputManager>();
@@ -27,6 +41,7 @@ public class PlayerManager : MonoBehaviour
             if (device is Gamepad) { CheckCurrentGamepads(device); Debug.Log("manettes check");}
         }
         InputSystem.onDeviceChange += OnDeviceChange;
+       
     }
 
     private void OnDisable()
@@ -35,11 +50,15 @@ public class PlayerManager : MonoBehaviour
         ResetAllInputDevices();
     }
 
-    private void Start()
+    private void CheckPlayerReady()
     {
-      
+        if (playersReadyList.Count >= _minPlayers )
+        {
+            //can start game. 
+        }
     }
-
+    
+    
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
         if (device is not Gamepad gamepad) return;
@@ -83,7 +102,7 @@ public class PlayerManager : MonoBehaviour
         InputDevice device = playerInput.devices[0];
         GameObject playerUi = playerInput.transform.parent.gameObject;
         playersUiList.Add(playerUi);
-        playerInput.gameObject.transform.parent.transform.SetParent(_playerUIParent);
+        playerUi.transform.SetParent(_playerUIParent);
         
         if (deviceToPlayerInput.ContainsKey(device))
         {
@@ -96,8 +115,6 @@ public class PlayerManager : MonoBehaviour
         Debug.Log($"Nouvelle manette {device.displayName} !");
         deviceToPlayerInput[device] = playerInput;
         playerInputsList.Add(playerInput);
-      //  playerDeviceList.Add(device);
-        
     }
     
  
