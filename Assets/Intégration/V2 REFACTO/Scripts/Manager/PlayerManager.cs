@@ -1,31 +1,33 @@
 using System;
 using System.Collections.Generic;
 using Intégration.V1.Scripts.SharedScene;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
-    //public static Action<PlayerInput> OnPlayerJoined;
+    public static Action<PlayerInput> OnPlayerJoin;
     public static Action<PlayerInput> OnPlayerReady;
     public static Action<PlayerInput> OnPlayerCanceled;
-    
-    
     
     
     [SerializeField] private PlayerInputManager _playerInputManager;
     [SerializeField] private Transform _playerUIParent;
     [SerializeField] private int _minPlayers;
-        
+    [SerializeField] private bool _turtleIsSelected;
+    
+    
+    
     private Dictionary<InputDevice, PlayerInput> deviceToPlayerInput = new();
     
-    private List<PlayerInput> playerInputsList = new List<PlayerInput>() ;
+    [SerializeField] private List<PlayerInput> playerInputsList = new List<PlayerInput>() ;
     private List<GameObject> playersUiList = new List<GameObject>();
     
     
-    [SerializeField] private List<PlayerInput> playersReadyList; 
-    
+    [SerializeField] private List<PlayerInput> playersReadyList;
+    [SerializeField] private List<PlayerInput> playerJoinedList;
     
     
     private void Awake()
@@ -50,15 +52,16 @@ public class PlayerManager : MonoBehaviour
         ResetAllInputDevices();
     }
 
-    private void CheckPlayerReady()
+    private void CheckReadyPlayers()
     {
-        if (playersReadyList.Count >= _minPlayers )
+        
+        
+        if (playersReadyList.Count >= _minPlayers)
         {
             //can start game. 
         }
     }
-    
-    
+
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
         if (device is not Gamepad gamepad) return;
@@ -70,6 +73,7 @@ public class PlayerManager : MonoBehaviour
         else if (change == InputDeviceChange.Disconnected)
         {
             Debug.Log("Disconnected");
+           // ResetAllInputDevices();
         }
     }
 

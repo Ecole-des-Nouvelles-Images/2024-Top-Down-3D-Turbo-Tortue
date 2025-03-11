@@ -35,9 +35,9 @@ public class CursorPlayer : MonoBehaviour
 
     private void OnEnable()
     {
+        MoveSelectorPosition();
         _playerSelection.OnCursorMoved += UpdateCursorPosition;
         _playerSelection.OnPlayerReady += MoveOtherSelector;
-        MoveSelectorPosition();
     }
 
     private void OnDisable()
@@ -45,8 +45,8 @@ public class CursorPlayer : MonoBehaviour
         _playerSelection.OnCursorMoved -= UpdateCursorPosition;
         _playerSelection.OnPlayerReady -= MoveOtherSelector;
     }
-    
-    
+
+
     private void MoveSelectorPosition()
     {
         var buttonWithNoChildren = FindButtonWithNoChildren(_characterButtons);

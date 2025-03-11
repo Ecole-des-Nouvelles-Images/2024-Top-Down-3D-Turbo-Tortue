@@ -40,6 +40,7 @@ public class PlayerSelection : MonoBehaviour
     private Button _characterSelected;
     private bool _isReady; 
     private bool _isJoining;
+    private bool _canChooseMap;
     private bool _TurtleIsSelected;
     
     private void Awake()
@@ -52,12 +53,12 @@ public class PlayerSelection : MonoBehaviour
         _playerIndexText.text = "J" +(_userIndex + 1).ToString() ;
         _CursorUi.GetComponentInChildren<TextMeshProUGUI>().text = "J" +(_userIndex + 1).ToString() ;
         _eventSystem = GetComponentInChildren<EventSystem>();
-        CharacterButtons = transform.parent.parent.parent.GetComponentsInChildren<Button>();
     }
 
     private void Start()
     {
         _playerInput.gameObject.transform.SetParent(_playerInput.transform.parent.parent);
+        CharacterButtons = transform.parent.parent.parent.GetComponentsInChildren<Button>();
         GamepadConnectionFeedback();
     }
     
@@ -138,6 +139,8 @@ public class PlayerSelection : MonoBehaviour
 
     public void OnNavigate()
     {
+        if (_canChooseMap) return;
+        
         if (!_isJoining)
         {
             UiBounceEffect(_playerUi,1.05f,1,0.2f);
@@ -147,11 +150,16 @@ public class PlayerSelection : MonoBehaviour
         {
             Invoke(nameof(UpdateCursor), 0f);
         }
+
     }
     
     public void OnSubmit()
     {
-        if (!_isJoining)
+        if (_canChooseMap)
+        {
+            
+        }
+        else if (!_isJoining)
         {
             PlayerJoined();
             SoundManager.PlaySound(SoundType.Pressed,0.3f);
@@ -194,8 +202,8 @@ public class PlayerSelection : MonoBehaviour
             _isJoining = false;
             _flowerVisuals.SetActive(false);
             _joinVisuals.SetActive(true);
+            _CursorUi.transform.SetParent(_playerInput?.transform);
             _CursorUi.SetActive(false);
-            _CursorUi.transform.SetParent(_playerInput.transform);
             _eventSystem.SetSelectedGameObject(null);
             _playerIndexImage.gameObject.SetActive(false);
             _readyPopup.SetActive(false);
