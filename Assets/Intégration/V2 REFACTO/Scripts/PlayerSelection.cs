@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using DG.Tweening;
 using Intégration.V1.Scripts.Game.FeedBack;
+using Noah.Scripts;
 using TMPro;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -40,8 +40,8 @@ public class PlayerSelection : MonoBehaviour
     private Button _characterSelected;
     private bool _isReady; 
     private bool _isJoining;
-    private bool _canChooseMap;
-    private bool _TurtleIsSelected;
+    private bool _canStartGame;
+    private bool _turtleIsSelected;
     
     private void Awake()
     {
@@ -66,10 +66,9 @@ public class PlayerSelection : MonoBehaviour
     {
         _characterSelected = _eventSystem.currentSelectedGameObject?.GetComponent<Button>();
         _playerIndexImage.color = _characterSelected.GetComponent<UISelectionFeedBack>().OutlineColor;
-        
-        if (_characterSelected == _lastGameObjectSelected) return;
+
         _lastGameObjectSelected = _characterSelected.gameObject;
-        OnCursorMoved.Invoke(_characterSelected.gameObject);
+        OnCursorMoved?.Invoke(_characterSelected.gameObject);
         UpdateIconCharacter();
     }
 
@@ -78,7 +77,7 @@ public class PlayerSelection : MonoBehaviour
     {
         _characterSelected = _eventSystem.currentSelectedGameObject?.GetComponent<Button>();
         _characterIcon.sprite = _characterSprites[Array.IndexOf(CharacterButtons, _characterSelected)];
-        switch (_characterSelected.tag)
+        switch (_characterSelected?.tag)
         {
             case "Turtle":
                 _capacityImage.gameObject.SetActive(false);
@@ -118,7 +117,7 @@ public class PlayerSelection : MonoBehaviour
             case "Turtle":
                 SoundManager.PlaySound(SoundType.TurtleMoveStart,0.3f); 
                 _characterIcon.sprite = _characterSprites[^1];
-                _TurtleIsSelected = true;
+                _turtleIsSelected = true;
                 break;
             case "Flower":
                 SoundManager.PlaySound(SoundType.FlowerVoices,0.3f);
@@ -139,7 +138,7 @@ public class PlayerSelection : MonoBehaviour
 
     public void OnNavigate()
     {
-        if (_canChooseMap) return;
+        if (_canStartGame) return;
         
         if (!_isJoining)
         {
@@ -155,11 +154,9 @@ public class PlayerSelection : MonoBehaviour
     
     public void OnSubmit()
     {
-        if (_canChooseMap)
-        {
-            
-        }
-        else if (!_isJoining)
+        if (_canStartGame)return;
+        
+        if (!_isJoining)
         {
             PlayerJoined();
             SoundManager.PlaySound(SoundType.Pressed,0.3f);
@@ -174,7 +171,6 @@ public class PlayerSelection : MonoBehaviour
             UiBounceEffect(_playerUi,1.2f,_playerUi.transform.localScale.x,0.5f);
             UiRotateEffect(_playerIndexImage.gameObject,0.5f);
         }
-       
     }
 
     public void OnCancel()
@@ -185,7 +181,7 @@ public class PlayerSelection : MonoBehaviour
             Debug.Log("CANCEL");
             //Cancel ready 
             _isReady = false;
-            _TurtleIsSelected = false;
+            if (_turtleIsSelected) { _turtleIsSelected = false; }
             _characterSelected.enabled = true;
             _characterSelected.GetComponent<CanvasGroup?>().alpha = 1f;
             _readyPopup.SetActive(true);
