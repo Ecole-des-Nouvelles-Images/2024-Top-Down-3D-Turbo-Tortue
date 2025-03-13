@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Intégration.V1.Scripts.Game.FeedBack;
+using Intégration.V2_REFACTO.Scripts;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -69,7 +70,7 @@ public class CursorPlayer : MonoBehaviour
     private void UpdateCursorPosition(GameObject selectedObject)
     {
         RadialGridLayoutGroup radialLayout = selectedObject?.GetComponentInChildren<RadialGridLayoutGroup?>();
-        transform.SetParent(radialLayout.transform);
+        transform.SetParent(radialLayout?.transform);
         _cursorImage.color = selectedObject.GetComponentInChildren<UISelectionFeedBack>().OutlineColor;
         radialLayout.enabled = false;
         radialLayout.enabled = true;
@@ -90,6 +91,5 @@ public class CursorPlayer : MonoBehaviour
             }
         }
     }
-    
     
 }

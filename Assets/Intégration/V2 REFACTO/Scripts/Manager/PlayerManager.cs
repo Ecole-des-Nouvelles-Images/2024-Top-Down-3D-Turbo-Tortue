@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Intégration.V1.Scripts.SharedScene;
+using Intégration.V2_REFACTO.Scripts;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -8,28 +9,17 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
-    public static Action<PlayerInput> OnPlayerJoin;
-    public static Action<PlayerInput> OnPlayerReady;
-    public static Action<PlayerInput> OnPlayerCanceled;
-    
+    public static Action<bool> OnPlayerStateChanged;
     
     [SerializeField] private PlayerInputManager _playerInputManager;
     [SerializeField] private Transform _playerUIParent;
     [SerializeField] private int _minPlayers;
-    [SerializeField] private bool _turtleIsSelected;
-    
-    
     
     private Dictionary<InputDevice, PlayerInput> deviceToPlayerInput = new();
-    
-    [SerializeField] private List<PlayerInput> playerInputsList = new List<PlayerInput>() ;
+    private List<PlayerInput> playerInputsList = new List<PlayerInput>() ;
     private List<GameObject> playersUiList = new List<GameObject>();
-    
-    
-    [SerializeField] private List<PlayerInput> playersReadyList;
-    [SerializeField] private List<PlayerInput> playerJoinedList;
-    
-    
+    private bool _turtleIsSelected;
+    private int _playersReadyCount;
     private void Awake()
     {
         _playerInputManager = GetComponent<PlayerInputManager>();
@@ -43,24 +33,54 @@ public class PlayerManager : MonoBehaviour
             if (device is Gamepad) { CheckCurrentGamepads(device); Debug.Log("manettes check");}
         }
         InputSystem.onDeviceChange += OnDeviceChange;
-       
+        OnPlayerStateChanged += AllPlayersReady;
     }
 
     private void OnDisable()
     {
         InputSystem.onDeviceChange -= OnDeviceChange;
+        OnPlayerStateChanged -= AllPlayersReady;
         ResetAllInputDevices();
     }
 
-    private void CheckReadyPlayers()
+
+    private void AllPlayersReady(bool turtleIsSelected)
     {
-        
-        
-        if (playersReadyList.Count >= _minPlayers)
+        _playersReadyCount = 0; 
+       
+        foreach (var player in playerInputsList)
         {
-            //can start game. 
+            PlayerSelection playerSelection = player.GetComponent<PlayerSelection>();
+
+            if (playerSelection.CurrentState == PlayerState.Joined) //si un joueur n'est pas prêt
+            {
+                Debug.Log("CANT START GAME  !!!!!!!!!!");
+                Debug.Log("nombre de joueurs prets ; " +_playersReadyCount);
+                Debug.Log( "tortue selectionnée ? : "+_turtleIsSelected);
+                return;
+            }
+            else if (playerSelection.CurrentState == PlayerState.Ready)
+            {
+                _playersReadyCount++;
+                if (playerSelection.TurtleIsSelected)
+                {
+                    _turtleIsSelected = true;
+                }
+            }
         }
+        
+        if (_playersReadyCount >= _minPlayers && _turtleIsSelected)
+        {
+            Debug.Log("CAN START GAME");
+        }
+        //si tous les joueurs sont prêts
+        
+        
+        Debug.Log("nombre de joueurs prets ; " +_playersReadyCount);
+        Debug.Log( "tortue selectionnée ? : "+_turtleIsSelected);
     }
+        
+    
 
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
