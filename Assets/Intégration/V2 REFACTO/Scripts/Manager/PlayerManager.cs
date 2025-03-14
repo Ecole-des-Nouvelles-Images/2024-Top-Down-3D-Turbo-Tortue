@@ -20,6 +20,8 @@ public class PlayerManager : MonoBehaviour
     private List<GameObject> playersUiList = new List<GameObject>();
     private bool _turtleIsSelected;
     private int _playersReadyCount;
+    
+    
     private void Awake()
     {
         _playerInputManager = GetComponent<PlayerInputManager>();
@@ -46,7 +48,8 @@ public class PlayerManager : MonoBehaviour
 
     private void AllPlayersReady(bool turtleIsSelected)
     {
-        _playersReadyCount = 0; 
+        _playersReadyCount = 0;
+        _turtleIsSelected = false;
        
         foreach (var player in playerInputsList)
         {
@@ -54,9 +57,7 @@ public class PlayerManager : MonoBehaviour
 
             if (playerSelection.CurrentState == PlayerState.Joined) //si un joueur n'est pas prêt
             {
-                Debug.Log("CANT START GAME  !!!!!!!!!!");
-                Debug.Log("nombre de joueurs prets ; " +_playersReadyCount);
-                Debug.Log( "tortue selectionnée ? : "+_turtleIsSelected);
+                //pnael start set active false 
                 return;
             }
             else if (playerSelection.CurrentState == PlayerState.Ready)
@@ -68,20 +69,13 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
-        
-        if (_playersReadyCount >= _minPlayers && _turtleIsSelected)
+        if (_playersReadyCount >= _minPlayers && _turtleIsSelected) //si tous les joueurs sont prêts
         {
-            Debug.Log("CAN START GAME");
+            //panel start set active true 
         }
-        //si tous les joueurs sont prêts
-        
-        
-        Debug.Log("nombre de joueurs prets ; " +_playersReadyCount);
-        Debug.Log( "tortue selectionnée ? : "+_turtleIsSelected);
     }
         
     
-
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
         if (device is not Gamepad gamepad) return;

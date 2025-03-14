@@ -69,7 +69,7 @@ AnimatorStateMachine:
     m_Position: {x: 600, y: -280, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 3659320709524807720}
-    m_Position: {x: 590, y: -10, z: 0}
+    m_Position: {x: 600, y: -60, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -8484347043695348587}
     m_Position: {x: 600, y: -140, z: 0}
@@ -78,7 +78,7 @@ AnimatorStateMachine:
     m_Position: {x: 10, y: -170, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 5343111387279933444}
-    m_Position: {x: 610, y: -210, z: 0}
+    m_Position: {x: 600, y: -210, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions:
   - {fileID: -1623912487058736322}
@@ -173,43 +173,43 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: QteSuccess
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Velocity
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: DashTimer
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: StartGame
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: IsDead
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: Attack
     m_Type: 9
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer

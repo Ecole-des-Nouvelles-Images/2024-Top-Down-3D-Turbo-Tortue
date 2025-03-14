@@ -33,6 +33,8 @@ namespace Intégration.V2_REFACTO.Scripts
         [SerializeField] private Image _capacityImage;
         [SerializeField] private GameObject _CursorUi;
         [SerializeField] private GameObject _readyPopup;
+        [SerializeField] private GameObject _disconnectedPopup;
+        [SerializeField] private GameObject _reconnectedPopup;
         [SerializeField] private GameObject _readyConfirmPopUp;
         [SerializeField] private List<Sprite> _characterSprites;
         [SerializeField] private List<Sprite> _capacitiesSprites;
@@ -48,7 +50,6 @@ namespace Intégration.V2_REFACTO.Scripts
         private EventSystem _eventSystem;
         private GameObject _lastGameObjectSelected;
         private Button _characterSelected;
-        private bool _canStartGame;
     
         private void Awake()
         {
@@ -151,7 +152,7 @@ namespace Intégration.V2_REFACTO.Scripts
 
         public void OnNavigate()
         {
-            if (_canStartGame) return;
+           // if (_canStartGame) return;
 
             if (CurrentState == PlayerState.NotJoined)
             {
@@ -165,7 +166,7 @@ namespace Intégration.V2_REFACTO.Scripts
     
         public void OnSubmit()
         {
-            if (_canStartGame)return;
+          //  if (_canStartGame)return;
 
             if (CurrentState == PlayerState.NotJoined)
             {
@@ -177,7 +178,7 @@ namespace Intégration.V2_REFACTO.Scripts
             {
                 PlayerReady();
                 CameraShakeEffect();
-                RumbleManager.Instance.RumblePulse(1f, 1f, 0.1f, _playerInput?.devices[0] as Gamepad);
+                RumbleGamepad();
                 SoundManager.PlaySound(SoundType.Pressed,0.3f);
                 UiBounceEffect(_playerUi,1.2f,_playerUi.transform.localScale.x,0.5f);
                 UiRotateEffect(_playerIndexImage.gameObject,0.5f);
@@ -221,7 +222,6 @@ namespace Intégration.V2_REFACTO.Scripts
             {
                 
             }
-          
         }
     
         public void OnDeviceLost()
@@ -229,7 +229,14 @@ namespace Intégration.V2_REFACTO.Scripts
             Debug.Log("OnDeviceLost");
             OnCancel();
             OnCancel();
-            _playerUi.SetActive(false); 
+            _playerUi.SetActive(false);
+            CameraShakeEffect();
+
+            GameObject disconnectPanel = Instantiate(_disconnectedPopup,_globalPanel);
+            disconnectPanel.GetComponent<CanvasGroup>().DOFade(0f, 2f).SetDelay(0.5f).OnComplete(() =>
+            {
+                Destroy(disconnectPanel);
+            });;
         }
 
         public void OnDeviceRegained()
@@ -237,11 +244,16 @@ namespace Intégration.V2_REFACTO.Scripts
             Debug.Log("OndeviceRegained");
             GamepadConnectionFeedback();
             _playerUi.SetActive(true); 
+            
+            GameObject reconnectPanel = Instantiate(_reconnectedPopup,_globalPanel);
+            reconnectPanel.GetComponent<CanvasGroup>().DOFade(0f, 2f).SetDelay(0.5f).OnComplete(() =>
+            {
+                Destroy(reconnectPanel);
+            });;
         }
 
         #endregion
-    
-
+        
         #region FeedBack Effects
 
         private void CameraShakeEffect()
@@ -253,7 +265,6 @@ namespace Intégration.V2_REFACTO.Scripts
                     _globalPanel.sizeDelta = Vector2.zero;
                
                 });
-       
         }
 
         private void UiBounceEffect(GameObject ui, float scaleBounce,float initialScale, float duration)
@@ -277,12 +288,12 @@ namespace Intégration.V2_REFACTO.Scripts
             CameraShakeEffect();
         }
 
+        private void RumbleGamepad()
+        {
+            RumbleManager.Instance.RumblePulse(1f, 1f, 0.1f, _playerInput?.devices[0] as Gamepad);
+        }
+
         #endregion
-   
-  
-  
-  
-    
    
     }
 }

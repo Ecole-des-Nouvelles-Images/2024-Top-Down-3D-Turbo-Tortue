@@ -1927,6 +1927,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da209efe63af19646afc7804c6c3dee9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  CurrentState: 0
+  TurtleIsSelected: 0
   _playerUi: {fileID: 6663263683682027647}
   _playerIndexImage: {fileID: 968725541096638460}
   _joinVisuals: {fileID: 5394799213069282284}
@@ -1935,6 +1937,10 @@ MonoBehaviour:
   _capacityImage: {fileID: 805201901721235148}
   _CursorUi: {fileID: 4280347924762069662}
   _readyPopup: {fileID: 2892589322313924280}
+  _disconnectedPopup: {fileID: 6155319675105339047, guid: 9e369fc8babd51d47a76fbe27066d5c8,
+    type: 3}
+  _reconnectedPopup: {fileID: 8948542438681433122, guid: f0db51f8d9c7c7d49939f444ab421298,
+    type: 3}
   _readyConfirmPopUp: {fileID: 5289170022929501687}
   _characterSprites:
   - {fileID: 21300000, guid: fd4ade3d76b50b0429d004ff536a7d26, type: 3}
