@@ -13,7 +13,7 @@ namespace Michael.Scripts.Manager
         public void LoadCharacterSelectionScene(string sceneName)
         {
             DataManager.Instance.PlayerChoice.Clear();
-            DataManager.CharacterSelectionScene = true;
+            //DataManager.CharacterSelectionScene = true;
             CustomSceneManager.Instance.LoadScene(sceneName);
            
         }

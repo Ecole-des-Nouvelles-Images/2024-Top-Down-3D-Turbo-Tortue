@@ -615,7 +615,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 65340409}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &36836122
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -758,7 +757,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1657985097}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &48697928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2158,7 +2156,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &120063357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2741,41 +2738,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 150043965}
   m_CullTransparentMesh: 1
---- !u!1 &167681434
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 167681435}
-  m_Layer: 0
-  m_Name: AudioManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &167681435
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 167681434}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1164.3888, y: 740.76263, z: 39.70343}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 479407397}
-  - {fileID: 1063829053}
-  - {fileID: 1688432034}
-  - {fileID: 599798993}
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &168467588 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1253325155879437969, guid: abc8874844b3a314bae6d2d286cef846,
@@ -5237,7 +5199,7 @@ PrefabInstance:
         type: 3}
       propertyPath: selectedSound
       value: 
-      objectReference: {fileID: 1063829052}
+      objectReference: {fileID: 0}
     - target: {fileID: 4627719074328223646, guid: cb2385d63a037c142abf7894fd6dbf80,
         type: 3}
       propertyPath: graphic
@@ -5257,7 +5219,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1688432035}
+      objectReference: {fileID: 0}
     - target: {fileID: 5082567220276155605, guid: cb2385d63a037c142abf7894fd6dbf80,
         type: 3}
       propertyPath: m_Color.b
@@ -6014,7 +5976,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &386097928
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7991,7 +7952,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1688354535}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &446373484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8401,135 +8361,6 @@ MonoBehaviour:
   m_ChildScaleWidth: 0
   m_ChildScaleHeight: 0
   m_ReverseArrangement: 0
---- !u!1 &479407396
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 479407397}
-  - component: {fileID: 479407398}
-  m_Layer: 0
-  m_Name: MainMenuMusic
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &479407397
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479407396}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 167681435}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &479407398
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 479407396}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -4390211074821648245, guid: 948a43e030d566f43bc1b8a8fd389050,
-    type: 2}
-  m_audioClip: {fileID: 8300000, guid: 72f7dac18df861a4ca82feb06467ae42, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 0.5
-  m_Pitch: 1
-  Loop: 1
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &484014821
 GameObject:
   m_ObjectHideFlags: 0
@@ -9797,7 +9628,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &548606154
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10497,7 +10327,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &585364593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10766,135 +10595,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 595228922}
   m_CullTransparentMesh: 1
---- !u!1 &599798992
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 599798993}
-  - component: {fileID: 599798994}
-  m_Layer: 0
-  m_Name: 'CancelledButtonSound '
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &599798993
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 599798992}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 167681435}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &599798994
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 599798992}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -2869360969714916764, guid: 948a43e030d566f43bc1b8a8fd389050,
-    type: 2}
-  m_audioClip: {fileID: 8300000, guid: 1968b453a63e14e4d93b049c83c7530d, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &601760902
 GameObject:
   m_ObjectHideFlags: 0
@@ -11000,7 +10700,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backButton: {fileID: 1006249788}
-  cancelledSound: {fileID: 599798994}
+  cancelledSound: {fileID: 0}
 --- !u!224 &604691607
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12752,7 +12452,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1063829052}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
@@ -12833,7 +12533,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &720849114
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -13832,7 +13531,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &762637684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14103,7 +13801,7 @@ PrefabInstance:
         type: 3}
       propertyPath: selectedSound
       value: 
-      objectReference: {fileID: 1063829052}
+      objectReference: {fileID: 0}
     - target: {fileID: 4627719074328223646, guid: cb2385d63a037c142abf7894fd6dbf80,
         type: 3}
       propertyPath: m_IsOn
@@ -14128,7 +13826,7 @@ PrefabInstance:
         type: 3}
       propertyPath: onValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1688432035}
+      objectReference: {fileID: 0}
     - target: {fileID: 5082567220276155605, guid: cb2385d63a037c142abf7894fd6dbf80,
         type: 3}
       propertyPath: m_Color.b
@@ -14708,7 +14406,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1688432035}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
@@ -14767,7 +14465,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &816044122
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -16029,7 +15726,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backButton: {fileID: 418114018}
-  cancelledSound: {fileID: 599798994}
+  cancelledSound: {fileID: 0}
 --- !u!1 &901870423
 GameObject:
   m_ObjectHideFlags: 0
@@ -16295,7 +15992,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &923140131
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16592,7 +16288,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 901870423}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &936425344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17049,7 +16744,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &969701598
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -17626,7 +17320,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &976664011
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -18802,7 +18495,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &1026075671
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18883,7 +18575,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1688432035}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
@@ -19010,7 +18702,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &1026991427
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19951,7 +19642,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 838483614}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &1056590926
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -20020,135 +19710,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!1 &1063829051
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1063829053}
-  - component: {fileID: 1063829052}
-  m_Layer: 0
-  m_Name: SelectButtonSound
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!82 &1063829052
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063829051}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -2869360969714916764, guid: 948a43e030d566f43bc1b8a8fd389050,
-    type: 2}
-  m_audioClip: {fileID: 8300000, guid: 7465d703aaacfcf439a4c9f8c91496a6, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!4 &1063829053
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1063829051}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 167681435}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1064436160
 GameObject:
   m_ObjectHideFlags: 0
@@ -21097,7 +20658,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1688432035}
+      objectReference: {fileID: 0}
     - target: {fileID: 4119393918568732933, guid: abc8874844b3a314bae6d2d286cef846,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -21152,7 +20713,7 @@ PrefabInstance:
         type: 3}
       propertyPath: selectedSound
       value: 
-      objectReference: {fileID: 1063829052}
+      objectReference: {fileID: 0}
     - target: {fileID: 7220339322477702335, guid: abc8874844b3a314bae6d2d286cef846,
         type: 3}
       propertyPath: m_Pivot.x
@@ -21533,7 +21094,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &1109927028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -22356,7 +21916,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1155429369}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &1141714730
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22477,7 +22036,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1983729967}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &1144266579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23031,7 +22589,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1510031945}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &1211714274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24023,7 +23580,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backButton: {fileID: 1911861564}
-  cancelledSound: {fileID: 599798994}
+  cancelledSound: {fileID: 0}
 --- !u!224 &1284078658
 RectTransform:
   m_ObjectHideFlags: 0
@@ -25098,7 +24655,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1260249966}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &1327020761
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -26104,7 +25660,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 2102332767}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &1403679522
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27301,7 +26856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backButton: {fileID: 1071362752}
-  cancelledSound: {fileID: 599798994}
+  cancelledSound: {fileID: 0}
 --- !u!224 &1487939298
 RectTransform:
   m_ObjectHideFlags: 0
@@ -27687,7 +27242,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &1505608083
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -27732,7 +27286,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1688432035}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
@@ -29748,7 +29302,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1688432035}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
         m_MethodName: Play
         m_Mode: 1
@@ -31136,135 +30690,6 @@ RectTransform:
   m_AnchoredPosition: {x: -70, y: 0}
   m_SizeDelta: {x: 1300, y: -140}
   m_Pivot: {x: 1, y: 0.5}
---- !u!1 &1688432033
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1688432034}
-  - component: {fileID: 1688432035}
-  m_Layer: 0
-  m_Name: 'PressedButtonSound '
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1688432034
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1688432033}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 167681435}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &1688432035
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1688432033}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: -2869360969714916764, guid: 948a43e030d566f43bc1b8a8fd389050,
-    type: 2}
-  m_audioClip: {fileID: 8300000, guid: 773afb636ce12e840bec441d8d42c7f6, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.5
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &1696073496
 GameObject:
   m_ObjectHideFlags: 0
@@ -34026,7 +33451,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &1840485329
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -34854,7 +34278,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1407199395}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!114 &1893966471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34993,7 +34416,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &1896817795
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35217,7 +34639,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _backButton: {fileID: 206633764}
-  cancelledSound: {fileID: 599798994}
+  cancelledSound: {fileID: 0}
 --- !u!224 &1905949280
 RectTransform:
   m_ObjectHideFlags: 0
@@ -36774,7 +36196,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &2021997839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37025,7 +36446,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &2040829583
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37934,7 +37354,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 1063829052}
 --- !u!222 &2066581101
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -38572,7 +37991,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1688432035}
+      objectReference: {fileID: 0}
     - target: {fileID: 3686888475713000996, guid: abc8874844b3a314bae6d2d286cef846,
         type: 3}
       propertyPath: buttonText
@@ -38587,7 +38006,7 @@ PrefabInstance:
         type: 3}
       propertyPath: selectedSound
       value: 
-      objectReference: {fileID: 1063829052}
+      objectReference: {fileID: 0}
     - target: {fileID: 4119393918568732933, guid: abc8874844b3a314bae6d2d286cef846,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -40148,6 +39567,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1752440701}
   - {fileID: 1508595155}
-  - {fileID: 167681435}
   - {fileID: 1915367910}
   - {fileID: 1985942668}

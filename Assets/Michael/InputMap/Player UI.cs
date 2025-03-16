@@ -64,6 +64,15 @@ namespace UnityEngine.InputSystem
                     ""processors"": """",
                     ""interactions"": ""Hold(duration=1.5)"",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""StartGame"",
+                    ""type"": ""Button"",
+                    ""id"": ""60263203-b7a8-456b-98fc-fdc8f0b063ca"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -268,11 +277,22 @@ namespace UnityEngine.InputSystem
                 {
                     ""name"": """",
                     ""id"": ""2072dc7b-b1c1-47b9-ac55-547807c31a72"",
-                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""path"": ""<Gamepad>/start"",
                     ""interactions"": ""Hold"",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Start"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0ac7b82f-0401-4ba6-b586-2f59757f94cf"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""StartGame"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -332,6 +352,7 @@ namespace UnityEngine.InputSystem
             m_UI_Submit = m_UI.FindAction("Submit", throwIfNotFound: true);
             m_UI_Cancel = m_UI.FindAction("Cancel", throwIfNotFound: true);
             m_UI_Start = m_UI.FindAction("Start", throwIfNotFound: true);
+            m_UI_StartGame = m_UI.FindAction("StartGame", throwIfNotFound: true);
         }
 
         public void Dispose()
@@ -397,6 +418,7 @@ namespace UnityEngine.InputSystem
         private readonly InputAction m_UI_Submit;
         private readonly InputAction m_UI_Cancel;
         private readonly InputAction m_UI_Start;
+        private readonly InputAction m_UI_StartGame;
         public struct UIActions
         {
             private @PlayerUI m_Wrapper;
@@ -405,6 +427,7 @@ namespace UnityEngine.InputSystem
             public InputAction @Submit => m_Wrapper.m_UI_Submit;
             public InputAction @Cancel => m_Wrapper.m_UI_Cancel;
             public InputAction @Start => m_Wrapper.m_UI_Start;
+            public InputAction @StartGame => m_Wrapper.m_UI_StartGame;
             public InputActionMap Get() { return m_Wrapper.m_UI; }
             public void Enable() { Get().Enable(); }
             public void Disable() { Get().Disable(); }
@@ -426,6 +449,9 @@ namespace UnityEngine.InputSystem
                 @Start.started += instance.OnStart;
                 @Start.performed += instance.OnStart;
                 @Start.canceled += instance.OnStart;
+                @StartGame.started += instance.OnStartGame;
+                @StartGame.performed += instance.OnStartGame;
+                @StartGame.canceled += instance.OnStartGame;
             }
 
             private void UnregisterCallbacks(IUIActions instance)
@@ -442,6 +468,9 @@ namespace UnityEngine.InputSystem
                 @Start.started -= instance.OnStart;
                 @Start.performed -= instance.OnStart;
                 @Start.canceled -= instance.OnStart;
+                @StartGame.started -= instance.OnStartGame;
+                @StartGame.performed -= instance.OnStartGame;
+                @StartGame.canceled -= instance.OnStartGame;
             }
 
             public void RemoveCallbacks(IUIActions instance)
@@ -501,6 +530,7 @@ namespace UnityEngine.InputSystem
             void OnSubmit(InputAction.CallbackContext context);
             void OnCancel(InputAction.CallbackContext context);
             void OnStart(InputAction.CallbackContext context);
+            void OnStartGame(InputAction.CallbackContext context);
         }
     }
 }

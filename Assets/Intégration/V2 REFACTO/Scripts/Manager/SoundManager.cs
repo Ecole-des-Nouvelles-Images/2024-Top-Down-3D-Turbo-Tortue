@@ -5,9 +5,10 @@ using UnityEngine;
 
 public enum SoundType
 {
-   Pressed,
+    Pressed,
    Canceled,
    Selected,
+   Navigated,
    FlowerVoices,
    TurtleMoveStart,
    

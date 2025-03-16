@@ -308,7 +308,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1957183386}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!222 &2862284
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2916,7 +2915,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &137570012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3480,7 +3478,7 @@ GameObject:
   - component: {fileID: 159399954}
   - component: {fileID: 159399953}
   m_Layer: 5
-  m_Name: Character Selection Canvas
+  m_Name: Main Menu Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5293,8 +5291,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2fb4537049331448c1e32553673263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutlineSelector: {fileID: 471166090}
-  selectedSound: {fileID: 564578904}
+  OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  _isInGridCharacters: 0
+  _outlineSelector: {fileID: 0}
+  _scaleMotion: 0
 --- !u!1 &290614921
 GameObject:
   m_ObjectHideFlags: 0
@@ -6782,9 +6782,9 @@ RectTransform:
   - {fileID: 405986038}
   m_Father: {fileID: 18034886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -832}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &358516366
@@ -6804,7 +6804,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &358516367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7042,7 +7041,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &367064855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7494,7 +7492,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &376518531
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8586,7 +8583,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &405986040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9553,7 +9549,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &462119474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10278,7 +10273,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &502501793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11525,7 +11519,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &549459454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12529,9 +12522,9 @@ RectTransform:
   - {fileID: 1865001500}
   m_Father: {fileID: 18034886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -686}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &579765182
@@ -12551,7 +12544,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &579765183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15112,8 +15104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2fb4537049331448c1e32553673263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutlineSelector: {fileID: 1778862159}
-  selectedSound: {fileID: 564578904}
+  OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  _isInGridCharacters: 0
+  _outlineSelector: {fileID: 0}
+  _scaleMotion: 0
 --- !u!1 &668755422
 GameObject:
   m_ObjectHideFlags: 0
@@ -15323,7 +15317,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 290614921}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &672486874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15712,7 +15705,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &694552095
 RectTransform:
   m_ObjectHideFlags: 0
@@ -19114,7 +19107,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!222 &855258117
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -19140,9 +19132,9 @@ RectTransform:
   - {fileID: 1512287207}
   m_Father: {fileID: 18034886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -394}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &861441726
@@ -19828,7 +19820,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &889883747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -20358,7 +20349,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &903078229
 Transform:
   m_ObjectHideFlags: 0
@@ -21644,7 +21635,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 861441726}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!222 &946784235
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -22619,9 +22609,9 @@ RectTransform:
   - {fileID: 462119472}
   m_Father: {fileID: 18034886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -540}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &972653284
@@ -22641,7 +22631,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &972653285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24516,7 +24505,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1748727130}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &1028082498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25050,7 +25038,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1473891223}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &1050688267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26510,7 +26497,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &1105481347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28538,7 +28524,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!222 &1185802192
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -28627,7 +28612,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1617706757}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &1200999639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28876,7 +28860,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &1214889956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -29428,8 +29411,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2fb4537049331448c1e32553673263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutlineSelector: {fileID: 1462371025}
-  selectedSound: {fileID: 564578904}
+  OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  _isInGridCharacters: 0
+  _outlineSelector: {fileID: 0}
+  _scaleMotion: 0
 --- !u!1 &1222159458
 GameObject:
   m_ObjectHideFlags: 0
@@ -29936,7 +29921,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 319559948}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &1236608830
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31377,8 +31361,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2fb4537049331448c1e32553673263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutlineSelector: {fileID: 1481778115}
-  selectedSound: {fileID: 564578904}
+  OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  _isInGridCharacters: 0
+  _outlineSelector: {fileID: 0}
+  _scaleMotion: 0
 --- !u!1 &1296067562
 GameObject:
   m_ObjectHideFlags: 0
@@ -32444,7 +32430,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1220208652}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &1364265337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37401,7 +37386,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &1512287209
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -38340,8 +38324,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2fb4537049331448c1e32553673263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutlineSelector: {fileID: 2000086785}
-  selectedSound: {fileID: 564578904}
+  OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  _isInGridCharacters: 0
+  _outlineSelector: {fileID: 0}
+  _scaleMotion: 0
 --- !u!1 &1546379170
 GameObject:
   m_ObjectHideFlags: 0
@@ -39116,8 +39102,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2fb4537049331448c1e32553673263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutlineSelector: {fileID: 396554720}
-  selectedSound: {fileID: 564578904}
+  OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  _isInGridCharacters: 0
+  _outlineSelector: {fileID: 0}
+  _scaleMotion: 0
 --- !u!1 &1586780007
 GameObject:
   m_ObjectHideFlags: 0
@@ -45534,7 +45522,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &1865001502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46314,9 +46301,9 @@ RectTransform:
   - {fileID: 137570010}
   m_Father: {fileID: 18034886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 250, y: -248}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 400, y: 95}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1889498293
@@ -46363,54 +46350,17 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1373482629}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
+      - m_Target: {fileID: 341397155}
+        m_TargetAssemblyTypeName: "Int\xE9gration.V1.Scripts.Menu.MenuManager, Assembly-CSharp"
+        m_MethodName: StartGame
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Test Character Selection
           m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1684661003}
-        m_TargetAssemblyTypeName: Michael.Scripts.Character_Selection.CharacterSelection,
-          Assembly-CSharp
-        m_MethodName: SelectionScreen
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 694552094}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 323070856}
-        m_TargetAssemblyTypeName: UnityEngine.AudioSource, UnityEngine
-        m_MethodName: Play
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1889498294
 MonoBehaviour:
@@ -46467,7 +46417,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.39607844, g: 0.7529412, b: 0.29411766, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!1 &1890164576
 GameObject:
   m_ObjectHideFlags: 0
@@ -47372,7 +47321,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1681142206}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!222 &1920233303
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -48831,7 +48779,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 657951746}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!114 &1983055492
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49740,8 +49687,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f2fb4537049331448c1e32553673263, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  OutlineSelector: {fileID: 400882138}
-  selectedSound: {fileID: 564578904}
+  OutlineColor: {r: 0, g: 0, b: 0, a: 0}
+  _isInGridCharacters: 0
+  _outlineSelector: {fileID: 0}
+  _scaleMotion: 0
 --- !u!1 &2000086785
 GameObject:
   m_ObjectHideFlags: 0
@@ -50140,7 +50089,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 1265918723}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 564578904}
 --- !u!222 &2005881336
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -50514,7 +50462,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0, g: 0, b: 0, a: 0}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &2029563795
 MonoBehaviour:
   m_ObjectHideFlags: 0

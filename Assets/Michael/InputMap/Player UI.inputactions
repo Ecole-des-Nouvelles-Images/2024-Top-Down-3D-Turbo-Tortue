@@ -40,6 +40,15 @@
                     "processors": "",
                     "interactions": "Hold(duration=1.5)",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "StartGame",
+                    "type": "Button",
+                    "id": "60263203-b7a8-456b-98fc-fdc8f0b063ca",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -244,11 +253,22 @@
                 {
                     "name": "",
                     "id": "2072dc7b-b1c1-47b9-ac55-547807c31a72",
-                    "path": "<Gamepad>/buttonWest",
+                    "path": "<Gamepad>/start",
                     "interactions": "Hold",
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Start",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0ac7b82f-0401-4ba6-b586-2f59757f94cf",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "StartGame",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

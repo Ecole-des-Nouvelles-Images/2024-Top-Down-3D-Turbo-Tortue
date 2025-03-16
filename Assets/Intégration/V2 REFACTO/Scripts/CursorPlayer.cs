@@ -13,10 +13,9 @@ public class CursorPlayer : MonoBehaviour
     [Header("Grid UI References")]
     [SerializeField] private Button[] _characterButtons;
     
-    [SerializeField]private PlayerSelection _playerSelection;
-    private Button _selectedCharacterButton;
+    [SerializeField] private PlayerSelection _playerSelection;
+   
     private Image _cursorImage;
-    
     private EventSystem _eventSystem;
     private GameObject _lastGameObjectSelected;
     private GameObject _currentObjectSelected;
@@ -36,7 +35,10 @@ public class CursorPlayer : MonoBehaviour
 
     private void OnEnable()
     {
-        MoveSelectorPosition();
+        if (!GetComponentInParent<RadialGridLayoutGroup>())
+        {
+            MoveSelectorPosition();
+        }
         _playerSelection.OnCursorMoved += UpdateCursorPosition;
         _playerSelection.OnPlayerReady += MoveOtherSelector;
     }

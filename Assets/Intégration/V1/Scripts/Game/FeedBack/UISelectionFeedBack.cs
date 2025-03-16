@@ -10,8 +10,9 @@ namespace Intégration.V1.Scripts.Game.FeedBack
     public class UISelectionFeedBack : MonoBehaviour, ISelectHandler, IDeselectHandler
     { 
         public Color OutlineColor;
+        [SerializeField] private bool _isInGridCharacters;
         [SerializeField] private GameObject _outlineSelector;
-        [SerializeField] private AudioSource _selectedSound;
+        [SerializeField] private float _scaleMotion;
        
 
        private void Start()
@@ -22,15 +23,19 @@ namespace Intégration.V1.Scripts.Game.FeedBack
        public void OnSelect(BaseEventData eventData)
         {
             _outlineSelector.SetActive(true);
-            transform.DOScale(1.1f, 0.5f);
+            transform.DOScale(_scaleMotion, 0.5f);
             SoundManager.PlaySound(SoundType.Selected,0.3f);
         }
 
         public void OnDeselect(BaseEventData eventData)
         {
-            if (GetComponentInChildren<RadialGridLayoutGroup?>().transform.childCount > 1) return;
+            if (_isInGridCharacters)
+            {
+                if (GetComponentInChildren<RadialGridLayoutGroup?>().transform.childCount > 1) return;
+            }
             _outlineSelector.SetActive(false);
             transform.DOScale(1.0f, 0.5f);
+        
         }
     }
 }

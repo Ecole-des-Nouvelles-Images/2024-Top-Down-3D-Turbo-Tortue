@@ -7,6 +7,7 @@ namespace Intégration.V1.Scripts.IntroScreen
     public class LoadMenu : MonoBehaviour
     {
         [SerializeField] private VideoPlayer _videoPlayerIntro;
+        [SerializeField] private string _menuSceneTitle;
 
         private void Start()
         {
@@ -15,7 +16,7 @@ namespace Intégration.V1.Scripts.IntroScreen
 
         public void LoadMenuScene(VideoPlayer videoPlayer)
         {
-            CustomSceneManager.Instance.LoadScene("Menu");
+            CustomSceneManager.Instance.LoadScene(_menuSceneTitle);
         }
         
   

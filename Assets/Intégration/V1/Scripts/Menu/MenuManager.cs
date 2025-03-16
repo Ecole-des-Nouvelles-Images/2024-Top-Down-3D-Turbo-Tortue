@@ -26,7 +26,7 @@ namespace Intégration.V1.Scripts.Menu
             SetMusicVolume();
             SetSfxVolume();
 
-            if (CharacterSelectionPanel)
+           /* if (CharacterSelectionPanel)
             {
                 if (DataManager.CharacterSelectionScene)
                 {
@@ -38,7 +38,7 @@ namespace Intégration.V1.Scripts.Menu
                 {
                     mainMenuPanel.SetActive(true);
                 }
-            }
+            }*/
         }
 
         public void GameStartAction()
@@ -51,9 +51,9 @@ namespace Intégration.V1.Scripts.Menu
             }
         }
 
-        public void StartGame()
+        public void StartGame(string sceneTitle)
         {
-            CustomSceneManager.Instance.LoadScene("Game");
+            CustomSceneManager.Instance.LoadScene(sceneTitle);
         }
 
         private void Update()

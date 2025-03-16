@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Intégration.V1.Scripts.Game.FeedBack;
+using Intégration.V1.Scripts.SharedScene;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Intégration.V2_REFACTO.Scripts
@@ -44,7 +44,7 @@ namespace Intégration.V2_REFACTO.Scripts
     
         private Button _selectedCharacterButton;
         private TextMeshProUGUI _playerIndexText;
-        private PlayerInput _playerInput;
+        [SerializeField]private PlayerInput _playerInput;
         private int _userIndex;
         private RectTransform _globalPanel;
         private EventSystem _eventSystem;
@@ -62,6 +62,7 @@ namespace Intégration.V2_REFACTO.Scripts
             _CursorUi.GetComponentInChildren<TextMeshProUGUI>().text = "J" +(_userIndex + 1).ToString() ;
             _eventSystem = GetComponentInChildren<EventSystem>();
         }
+        
 
         private void Start()
         {
@@ -69,7 +70,7 @@ namespace Intégration.V2_REFACTO.Scripts
             CharacterButtons = transform.parent.parent.parent.GetComponentsInChildren<Button>();
             GamepadConnectionFeedback();
         }
-    
+
         private void UpdateCursor()
         {
             _characterSelected = _eventSystem.currentSelectedGameObject?.GetComponent<Button>();
@@ -79,7 +80,6 @@ namespace Intégration.V2_REFACTO.Scripts
             OnCursorMoved?.Invoke(_characterSelected.gameObject);
             UpdateIconCharacter();
         }
-
 
         public void UpdateIconCharacter()
         {
@@ -131,7 +131,8 @@ namespace Intégration.V2_REFACTO.Scripts
                     break;
             }
             SetPlayerState(PlayerState.Ready);
-        
+            ConfirmChoice(_userIndex, Array.IndexOf(CharacterButtons, _characterSelected)  );
+           
             // player choices
         }
 
@@ -145,17 +146,31 @@ namespace Intégration.V2_REFACTO.Scripts
         private void SetPlayerState(PlayerState state)
         {
             CurrentState = state;
-            PlayerManager.OnPlayerStateChanged.Invoke(TurtleIsSelected);
+            PlayerManager.OnPlayerStateChanged.Invoke();
+        }
+        
+        public void ConfirmChoice(int playerIndex, int characterIndex)
+        {
+            if (!DataManager.Instance.PlayerChoice.ContainsKey(_userIndex))
+            {
+                DataManager.Instance.PlayerChoice[playerIndex] = characterIndex;
+            }
+        }
+
+        public void RemoveChoice(int playerIndex)
+        {
+            DataManager.Instance.PlayerChoice.Remove(playerIndex);
         }
 
         #region GamePad Input Actions
 
         public void OnNavigate()
         {
-           // if (_canStartGame) return;
+            if (PlayerManager.PlayersSelectionConfirmed)return;
 
             if (CurrentState == PlayerState.NotJoined)
             {
+                SoundManager.PlaySound(SoundType.Navigated,0.3f); 
                 UiBounceEffect(_playerUi, 1.05f, 1, 0.2f);
             }
             else if  (CurrentState == PlayerState.Joined)
@@ -166,7 +181,7 @@ namespace Intégration.V2_REFACTO.Scripts
     
         public void OnSubmit()
         {
-          //  if (_canStartGame)return;
+            if (PlayerManager.PlayersSelectionConfirmed)return;
 
             if (CurrentState == PlayerState.NotJoined)
             {
@@ -187,6 +202,8 @@ namespace Intégration.V2_REFACTO.Scripts
 
         public void OnCancel()
         {
+            //if (PlayerManager.PlayersSelectionConfirmed) return;
+            PlayerManager.OnPlayersCanceledSelection.Invoke();
             if (CurrentState == PlayerState.Joined)
             {
                 SoundManager.PlaySound(SoundType.Canceled, 0.3f);
@@ -203,6 +220,7 @@ namespace Intégration.V2_REFACTO.Scripts
             }
             else if (CurrentState == PlayerState.Ready)
             {
+                RemoveChoice(_userIndex);
                 SoundManager.PlaySound(SoundType.Canceled, 0.3f);
                 Debug.Log("CANCEL");
                 //Cancel ready 
@@ -217,10 +235,6 @@ namespace Intégration.V2_REFACTO.Scripts
                 _readyConfirmPopUp.SetActive(false);
                 UpdateIconCharacter();
                 //cancel player choice
-            }
-            else if (CurrentState == PlayerState.NotJoined)
-            {
-                
             }
         }
     

@@ -386,6 +386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 551500602220643016}
   - component: {fileID: 6773082295622842537}
+  - component: {fileID: 772759422611069214}
   - component: {fileID: 6060533627237650352}
   m_Layer: 5
   m_Name: 'Ready?Text '
@@ -421,6 +422,21 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3172833927340938589}
   m_CullTransparentMesh: 1
+--- !u!114 &772759422611069214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172833927340938589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ed57967c52645d390a89dcf8f61ba73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  AngleMultiplier: 1
+  SpeedMultiplier: 1
+  CurveScale: 1
 --- !u!114 &6060533627237650352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1119,7 +1135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _fadeValue: 0.5
-  _duration: 1
+  _duration: 0.7
 --- !u!225 &1503335552535552861
 CanvasGroup:
   m_ObjectHideFlags: 0

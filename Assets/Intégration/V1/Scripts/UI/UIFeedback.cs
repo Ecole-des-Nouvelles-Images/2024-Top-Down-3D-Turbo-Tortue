@@ -13,7 +13,6 @@ namespace Intégration.V1.Scripts.UI
         [SerializeField] private Color _selectedbuttonColor;
         [SerializeField] private GameObject tutoPanel;
         [SerializeField] private GameObject optionsButton;
-        [SerializeField] private AudioSource selectedSound;
         private static Button _currentButton;
 
         private void Start()
@@ -23,10 +22,7 @@ namespace Intégration.V1.Scripts.UI
 
         public void OnSelect(BaseEventData eventData)
         {
-            if (selectedSound)
-            {
-                selectedSound.Play();
-            }
+            SoundManager.PlaySound(SoundType.Selected,0.3f);
 
             if (_currentButton != null)
             {

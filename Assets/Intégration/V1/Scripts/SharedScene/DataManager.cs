@@ -12,6 +12,6 @@ namespace Intégration.V1.Scripts.SharedScene
         public static float MusicVolume = 0.5f;
         public static bool CanVibrate = true;
         public static bool UiInWorldSpace = true;
-        public static bool CharacterSelectionScene = false;
+        //public static bool CharacterSelectionScene = false;
     }
 }
