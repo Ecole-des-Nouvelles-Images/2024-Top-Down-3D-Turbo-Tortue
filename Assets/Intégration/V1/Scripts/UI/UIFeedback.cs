@@ -18,11 +18,13 @@ namespace Intégration.V1.Scripts.UI
         private void Start()
         {
             _currentButton = null;
+            
         }
 
         public void OnSelect(BaseEventData eventData)
         {
-            SoundManager.PlaySound(SoundType.Selected,0.3f);
+            //SoundManager.PlaySound(SoundType.Selected,0.3f);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonSelected);
 
             if (_currentButton != null)
             {

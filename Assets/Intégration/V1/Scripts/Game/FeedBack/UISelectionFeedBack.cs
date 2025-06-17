@@ -24,14 +24,15 @@ namespace Intégration.V1.Scripts.Game.FeedBack
         {
             _outlineSelector.SetActive(true);
             transform.DOScale(_scaleMotion, 0.5f);
-            SoundManager.PlaySound(SoundType.Selected,0.3f);
+           // SoundManager.PlaySound(SoundType.Selected,0.3f);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonSelected);
         }
 
         public void OnDeselect(BaseEventData eventData)
         {
             if (_isInGridCharacters)
             {
-                if (GetComponentInChildren<RadialGridLayoutGroup?>().transform.childCount > 1) return;
+                if (GetComponentInChildren<RadialGridLayoutGroup>().transform.childCount > 1) return;
             }
             _outlineSelector.SetActive(false);
             transform.DOScale(1.0f, 0.5f);

@@ -37,18 +37,18 @@ namespace Intégration.V1.Scripts.Game.Characters
         }
 
         protected override void MainCapacity() {
-                if (sun >= CapacityCost && !IsPlanted) {
+                if (Sun >= CapacityCost && !IsPlanted) {
                     if (!_currentTrap)
                     {
                         CanRespawn = true;
                         _currentTrap = Instantiate(spawnTrap, transform.position, transform.rotation);
                         OnLooseSunCapacity(CapacityCost);
-                        capacitysound.Play();
+                        AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                     }
                     else {
                         _currentTrap.transform.position = transform.position;
                         OnLooseSunCapacity(CapacityCost);
-                        capacitysound.Play();
+                        AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                     }
                 }
         }

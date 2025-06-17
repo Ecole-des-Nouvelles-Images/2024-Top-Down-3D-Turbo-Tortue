@@ -8,6 +8,8 @@ namespace Intégration.V1.Scripts.Game
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Flower")) {
+                
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleScanAlert);
                 other.gameObject.layer = LayerMask.NameToLayer("Flower");
                 foreach (Transform child in other.transform)
                 {

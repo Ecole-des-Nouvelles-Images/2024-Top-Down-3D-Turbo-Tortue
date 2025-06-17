@@ -4,11 +4,10 @@ namespace Intégration.V1.Scripts.Game
 {
     public class AnimationParticules : MonoBehaviour
     {
-        [SerializeField] private GameObject _crashParticules;
+        [SerializeField] private ParticleSystem _crashParticules;
         [SerializeField] private ParticleSystem _dirtParticules;
         [SerializeField] private ParticleSystem _runParticules;
         private Animator _animator;
-        [SerializeField] private AudioSource footstepsound;
 
         private void Start()
         {
@@ -19,7 +18,8 @@ namespace Intégration.V1.Scripts.Game
         {
             if (_crashParticules)
             {
-                _crashParticules.SetActive(true);
+                _crashParticules.Play();
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.QTEFailed);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Intégration.V1.Scripts.Game
             if (_runParticules)
             {
                 _runParticules.Play();
-                footstepsound.Play();
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.FlowersRun);
             }
         }
 

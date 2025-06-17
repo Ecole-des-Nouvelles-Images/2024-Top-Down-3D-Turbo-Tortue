@@ -9,9 +9,9 @@ namespace Michael.Scripts.Manager
 {
     public class QteManager : MonoBehaviourSingleton<QteManager>
     {
-        public bool QteSucces = false;
-        public float qteTimePerButton = 1f; // Temps maximal pour chaque bouton
         public Action OnQteFinished;
+        
+        [SerializeField] private float qteTimePerButton = 1f;
         [SerializeField] private PlayerInput _turtlePlayerInput;
         [SerializeField] private InputAction[] _qteActions;
         [SerializeField] private GameObject _currentQTeImage;
@@ -19,10 +19,13 @@ namespace Michael.Scripts.Manager
         [SerializeField] private List<InputAction> qteSequence;
         [SerializeField] private List<Sprite> qteImages;
         [SerializeField] private int TouchQteCount;
+        [SerializeField] private ParticleSystem _electricParticleSystem;
+        
         private bool qteActive;
         private float qteTimer;
         private int currentButtonIndex =0;
-
+        private bool _qteSucces = false;
+        
         private void Start()
         {
             OnQteFinished += QTESuccess;
@@ -34,7 +37,7 @@ namespace Michael.Scripts.Manager
             _qteActions[4] = _turtlePlayerInput.actions["LeftShoulder"];
             _qteActions[5] = _turtlePlayerInput.actions["RightShoulder"];
             
-            StartQTE();
+            //StartQTE();
         }
 
         void UpdteQTEUi()
@@ -47,6 +50,8 @@ namespace Michael.Scripts.Manager
 
                 // Réinitialiser le temps restant pour le bouton actuel
                 qteTimer = qteTimePerButton;
+                
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.QTEKey);
             }
         }
 
@@ -72,7 +77,7 @@ namespace Michael.Scripts.Manager
             if (!qteActive)
             {
                 _FailQTeImage.SetActive(false);
-                QteSucces = false;
+                _qteSucces = false;
                 qteActive = true;
                 GenerateQTESequence();
                 currentButtonIndex = 0;
@@ -115,6 +120,7 @@ namespace Michael.Scripts.Manager
                     {
                         // Tous les boutons ont été pressés avec succès, fin de la séquence QTE
                         OnQteFinished.Invoke();
+                        
                     }
 
                     break;
@@ -123,6 +129,7 @@ namespace Michael.Scripts.Manager
                 {
                     // Le joueur a appuyé sur le mauvais bouton, échec de la séquence QTE
                     QTEFailure();
+                    
 
                     break;
                 }
@@ -132,20 +139,25 @@ namespace Michael.Scripts.Manager
         void QTESuccess()
         {
             qteActive = false;
-            QteSucces = true;
+            _qteSucces = true;
             qteSequence.Clear();
             _currentQTeImage.SetActive(false);
             _turtlePlayerInput.currentActionMap = _turtlePlayerInput.actions.FindActionMap("Character");
+            GetComponent<Rigidbody>().isKinematic = false;
+            
+            _electricParticleSystem.Play();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.QTESuccess);
         }
 
         void QTEFailure()
         {
             qteActive = false;
-            QteSucces = false;
+            _qteSucces = false;
             qteSequence.Clear();
             _currentQTeImage.SetActive(false);
             _FailQTeImage.SetActive(true);
-
+            
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.QTEFailed);
             Invoke("StartQTE", 1f);
         }
     }

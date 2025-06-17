@@ -7,13 +7,13 @@ namespace Intégration.V1.Scripts.Game.FeedBack
     {
         public void StartSlowMotion()
         {
-            GameManager.Instance.StartSlomotion();
+            //GameManager.Instance.StartSlomotion();
             GameManager.Instance.CameraShake(0.5f, 0.1f, 10);
         }
 
         public void StopSlowMotion()
         {
-            GameManager.Instance.FinishSlomotion();
+            //GameManager.Instance.FinishSlomotion();
         }
     }
 }

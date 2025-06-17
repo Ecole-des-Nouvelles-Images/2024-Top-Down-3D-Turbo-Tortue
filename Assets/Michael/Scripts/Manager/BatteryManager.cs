@@ -1,53 +1,78 @@
 
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Michael.Scripts.Manager
 {
-    public class BatteryManager : MonoBehaviourSingleton<BatteryManager>
+    public class BatteryManager : MonoBehaviour
     {
-        public float CurrentBatteryTime;
-        [SerializeField] private float _maxBatteryTime;
-        [SerializeField] private float _easeSilerRate =1;
-        [SerializeField] private Slider _batteryBar;
-        [SerializeField] private Slider _easeBatteryBar;
-        private float _lerpSpeed = 0.05f;
-        private float _delayBatteryTime;
-    
+        public static Action<float> OnBatteryDecrease;
+        public static Action<float> OnSunCollected;
+        public static bool NitroActivate;
+        private float _currentBatteryTime;
+        public float CurrentBatteryTime
+        {
+            get => _currentBatteryTime;
+            set => _currentBatteryTime = Mathf.Clamp(value, 0f, _maxBatteryTime);
+        }
+        
+        [SerializeField] private float _maxBatteryTime; 
+        public float MaxBatteryTime => _maxBatteryTime;
+        
+        [SerializeField] private GameManager _gameManager;
+      
+       
+
+        private void OnEnable()
+        {
+            OnBatteryDecrease += LoseBattery;
+            OnSunCollected += SunCollected;
+        }
+        
+        private void OnDisable()
+        {
+            OnBatteryDecrease -= LoseBattery;
+            OnSunCollected -= SunCollected;
+        }
+
         void Start()
         {
             CurrentBatteryTime = _maxBatteryTime;
-            _delayBatteryTime = _maxBatteryTime;
         }
         
-        void Update() {
+        void Update()
+        {
+            if (_gameManager.GameFinished) return;
             
-           CurrentBatteryTime -= Time.deltaTime;
-           _delayBatteryTime -= Time.deltaTime *_easeSilerRate;
-           _delayBatteryTime = Mathf.Clamp(_delayBatteryTime,CurrentBatteryTime, _maxBatteryTime);
-           
-            _batteryBar.value = CurrentBatteryTime / _maxBatteryTime; 
-            _easeBatteryBar.value = _delayBatteryTime / _maxBatteryTime;
-            
+            //Batterie qui baisse
+            CurrentBatteryTime -= Time.deltaTime;
+            if (NitroActivate)
+            {
+                CurrentBatteryTime -= Time.deltaTime * 13;
+            }
+
+            // Vérification de la mort de la tortue
             if (CurrentBatteryTime <= 0 && !GameManager.Instance.TurtleIsDead){
                
                 GameManager.Instance.TurtleIsDead = true;
-                GameManager.Instance.Winverification();
+                GameManager.Instance.WinVerification();
             }
+        }
 
-            if (CurrentBatteryTime > _maxBatteryTime)
-            {
-                CurrentBatteryTime = _maxBatteryTime;
-            }
-        }
-        
-       public void BatteryCost(float capacityCost)
+        private void LoseBattery(float capacityCost)
         {
-            CurrentBatteryTime -= capacityCost;
-            GameManager.Instance.Winverification();
+            if (_gameManager.GameFinished) return;
             
+            CurrentBatteryTime -= capacityCost;
+            GameManager.Instance.WinVerification();
         }
-        
+
+        private void SunCollected(float sunValue)
+        {
+            if (_gameManager.GameFinished) return;
+            CurrentBatteryTime += sunValue;
+        }
         
     }
 }

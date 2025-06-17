@@ -15,13 +15,26 @@ namespace Intégration.V1.Scripts.Game.Characters
 {
     public abstract class FlowerController : CharacterController
     {
-        [SerializeField] private AudioSource minesound;
-        [SerializeField] private AudioSource revivesound;
-        public AudioSource capacitysound;
+        public event Action<int> OnSunChanged;
+        public event Action<bool> OnDeathChanged;
+        
         public bool CanRespawn;
         public int characterIndex;
-        public static Action OnSunCollected;
-        public int sun = 0;
+        private int _sun;
+        public int Sun
+        {
+            get => _sun;
+            set
+            {
+                int clamped = Mathf.Clamp(value, 0, maxSun);
+                if (_sun != clamped)
+                {
+                    _sun = clamped;
+                    OnSunChanged?.Invoke(_sun);
+                }
+            }
+        }
+
         public int maxSun = 3;
         public int CapacityCost = 2;
         public bool canReanimate;
@@ -32,9 +45,9 @@ namespace Intégration.V1.Scripts.Game.Characters
         public bool isUnstoppable = false;
         public bool IsStunned;
         public bool isDead;
-        public static bool FlowersWin;
         public bool isCharging;
         public float reanimateTimer = 0;
+        public VisualEffect GatherEnergy;
         [SerializeField] private float reanimateDuration = 1;
         [SerializeField] protected GameObject deadModel;
         [SerializeField] protected GameObject aliveModel;
@@ -45,14 +58,22 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] private ParticleSystem explosionParticleSystem;
         [SerializeField] private ParticleSystem stunParticleSystem;
         [SerializeField] private float plantingCooldown = 0.7f;
-        private float currentPlantingCooldown = 0f;
         [SerializeField] private Image reviveChargingIcon;
         [SerializeField] private GameObject deadArrowUI;
         [SerializeField] private VisualEffect ReviveVFX;
         [SerializeField] private GameObject dirt;
-        [SerializeField] private ParticleSystem fireWorksParticules;
-        public VisualEffect GatherEnergy;
+        private float currentPlantingCooldown = 0f;
 
+
+        private void OnEnable()
+        {
+            GameManager.Instance.OnFlowersWin += WinAnimation;
+        }
+
+        private void OnDisable()
+        {
+            GameManager.Instance.OnFlowersWin -= WinAnimation;
+        }
 
         protected virtual void Start()
         {
@@ -72,14 +93,9 @@ namespace Intégration.V1.Scripts.Game.Characters
         {
             if (deadArrowUI)
             {
-                deadArrowUI.transform.DOLocalMoveY(0.25f, 1)
+                deadArrowUI.transform.DOLocalMoveY(0.05f, 1)
                     .SetEase(Ease.InOutSine)
-                    .OnComplete(() =>
-                    {
-                        deadArrowUI.transform.DOLocalMoveY(-0.25f, 1)
-                            .SetEase(Ease.InOutSine)
-                            .OnComplete(() => { StartAnimation(); });
-                    });
+                    .SetLoops(-1, LoopType.Yoyo);
             }
         }
 
@@ -93,26 +109,10 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void Update()
         {
-            if (GameManager.Instance.TurtleIsDead && !FlowersWin)
-            {
-                _animator.SetTrigger("Victory");
-                _animator.SetInteger("DanceIndex", Random.Range(0, 3));
-                //  fireWorksParticules.Play();
-                FlowersWin = true;
-            }
-
+            
             _animator.SetFloat("Velocity", Rb.velocity.magnitude);
 
-            if (sun < 0)
-            {
-                sun = 0;
-            }
-
-            if (sun > maxSun)
-            {
-                sun = maxSun;
-            }
-
+          
             if (deadFlowerController)
             {
                 if (isCharging)
@@ -200,6 +200,8 @@ namespace Intégration.V1.Scripts.Game.Characters
                 _animator.SetBool("isPlanted", IsPlanted);
                 aliveModelCollider.enabled = true;
                 currentPlantingCooldown = plantingCooldown;
+                
+                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDig);
             }
         }
 
@@ -207,7 +209,7 @@ namespace Intégration.V1.Scripts.Game.Characters
         {
             // REANIMATION
 
-            if (canReanimate && sun == maxSun && !IsStunned && !PauseControlller.IsPaused)
+            if (canReanimate && Sun == maxSun && !IsStunned && !PauseControlller.IsPaused)
             {
                 if (context.started)
                 {
@@ -223,8 +225,8 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void ThirdCapacity() // revive ally 
         {
-            Debug.Log("revive");
-            sun = -maxSun;
+            Debug.Log("revive"); 
+            Sun = 0;
             deadFlowerController.GetRevive();
             canReanimate = false;
         }
@@ -245,7 +247,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                     GameManager.Instance.TurtleTrap.Remove(other.gameObject);
                     Destroy(other.gameObject);
                     GetStunned();
-                    minesound.Play();
+                   AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleTrapActivated);
                 }
             }
 
@@ -303,6 +305,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             Rb.isKinematic = true;
             _animator.SetBool("isPlanted", IsPlanted);
             aliveModelCollider.enabled = false;
+            AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDig);
         }
 
         [ContextMenu("GetStunned")]
@@ -329,14 +332,22 @@ namespace Intégration.V1.Scripts.Game.Characters
                 aliveModelCollider.enabled = false;
                 aliveModel.SetActive(false);
                 deadModel.SetActive(true);
-                GetComponent<PlayerInput>().enabled = false;
-                sun = 0;
+                //GetComponent<PlayerInput>().enabled = false;
+                GetComponent<PlayerInput>().currentActionMap = null;
+                Sun = 0;
                 isDead = true;
+                OnDeathChanged?.Invoke(isDead);
                 GameManager.Instance.FlowersAlive.Remove(this.gameObject);
-                deadArrowUI.SetActive(true);
+               
                 if (!CanRespawn) {
-                    GameManager.Instance.Winverification();
+                    GameManager.Instance.WinVerification();
                 }
+
+                if (!GameManager.Instance.GameFinished)
+                {
+                    deadArrowUI.SetActive(true);
+                }
+                
                
             }
         }
@@ -347,19 +358,33 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (!isDead) return;
 
             aliveModelCollider.enabled = true;
-            GetComponent<PlayerInput>().enabled = true;
+            //GetComponent<PlayerInput>().enabled = true;
+            GetComponent<PlayerInput>().SwitchCurrentActionMap("Character");
             isDead = false;
+            OnDeathChanged?.Invoke(isDead);
             aliveModel.SetActive(true);
             deadModel.SetActive(false);
             GameManager.Instance.FlowersAlive.Add(this.gameObject);
             ReviveVFX.Play();
-            revivesound.Play();
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.FlowersRevive);
         }
 
 
-        public void OnLooseSunCapacity(int capacityCost)
+        protected void OnLooseSunCapacity(int capacityCost)
         {
-            sun -= capacityCost;
+            Sun -= capacityCost;
+        }
+
+        public void AddSun(int amount)
+        {
+            Sun += amount;
+        }
+
+        private void WinAnimation()
+        {
+            _animator.SetTrigger("Victory");
+            _animator.SetInteger("DanceIndex", Random.Range(0, 3));
+
         }
     }
 }

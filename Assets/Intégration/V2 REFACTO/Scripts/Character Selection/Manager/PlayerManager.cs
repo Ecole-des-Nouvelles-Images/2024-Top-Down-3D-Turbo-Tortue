@@ -5,14 +5,16 @@ using Intégration.V1.Scripts.SharedScene;
 using Intégration.V2_REFACTO.Scripts;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
 {
     public static Action OnPlayerStateChanged;
-    public static bool PlayersSelectionConfirmed;
     public static Action OnPlayersCanceledSelection;
+    public bool PlayersSelectionConfirmed;
+    
 
     [Header("Player manager")]
     [SerializeField] private PlayerInputManager _playerInputManager;
@@ -28,15 +30,21 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject _choseMapPanel;
     private Tween fillTween;
     
+    private bool _characterSelectionCanceled;
     private bool isStartingGame = false;
 
     
     private Dictionary<InputDevice, PlayerInput> deviceToPlayerInput = new();
-    private HashSet<PlayerInput> playerInputsList = new() ;
-    private HashSet<GameObject> playersUiList = new();
+    private List<PlayerInput> playerInputsList = new() ;
+    private List<GameObject> playersUiList = new();
     private bool _turtleIsSelected;
     private int _playersReadyCount;
-    private HashSet<PlayerInput> holdingPlayers = new(); //Stocke les joueurs qui maintiennent "Start"
+    private List<PlayerInput> holdingPlayers = new(); //Stocke les joueurs qui maintiennent "Start"
+    
+    [Header("HoldConfirm Actions")]
+    private Dictionary<PlayerInput, InputAction> playerStartActions = new();
+    private Dictionary<PlayerInput, Action<InputAction.CallbackContext>> startHandlers = new();
+    private Dictionary<PlayerInput, Action<InputAction.CallbackContext>> cancelHandlers = new();
 
     private void Awake()
     {
@@ -48,11 +56,26 @@ public class PlayerManager : MonoBehaviour
         //Détection des manettes déjà branchées au lancement
         foreach (var device in InputSystem.devices)
         {
-            if (device is Gamepad) { CheckCurrentGamepads(device); Debug.Log("manettes check");}
+            if (device is Gamepad)
+            {
+                CheckCurrentGamepads(device); Debug.Log("manettes check");
+            }
         }
+
         InputSystem.onDeviceChange += OnDeviceChange;
         OnPlayerStateChanged += CheckPlayersReady;
         OnPlayersCanceledSelection += OnCancelSelection;
+
+    }
+
+    private void Start()
+    {
+       
+        
+        foreach (var user in InputUser.all)
+        {
+            Debug.Log("user dispo : " +user + "numero : " + user.index);
+        }
     }
 
     private void OnDisable()
@@ -61,15 +84,16 @@ public class PlayerManager : MonoBehaviour
         OnPlayerStateChanged -= CheckPlayersReady;
         OnPlayersCanceledSelection -= OnCancelSelection;
         
-        foreach (var player in playerInputsList)
-        {
-            UnRegisterPlayer(player); 
-        }
+     
     }
 
     private void OnDestroy()
     {
-        
+        foreach (var player in playerInputsList)
+        {
+            UnRegisterPlayer(player);
+            player.DeactivateInput();
+        }
     }
 
 
@@ -159,12 +183,13 @@ public class PlayerManager : MonoBehaviour
 
     public void LoadGameSene()
     {
-        foreach (var player in FindObjectsOfType<PlayerInput>())
+        foreach (var player in playerInputsList)
         {
             UnRegisterPlayer(player);
         }
         if (!isStartingGame)
         {
+            AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.GameMusic);
             CustomSceneManager.Instance.LoadScene("Game");
             Debug.Log("start game");
             isStartingGame = true;
@@ -174,16 +199,35 @@ public class PlayerManager : MonoBehaviour
     #region Input Actions
     private void RegisterPlayer(PlayerInput player)
     {
-        player.actions["StartGame"].performed += ctx => OnStartGame(player, ctx);
-        player.actions["StartGame"].canceled += ctx => OnCancelGame(player, ctx);
-        //player.actions["Cancel"].performed += ctx => OnCancelSelection(player, ctx);
+        var action = player.actions["StartGame"];
+        Action<InputAction.CallbackContext> startHandler = ctx => OnStartGame(player, ctx);
+        Action<InputAction.CallbackContext> cancelHandler = ctx => OnCancelGame(player, ctx);
+
+        action.performed += startHandler;
+        action.canceled += cancelHandler;
+
+        playerStartActions[player] = action;
+        startHandlers[player] = startHandler;
+        cancelHandlers[player] = cancelHandler;
     }
     
     private void UnRegisterPlayer(PlayerInput player)
     {
-        player.actions["StartGame"].performed -= ctx => OnStartGame(player, ctx);
-        player.actions["StartGame"].canceled -= ctx => OnCancelGame(player, ctx);
-        //player.actions["Cancel"].performed -= ctx => OnCancelSelection(player, ctx);
+        if (playerStartActions.TryGetValue(player, out var action))
+        {
+            if (startHandlers.TryGetValue(player, out var start))
+            {
+                action.performed -= start;
+                startHandlers.Remove(player);
+            }
+            if (cancelHandlers.TryGetValue(player, out var cancel))
+            {
+                action.canceled -= cancel;
+                cancelHandlers.Remove(player);
+            }
+
+            playerStartActions.Remove(player);
+        }
     }
     
 
@@ -192,9 +236,15 @@ public class PlayerManager : MonoBehaviour
         if (!AllPlayersReady) return;
         if (PlayersSelectionConfirmed) return;
         
-       //if (isStartingGame) return;
-       SoundManager.PlaySound(SoundType.Pressed, 0.3f);
+     
+       AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
         holdingPlayers.Add(player);
+        UpdateHoldProgress();
+    }
+    
+    private void OnCancelGame(PlayerInput player, InputAction.CallbackContext context)
+    {
+        holdingPlayers.Remove(player);
         UpdateHoldProgress();
     }
 
@@ -218,10 +268,13 @@ public class PlayerManager : MonoBehaviour
             }
             Debug.Log("cancel Selection");
             PlayersSelectionConfirmed = false;
-            CustomSceneManager.Instance.LoadScene("Menu");
-            
+
+            if (!_characterSelectionCanceled)
+            {
+                _characterSelectionCanceled = true;
+                CustomSceneManager.Instance.LoadScene("Refacto Menu");
+            }
         }
-       
     }
 
     private void ReturnSelectionPanel()
@@ -230,12 +283,7 @@ public class PlayerManager : MonoBehaviour
         _choseMapPanel.SetActive(false);
         OnPlayerStateChanged.Invoke();
     }
-
-    private void OnCancelGame(PlayerInput player, InputAction.CallbackContext context)
-    {
-        holdingPlayers.Remove(player);
-        UpdateHoldProgress();
-    }
+    
     
     private void UpdateHoldProgress()
     {
@@ -248,19 +296,21 @@ public class PlayerManager : MonoBehaviour
                 .SetEase(Ease.Linear)
                 .OnComplete(() =>
                 {
-                    SoundManager.PlaySound(SoundType.Pressed, 0.3f);
+                    AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
                     _choseMapPanel.SetActive(true);
                     PlayersSelectionConfirmed = true;
-                    Debug.Log(PlayerManager.PlayersSelectionConfirmed);
-                    Debug.Log("LOAD GAME");
+                    
+                    
+                    
                 });
         }
         else
         {
             holdFillImage.transform.parent.DOScale(1f, 0.5f);
-            holdingPlayers.Clear();
-            fillTween?.Kill();
             holdFillImage.DOFillAmount(0f, 1f).SetEase(Ease.OutQuad);
+            holdingPlayers?.Clear();
+            fillTween?.Kill();
+           
         }
     }
 

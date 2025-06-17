@@ -2,6 +2,7 @@ using System;
 using DG.Tweening;
 using Intégration.V1.Scripts.SharedScene;
 using Michael.Scripts.Manager;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.UI;
@@ -10,67 +11,60 @@ namespace Intégration.V1.Scripts.Menu
 {
     public class MenuManager : MonoBehaviourSingleton<MenuManager>
     {
-        public bool _gameStarted;
-        [SerializeField] private AudioMixer _mixer;
+        [SerializeField] private Slider _masterSlider;
         [SerializeField] private Slider _musicSlider;
         [SerializeField] private Slider _sfxSlider;
-        [SerializeField] private GameObject mainMenuPanel;
-        [SerializeField] private GameObject CharacterSelectionPanel;
-        [SerializeField] private GameObject eventSystem;
-
-
+        
         private void Start()
         {
-            _musicSlider.value = DataManager.MusicVolume;
-            _sfxSlider.value = DataManager.SfxVolume;
-            SetMusicVolume();
-            SetSfxVolume();
-
-           /* if (CharacterSelectionPanel)
-            {
-                if (DataManager.CharacterSelectionScene)
-                {
-                    eventSystem.SetActive(false);
-                    CharacterSelectionPanel.SetActive(true);
-                    DataManager.CharacterSelectionScene = false;
-                }
-                else
-                {
-                    mainMenuPanel.SetActive(true);
-                }
-            }*/
+            _masterSlider.value = AudioManager.Instance.MasterVolume;
+            _musicSlider.value = AudioManager.Instance.AmbientVolume;
+            _sfxSlider.value = AudioManager.Instance.SFXVolume;
         }
 
-        public void GameStartAction()
+        private void OnEnable()
         {
-            if ( !_gameStarted) {
-                
-              Invoke("StartGame",1.1f);
-                CharacterSelection.CanStart = false;
-                _gameStarted = true;
+            ManageEventCallbacks(true);
+        }
+
+        private void OnDisable()
+        {
+            ManageEventCallbacks(false);
+        }
+
+        private void ManageEventCallbacks(bool subscribe)
+        {
+            if (subscribe)
+            {
+                _masterSlider.onValueChanged.AddListener(delegate { AudioManager.Instance.MasterVolume = _masterSlider.value; });
+                _musicSlider.onValueChanged.AddListener(delegate { AudioManager.Instance.AmbientVolume = _musicSlider.value; });
+                _sfxSlider.onValueChanged.AddListener(delegate { AudioManager.Instance.SFXVolume = _sfxSlider.value; });
+            }
+            else
+            {
+                _masterSlider.onValueChanged.RemoveAllListeners();
+                _musicSlider.onValueChanged.RemoveAllListeners();
+                _sfxSlider.onValueChanged.RemoveAllListeners();
             }
         }
+        
 
         public void StartGame(string sceneTitle)
         {
             CustomSceneManager.Instance.LoadScene(sceneTitle);
         }
+        
 
-        private void Update()
+        
+        private void QuitApplication()
         {
-          /*  if (CharacterSelection.CanStart && !_gameStarted)
-            {
-                StartGame();
-                CharacterSelection.CanStart = false;
-                _gameStarted = true;
-            }*/
-        }
-
-        public void QuitApplication()
-        {
+#if UNITY_EDITOR
+            EditorApplication.ExitPlaymode();
+#endif
             Application.Quit();
         }
 
+        
         public void FadeInPanel(GameObject panel)
         {
             panel.GetComponent<CanvasGroup>().DOFade(1, 0.5f);
@@ -91,18 +85,12 @@ namespace Intégration.V1.Scripts.Menu
         {
             DataManager.UiInWorldSpace = !DataManager.UiInWorldSpace;
         }
-
-
-        public void SetMusicVolume()
+        
+        public void PlayPressedSound()
         {
-            DataManager.MusicVolume = _musicSlider.value;
-            _mixer.SetFloat("musicVolume", Mathf.Log10(DataManager.MusicVolume) * 20);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
         }
-
-        public void SetSfxVolume()
-        {
-            DataManager.SfxVolume = _sfxSlider.value;
-            _mixer.SetFloat("soundFXVolume", Mathf.Log10(DataManager.SfxVolume) * 20);
-        }
+        
+        
     }
 }

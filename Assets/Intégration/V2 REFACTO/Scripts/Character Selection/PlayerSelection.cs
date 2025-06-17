@@ -19,6 +19,8 @@ namespace Intégration.V2_REFACTO.Scripts
     }
     public class PlayerSelection : MonoBehaviour
     {
+      
+    
         public event Action<GameObject> OnCursorMoved;
         public Action<RadialGridLayoutGroup, GameObject> OnPlayerReady;
         public PlayerState CurrentState = PlayerState.NotJoined;
@@ -50,13 +52,19 @@ namespace Intégration.V2_REFACTO.Scripts
         private EventSystem _eventSystem;
         private GameObject _lastGameObjectSelected;
         private Button _characterSelected;
-    
+        private PlayerManager _playerManager; 
+        private InputDevice InputDevice;
+
         private void Awake()
         {
+            _playerManager = FindObjectOfType<PlayerManager>();
             _globalPanel = GameObject.Find("GlobalPanel").GetComponent<RectTransform>();
             _playerUi = transform.parent.gameObject;
             _playerInput = transform.parent.GetComponentInChildren<PlayerInput>();
+            
             _userIndex = _playerInput.user.index;
+            InputDevice = _playerInput.user.pairedDevices[0];
+
             _playerIndexText = _playerIndexImage.GetComponentInChildren<TextMeshProUGUI>();
             _playerIndexText.text = "J" +(_userIndex + 1).ToString() ;
             _CursorUi.GetComponentInChildren<TextMeshProUGUI>().text = "J" +(_userIndex + 1).ToString() ;
@@ -122,16 +130,18 @@ namespace Intégration.V2_REFACTO.Scripts
             switch (_characterSelected.tag)
             {
                 case "Turtle":
-                    SoundManager.PlaySound(SoundType.TurtleMoveStart,0.3f); 
+                   // SoundManager.PlaySound(SoundType.TurtleMoveStart,0.3f); 
+                   AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleVoice);
                     _characterIcon.sprite = _characterSprites[^1];
                     TurtleIsSelected = true;
                     break;
                 case "Flower":
-                    SoundManager.PlaySound(SoundType.FlowerVoices,0.3f);
+                   // SoundManager.PlaySound(SoundType.FlowerVoices,0.3f);
+                   AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                     break;
             }
             SetPlayerState(PlayerState.Ready);
-            ConfirmChoice(_userIndex, Array.IndexOf(CharacterButtons, _characterSelected)  );
+            ConfirmChoice(_userIndex, Array.IndexOf(CharacterButtons, _characterSelected), InputDevice  );
            
             // player choices
         }
@@ -149,7 +159,7 @@ namespace Intégration.V2_REFACTO.Scripts
             PlayerManager.OnPlayerStateChanged.Invoke();
         }
         
-        public void ConfirmChoice(int playerIndex, int characterIndex)
+      /*  public void ConfirmChoice(int playerIndex, int characterIndex)
         {
             if (!DataManager.Instance.PlayerChoice.ContainsKey(_userIndex))
             {
@@ -160,17 +170,50 @@ namespace Intégration.V2_REFACTO.Scripts
         public void RemoveChoice(int playerIndex)
         {
             DataManager.Instance.PlayerChoice.Remove(playerIndex);
-        }
+        }*/
+      
+      public void ConfirmChoice(int playerIndex, int characterIndex, InputDevice device)
+      {
+          if (!DataManager.Instance.PlayerChoice.ContainsKey(playerIndex))
+          {
+              DataManager.Instance.PlayerChoice[playerIndex] = new DataManager.PlayerInfo
+              {
+                  prefabIndex = characterIndex,
+                  device = device
+              };
+          }
+          else
+          {
+              // Met à jour si déjà existant
+              DataManager.Instance.PlayerChoice[playerIndex].prefabIndex = characterIndex;
+              DataManager.Instance.PlayerChoice[playerIndex].device = device;
+          }
+      }
+
+      public void RemoveChoice(int playerIndex)
+      {
+          if (DataManager.Instance.PlayerChoice.ContainsKey(playerIndex))
+          {
+              DataManager.Instance.PlayerChoice.Remove(playerIndex);
+          }
+      }
+      
+      
+      
+      
+      
+      
 
         #region GamePad Input Actions
 
         public void OnNavigate()
         {
-            if (PlayerManager.PlayersSelectionConfirmed)return;
+            if (_playerManager.PlayersSelectionConfirmed)return;
 
             if (CurrentState == PlayerState.NotJoined)
             {
-                SoundManager.PlaySound(SoundType.Navigated,0.3f); 
+               // SoundManager.PlaySound(SoundType.Navigated,0.3f); 
+               AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonNavigate);
                 UiBounceEffect(_playerUi, 1.05f, 1, 0.2f);
             }
             else if  (CurrentState == PlayerState.Joined)
@@ -181,21 +224,24 @@ namespace Intégration.V2_REFACTO.Scripts
     
         public void OnSubmit()
         {
-            if (PlayerManager.PlayersSelectionConfirmed)return;
+            Debug.Log("la selection des personnages est elle confirmée ? : " + _playerManager.PlayersSelectionConfirmed);
+            if (_playerManager.PlayersSelectionConfirmed)return;
 
+         
             if (CurrentState == PlayerState.NotJoined)
             {
                 PlayerJoined();
-                SoundManager.PlaySound(SoundType.Pressed, 0.3f);
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
                 UiBounceEffect(_playerUi, 1.1f, _playerUi.transform.localScale.x, 0.5f);
             }
             else if (CurrentState == PlayerState.Joined)
             {
                 PlayerReady();
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
                 CameraShakeEffect();
                 RumbleGamepad();
-                SoundManager.PlaySound(SoundType.Pressed,0.3f);
-                UiBounceEffect(_playerUi,1.2f,_playerUi.transform.localScale.x,0.5f);
+          
+               UiBounceEffect(_playerUi,1.2f,_playerUi.transform.localScale.x,0.5f);
                 UiRotateEffect(_playerIndexImage.gameObject,0.5f);
             }
         }
@@ -206,7 +252,7 @@ namespace Intégration.V2_REFACTO.Scripts
             PlayerManager.OnPlayersCanceledSelection.Invoke();
             if (CurrentState == PlayerState.Joined)
             {
-                SoundManager.PlaySound(SoundType.Canceled, 0.3f);
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonCanceled);
                 Debug.Log("CANCEL");
                 //Cancel Join 
                 SetPlayerState(PlayerState.NotJoined);
@@ -221,7 +267,8 @@ namespace Intégration.V2_REFACTO.Scripts
             else if (CurrentState == PlayerState.Ready)
             {
                 RemoveChoice(_userIndex);
-                SoundManager.PlaySound(SoundType.Canceled, 0.3f);
+                
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonCanceled);
                 Debug.Log("CANCEL");
                 //Cancel ready 
                 if (TurtleIsSelected)
@@ -236,6 +283,7 @@ namespace Intégration.V2_REFACTO.Scripts
                 UpdateIconCharacter();
                 //cancel player choice
             }
+            
         }
     
         public void OnDeviceLost()

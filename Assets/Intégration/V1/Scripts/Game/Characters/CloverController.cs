@@ -15,9 +15,9 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void MainCapacity()
         {
-            if (IsPlanted && sun >= CapacityCost && plantedFlowers.Length != 0)
+            if (IsPlanted && Sun >= CapacityCost && plantedFlowers.Length != 0)
             {
-                capacitysound.Play();
+                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 Vector3 initialPosition = gameObject.transform.position;
                 GameObject randomSpawnPoint = plantedFlowers[Random.Range(0, plantedFlowers.Length)];
 

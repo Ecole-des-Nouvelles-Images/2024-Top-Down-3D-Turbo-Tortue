@@ -17,11 +17,7 @@ namespace Intégration.V1.Scripts.Game
 
         private TurtleController _turtleController;
         private GameObject _fractObject;
-
-        private void Awake()
-        {
-        }
-
+        
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Turtle"))

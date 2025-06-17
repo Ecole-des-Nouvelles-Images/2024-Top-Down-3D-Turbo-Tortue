@@ -10,7 +10,7 @@ public class DotWeenEffect : MonoBehaviour
     void Start()
     {
         //transform.DOScale(1.2f, 0.5f).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.InOutSine); 
-        GetComponent<CanvasGroup?>().DOFade(_fadeValue, _duration).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
+        GetComponent<CanvasGroup>().DOFade(_fadeValue, _duration).SetLoops(-1, LoopType.Yoyo).SetEase(Ease.Linear);
     }
 
     // Update is called once per frame

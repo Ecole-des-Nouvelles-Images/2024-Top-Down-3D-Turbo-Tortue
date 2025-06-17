@@ -1,17 +1,18 @@
 using Intégration.V1.Scripts.Game.Characters;
 using Michael.Scripts.Controller;
+using TMPro;
 using UnityEngine;
 
 namespace Intégration.V1.Scripts.Game
 {
     public class ShieldDetector : MonoBehaviour
     {
-        TurtleController TurtleController;
         [SerializeField] public float _shieldCounterForce = 5;
+        private Rigidbody _rb;
 
         private void Start()
         {
-            TurtleController = GetComponent<TurtleController>();
+            _rb = GetComponent<Rigidbody>();
         }
 
         private void OnTriggerEnter(Collider other)
@@ -32,7 +33,7 @@ namespace Intégration.V1.Scripts.Game
                 {
                     Vector3 shieldDirection = (transform.position - other.transform.position).normalized;
                     Vector3 oppositeShieldDirection = shieldDirection;
-                    TurtleController.Rb.AddForce(_shieldCounterForce * oppositeShieldDirection, ForceMode.Impulse);
+                  _rb.AddForce(_shieldCounterForce * oppositeShieldDirection, ForceMode.Impulse);
                 }
             }
         }
@@ -55,7 +56,7 @@ namespace Intégration.V1.Scripts.Game
                 {
                     Vector3 shieldDirection = (transform.position - other.transform.position).normalized;
                     Vector3 oppositeShieldDirection = shieldDirection;
-                    TurtleController.Rb.AddForce(_shieldCounterForce * oppositeShieldDirection, ForceMode.Impulse);
+                    _rb.AddForce(_shieldCounterForce * oppositeShieldDirection, ForceMode.Impulse);
                 }
             }
         }

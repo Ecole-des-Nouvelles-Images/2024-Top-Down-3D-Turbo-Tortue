@@ -22,27 +22,25 @@ namespace Intégration.V1.Scripts.UI
 
         public void OpenPausePanel()
         {
-            if (Time.timeScale > 0 && !GameManager.Instance.GameisStarted)
-            {
-                Time.timeScale = 0;
-                IsPaused = true;
-                _pausePanel.SetActive(true);
-                _eventSystem.SetActive(true);
-                _eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(_playButton);
-                _musicMixer?.DOSetFloat("MusicLowPass", 500f,0.5f);
-            }
+            if (!(Time.timeScale > 0) || GameManager.Instance.GameisStarted) return;
+            
+            Time.timeScale = 0;
+            IsPaused = true;
+            _pausePanel.SetActive(true);
+            _eventSystem.SetActive(true);
+            _eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(_playButton);
+            AudioManager.Instance.SetLowpassFrequency(500f);
         }
 
 
         public void ClosePausePanel()
         {
-            if (Time.timeScale <= 0 && !GameManager.Instance.GameisStarted)
-            {
-                Time.timeScale = 1;
-                IsPaused = false;
-                _pausePanel.SetActive(false);
-                _musicMixer?.DOSetFloat("MusicLowPass", 5000f,0.5f);
-            }
+            if (!(Time.timeScale <= 0) || GameManager.Instance.GameisStarted) return;
+            
+            Time.timeScale = 1;
+            IsPaused = false;
+            _pausePanel.SetActive(false);
+            AudioManager.Instance.SetLowpassFrequency(5000f);
         }
     }
 }

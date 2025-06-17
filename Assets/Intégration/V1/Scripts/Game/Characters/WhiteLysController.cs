@@ -14,27 +14,27 @@ namespace Intégration.V1.Scripts.Game.Characters
         protected override void MainCapacity()
         {
             //give his sun to other flowers
-            if (sun > 0)
+            if (Sun > 0)
             {
                 shareEnergy.Play();
-                capacitysound.Play();
+                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 foreach (GameObject floweralive in GameManager.Instance.FlowersAlive)
                 {
                     if (floweralive != gameObject)
                     {
-                        if (floweralive.GetComponent<FlowerController>().sun < 3)
+                        if (floweralive.GetComponent<FlowerController>().Sun < 3)
                         {
                             if (floweralive.GetComponent<FlowerController>().GatherEnergy != null)
                             {
                                 floweralive.GetComponent<FlowerController>().GatherEnergy.Play();
                             }
 
-                            floweralive.GetComponent<FlowerController>().sun += sun;
+                            floweralive.GetComponent<FlowerController>().AddSun(Sun);
                            
                         }
                     }
                 }
-                sun = 0;
+                Sun = 0;
             }
         }
 

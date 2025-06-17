@@ -498,7 +498,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7220339322477702335}
   - component: {fileID: 2577374726126042272}
-  - component: {fileID: 7127540850882529814}
   - component: {fileID: 3686888475713000996}
   m_Layer: 5
   m_Name: Slider
@@ -605,24 +604,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &7127540850882529814
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8507835856352456551}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ceb9c65aee63b744190351cd5071ac3f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buttonText: {fileID: 0}
-  _deselectedbuttonColor: {r: 0.6784314, g: 0.6627451, b: 0.64705884, a: 1}
-  _selectedbuttonColor: {r: 0.24838679, g: 0.7283019, b: 0.19650406, a: 1}
-  tutoPanel: {fileID: 0}
-  optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!114 &3686888475713000996
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,7 +621,6 @@ MonoBehaviour:
   _selectedbuttonColor: {r: 0.24838679, g: 0.7283019, b: 0.19650406, a: 1}
   tutoPanel: {fileID: 0}
   optionsButton: {fileID: 0}
-  selectedSound: {fileID: 0}
 --- !u!1 &8888856217385406485
 GameObject:
   m_ObjectHideFlags: 0

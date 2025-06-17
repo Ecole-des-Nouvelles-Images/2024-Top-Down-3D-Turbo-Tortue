@@ -1,11 +1,16 @@
 using System;
 using System.Collections.Generic;
+using Cinemachine;
 using DG.Tweening;
+using Intégration.V1.Scripts.Game;
 using Intégration.V1.Scripts.SharedScene;
+using Michael.Scripts.Controller;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 namespace Michael.Scripts.Manager
@@ -14,90 +19,50 @@ namespace Michael.Scripts.Manager
 
     public class GameManager : MonoBehaviourSingleton<GameManager>
     {
-        public GameObject Turtle;
+        public Action OnFlowersWin;
+        [Header("Booleen")]
         public bool TurtleIsDead = false;
-        public bool FlowersIsdead = false;
         public bool GameFinished = false;
         public bool GameisStarted = false;
+
+        [Header("Players References")] 
+        public GameObject Turtle;
         public List<GameObject> FlowersAlive;
         public List<GameObject> Players;
         public List<GameObject> TurtleTrap;
+        
+        [Header("Sun System references")] 
         public Dictionary<GameObject, Transform> _sunOccupiedSpawns = new Dictionary<GameObject, Transform>();
         [SerializeField] private Transform[] _sunSpawnPoints;
         [SerializeField] private GameObject _sunPrefabs;
         [SerializeField] private GameObject SunSpawnsParent;
-        [SerializeField] private GameObject firstCamera;
+        
+        [Header("Ui References")]
         [SerializeField] private GameObject circularTransition;
+        [SerializeField] private GameObject PlayersUi;
+        [SerializeField] private EndGameUiManager endGameUiManager;
+        [Header("others")]
         [SerializeField] private GameObject CrashVfx;
-       // [SerializeField] private Transform spawnTurtlePosition;
-        [SerializeField] private GameObject EndGamePanel;
-        //[SerializeField] private GameObject TurtleVictoryPanel;
-        //[SerializeField] private GameObject FlowersVictoryPanel;
-        [SerializeField] private GameObject TurtleUis;
-        [SerializeField] private GameObject eventSystem;
-        [SerializeField] private GameObject restartButton;
-        [SerializeField] private GameObject okButton;
-        [SerializeField] private GameObject RulesPanel;
-
-
+        [SerializeField] private GameObject firstCamera;
+        [SerializeField] private CinemachineTargetGroup _targetGroup;
+        
+       
+       
+        
         void Start()
         {
-            //GameisStarted = true;
-            GameisStarted = false;
-           RulesPanel.GetComponent<CanvasGroup>().DOFade(1, 5f);
-           Invoke(nameof(ShowRulesPanels),3f);
-           circularTransition.transform.DOScale(15, 1.2f);
+            GameisStarted = true;
+            //GameisStarted = false;
+            // Invoke(nameof(ShowRulesPanels), 3f);
+          
+            CircleTransition(15,1f);
+        }
 
+        public void CircleTransition(float endScale, float duration)
+        {
+            circularTransition.transform.DOScale(endScale, duration);
         }
         
-        private void DesactiveGameManager()
-        {
-            foreach (GameObject player in Players)
-            {
-                player.GetComponent<PlayerInput>().enabled = false;
-            }
-        }
-
-        public void Winverification()
-        {
-            if (FlowersAlive.Count <= 0 && !GameFinished) {
-                //  TurtleVictoryPanel.SetActive(true);
-                EndGamePanel.GetComponent<CanvasGroup>().DOFade(1, 3f);
-                eventSystem.SetActive(true);
-                eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(restartButton);
-                GameFinished = true;
-                FlowersIsdead = true;
-                DesactiveGameManager();
-            }
-            else if (TurtleIsDead && !GameFinished) {
-                // FlowersVictoryPanel.SetActive(true);
-                EndGamePanel.GetComponent<CanvasGroup>().DOFade(1, 3f);
-                eventSystem.SetActive(true);
-                eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(restartButton);
-                GameFinished = true;
-                TurtleUis.SetActive(false);
-                DesactiveGameManager();
-            }
-        }
-      
-
-        public void ShowRulesPanels()
-        {
-            Time.timeScale = 0;
-            eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(okButton);
-            
-            
-        }
-        
-        public void closeRulesPanels()
-        {
-            Time.timeScale = 1;
-            GameisStarted = true; 
-        }
-        
-        
-
-
         public void StartGame()
         {
             CrashVfx.SetActive(true);
@@ -105,37 +70,78 @@ namespace Michael.Scripts.Manager
             Invoke("TurtleEntrance", 1.45f);
             
         }
+        
+        private void FinishGame()
+        {
+            foreach (GameObject player in Players)
+            {
+                player.GetComponent<PlayerInput>().enabled = false;
+            }
+            
+            PlayersUi.SetActive(false);
+            GameFinished = true;
+            endGameUiManager.ShowWinnerPanel();
+            ChangeCameraWeight(Turtle,10);// zoomer sur la tortu
 
+        }
 
+        
 
+        public void WinVerification()
+        {
+            if (FlowersAlive.Count <= 0 && !GameFinished) {
+               
+                
+               FinishGame();
+            }
+            else if (TurtleIsDead && !GameFinished) {
+               
+                OnFlowersWin.Invoke();
+                FinishGame();
+            }
+        }
+      
+
+        /*public void ShowRulesPanels()
+        {
+            Time.timeScale = 0;
+            eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(okButton);
+
+        }
+        
+        public void closeRulesPanels()
+        {
+            Time.timeScale = 1;
+            GameisStarted = true; 
+        }*/
+        
+        
         private void SpawnSun()
         {
+            if (_sunSpawnPoints.Length <= 0) return;
+            
+            int sunTospawn = Random.Range(3, 5);
 
-            if (_sunSpawnPoints.Length > 0)
+            for (int i = 0; i < sunTospawn; i++)
             {
-                int sunTospawn = Random.Range(3, 5);
-
-                for (int i = 0; i < sunTospawn; i++)
+                Transform randomSpawnPoint = _sunSpawnPoints[Random.Range(0, _sunSpawnPoints.Length)];
+                if (!_sunOccupiedSpawns.ContainsValue(randomSpawnPoint))
                 {
-                    Transform randomSpawnPoint = _sunSpawnPoints[Random.Range(0, _sunSpawnPoints.Length)];
-                    if (!_sunOccupiedSpawns.ContainsValue(randomSpawnPoint))
-                    {
 
-                        GameObject Sun = Instantiate(_sunPrefabs, randomSpawnPoint.position, randomSpawnPoint.rotation,
-                            SunSpawnsParent.transform);
-                        _sunOccupiedSpawns.Add(Sun, randomSpawnPoint);
-                    }
+                    GameObject Sun = Instantiate(_sunPrefabs, randomSpawnPoint.position, randomSpawnPoint.rotation,
+                        SunSpawnsParent.transform);
+                    _sunOccupiedSpawns.Add(Sun, randomSpawnPoint);
                 }
             }
         }
 
         private void TurtleEntrance()
         {
+            Turtle.GetComponent<TurtleController>().EnableTurtle();
             CameraShake(1, 0.5f, 10);
             firstCamera.SetActive(false);
-            Turtle.SetActive(true);
-            TurtleUis.SetActive(true);
-            TurtleUis.transform.DOShakePosition(0.5f, 0.1f, 10);
+            PlayersUi.SetActive(true);
+            PlayersUi.transform.DOShakePosition(0.5f, 0.1f, 10);
         }
 
 
@@ -143,17 +149,18 @@ namespace Michael.Scripts.Manager
         {
             firstCamera.transform.DOShakePosition(duration, strength, vibrato);
         }
-
-      public void StartSlomotion()
+        
+        private void ChangeCameraWeight(GameObject target,float weight)
         {
-            Time.timeScale = 0.5f;
-            TimeManager.Instance.fixedDeltaTime = 0.02f * Time.timeScale;
+            for (int i = 0; i < _targetGroup.m_Targets.Length; i++)
+            {
+                if (_targetGroup.m_Targets[i].target.gameObject == target)
+                {
+                    _targetGroup.m_Targets[i].weight = weight;
+                    break;
+                }
+            }
         }
-
-        public void FinishSlomotion()
-        {
-            Time.timeScale = 1f;
-            TimeManager.Instance.fixedDeltaTime = 0.02f * Time.timeScale;
-        }
+        
     }
 }

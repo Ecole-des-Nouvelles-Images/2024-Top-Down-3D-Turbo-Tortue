@@ -13,307 +13,240 @@ using CharacterController = Intégration.V1.Scripts.Game.Characters.CharacterCon
 
 namespace Michael.Scripts.Controller
 {
+    [System.Serializable]
+    public struct DashLevel
+    {
+        public float timeThreshold;
+        public float power;
+        public Color emissionColor;
+        public AudioClip sfx;
+    }
+
     public class TurtleController : CharacterController
     {
         public bool destructionMode;
-        [Header("General References")]
-        [SerializeField] private Collider _attackCollider;
-       // [SerializeField] private TrailRenderer dashTrail;
 
-        [Header("Boost")]
-        [SerializeField] private float boosterMultiplier = 1.2f;
-        [SerializeField] private bool nitroActivate;
+        [Header("General References")] [SerializeField]
+        private Collider _attackCollider;
+
         [SerializeField] private GameObject SpeedParticle;
         [SerializeField] private Material dashMaterial;
-        
-        [Header("Charging & Dashing")]
-        [SerializeField] private float firstDashLevelTime = 0.7f;
-        [SerializeField] private float firstDashLevelPower = 5; 
-        [SerializeField] private float secondDashLevelTime = 1.5f, secondDashLevelPower = 10; 
-        [SerializeField] private float thirdDashLevelTime = 3f, thirdDashLevelPower = 20;
-        [SerializeField] private Material materialToUpdate;
-        [SerializeField] private List<Color> colorsDashLevel;
-        [SerializeField] private GameObject chargingParticules;
-        [SerializeField] private GameObject chargingSmokeParticules;
-        
-        [Header("SoundFX")]
-        [SerializeField] private AudioSource idleSound;
-        [SerializeField] private AudioSource runStartSound;
-        [SerializeField] private AudioSource runnitro;
-        [SerializeField] private AudioSource RUNSTOP;
-        [SerializeField] private AudioSource level1Dashsound;
-        [SerializeField] private AudioSource level2Dashsound;
-        [SerializeField] private AudioSource toupisSound;
-        [SerializeField] private AudioSource biteSound;
-        [SerializeField] private AudioSource scansound;
 
-        private bool isnitro;
-        private bool runstop;
-        private bool idlesoundIsPlaying;
-        private bool runIsPlaying;
-        private bool level1IsPlaying;
-        private bool level2IsPlaying;
-        private bool toupisIsPlaying;
-        private bool isturntoupis;
-        
+        [Header("Boost")] [SerializeField] private float boosterMultiplier = 1.2f;
+        [SerializeField] private bool nitroActivate;
         [SerializeField] private Color boostColor;
         [SerializeField] private Color normalColor;
-        
-        
+
+        [Header("Charging & Dashing")] [SerializeField]
+        private List<DashLevel> dashLevels;
+
+        [SerializeField] private Material materialToUpdate;
+        [SerializeField] private GameObject chargingParticules;
+        [SerializeField] private GameObject chargingSmokeParticules;
+
+        private int _currentDashLevel = -1;
         private float _chargeTime;
         private bool _isCharging;
         private bool _isDashing;
         private Vector3 _lastDashDirection;
-        private float _normalSpeed; 
-        
-        
-        
-        [Header("Scanning")]
-        [SerializeField] private float scanTime, scanRange, scanDuration;
+        private float _normalSpeed;
+
+        [Header("Scanning")] [SerializeField] private float scanTime;
+        [SerializeField] private float scanRange;
+        [SerializeField] private float scanDuration;
         [SerializeField] private GameObject scanSphereArea;
         private bool _isScanning;
-        
-        [Header("Trap")] 
-        [SerializeField] private GameObject TrapPrefab;
+
+        [Header("Trap")] [SerializeField] private GameObject TrapPrefab;
         [SerializeField] private Transform TrapSpawn;
+
+        [Header("spawn references")] 
+        [SerializeField] private ParticleSystem _crashParticules;
+        [SerializeField] private Vector3 _spawnPosition;
+        private QteManager _qteManager;
         
         private void Start()
         {
-            QteManager.Instance.OnQteFinished += AnimationDash;
+            QteManager.Instance.OnQteFinished += TurnAnimation;
             _attackCollider.enabled = false;
-            gameObject.SetActive(false);
             _normalSpeed = moveSpeed;
+            _qteManager = GetComponentInChildren<QteManager>();
         }
 
-        private void AnimationDash()
+        public void EnableTurtle()
         {
-            _animator.SetBool("QteSuccess",true);
+            transform.position = _spawnPosition;
+            _qteManager.StartQTE();
+            _crashParticules.Play();
+        }
+
+        private void TurnAnimation()
+        {
+            _animator.SetBool("QteSuccess", true);
         }
 
         protected override void FixedUpdate()
         {
             if (!_isDashing && !_isCharging)
-            {
                 Move();
-            }
         }
 
         protected override void Update()
         {
-
-            if (runIsPlaying)
-            {
-                idleSound.Play();
-                runIsPlaying = false;
-            }
-
-            if (runStartSound)
-            {
-                runStartSound.Play();
-            }
-
             if (nitroActivate)
             {
                 SpeedParticle.SetActive(true);
-                materialToUpdate.SetColor("_EmissionColor",colorsDashLevel[2]);
-                dashMaterial.SetColor("_EmissionColor",boostColor);
-                BatteryManager.Instance.CurrentBatteryTime -= Time.deltaTime * 13;
+                materialToUpdate.SetColor("_EmissionColor", dashLevels[^1].emissionColor);
+                dashMaterial.SetColor("_EmissionColor", boostColor);
+                BatteryManager.NitroActivate = true;
             }
             else
             {
                 SpeedParticle.SetActive(false);
-                 dashMaterial.SetColor("_EmissionColor",normalColor);
+                dashMaterial.SetColor("_EmissionColor", normalColor);
+                BatteryManager.NitroActivate = false;
             }
-    
-            
-            
+
             DashingUpdate();
             ScanningUpdate();
-            _animator.SetFloat("Velocity",Rb.velocity.magnitude);
-            
-            if (GameManager.Instance.TurtleIsDead) {
-                _animator.SetBool("IsDead",true);
+            _animator.SetFloat("Velocity", Rb.velocity.magnitude);
+
+            if (GameManager.Instance.TurtleIsDead)
+            {
+                _animator.SetBool("IsDead", true);
                 GetComponent<PlayerInput>().enabled = false;
-                materialToUpdate.SetColor("_EmissionColor",Color.black);
+                materialToUpdate.SetColor("_EmissionColor", Color.black);
             }
-            else if (!_isCharging && !nitroActivate )
+            else if (!_isCharging && !nitroActivate)
             {
-                materialToUpdate.SetColor("_EmissionColor",colorsDashLevel[0]);
-               // dashMaterial.SetColor("_EmissionColor",colorsDashLevel[0]);
-                
+                materialToUpdate.SetColor("_EmissionColor", dashLevels[0].emissionColor);
             }
-
-            if (  _isCharging)
-            {
-               idlesoundIsPlaying = true;
-                    
-            }
-           /* else if  (Rb.velocity.magnitude > 0.01f )
-            {
-                
-              
-            }*/
-
-           
-            
-            
-            
-            
-            
         }
+
         public void OnBooster(InputAction.CallbackContext context)
         {
-            if (context.performed && !PauseControlller.IsPaused)
+            if (PauseControlller.IsPaused) return;
+            if (_isCharging) return;
+            
+            if (context.started)
             {
-                
-                Debug.Log("turbo");
+                if (nitroActivate) return;
                 moveSpeed *= boosterMultiplier;
-               // dashMaterial.SetColor("_EmissionColor",boostColor);
-                runnitro.Play();
+                AudioManager.Instance.PlayLoopSfx(AudioManager.Instance.ClipsIndex.TurtleNitro);
                 nitroActivate = true;
             }
-            else
+            else if (context.canceled)
             {
-                //dashMaterial.SetColor("_EmissionColor",normalColor);
                 moveSpeed = _normalSpeed;
-                runnitro.Stop();
-                nitroActivate = false; 
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleEndNitro);
+                AudioManager.Instance.StopLoopingSfx();
+                nitroActivate = false;
             }
         }
-        #region Main Capacity
 
         public override void OnMainCapacity(InputAction.CallbackContext context)
         {
-            if (!PauseControlller.IsPaused)
+            if (PauseControlller.IsPaused) return;
+
+            if (context.started)
             {
-                if (context.started)
-                {
-                    StartCharging();
-                    toupisSound.Play();
-                }
-                else if (context.canceled)
-                { 
-                    StopCharging();
-                    MainCapacity();
-                    toupisSound.Stop();
-                } 
+                if (_isCharging) return;
+                StartCharging();
+            }
+            else if (context.canceled)
+            {
+                StopCharging();
+                MainCapacity();
+                AudioManager.Instance.StopLoopingSfx();
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleEndNitro);
             }
         }
 
         protected override void MainCapacity()
         {
-            if (!_isDashing)
-            {
-                Vector3 dashDirection = new Vector3(move.x, 0f, move.y);
-                if (dashDirection == Vector3.zero)
-                {
-                    dashDirection = transform.forward;
-                }
+            if (_isDashing) return;
 
-                if (_lastDashDirection != Vector3.zero)
-                {
-                    dashDirection = _lastDashDirection;
-                    Debug.Log("utilisation last dash direction");
-                }
-                
-                float currentDashForce = 0;
-                
-                if (_chargeTime > firstDashLevelTime && _chargeTime < secondDashLevelTime)
-                {
-                    currentDashForce = firstDashLevelPower * firstDashLevelTime;
-                    Debug.Log("First Level Dash");
-                }
-                else if (_chargeTime > firstDashLevelTime && _chargeTime > secondDashLevelTime && _chargeTime < thirdDashLevelTime)
-                {
-                    currentDashForce = secondDashLevelPower * secondDashLevelTime;
-                    Debug.Log("Second Level Dash");
-                    BatteryManager.Instance.BatteryCost(10);
+            Vector3 dashDirection = move.magnitude > 0.1f ? new Vector3(move.x, 0f, move.y) : transform.forward;
+            if (_lastDashDirection != Vector3.zero) dashDirection = _lastDashDirection;
 
-                }
-                else if (_chargeTime > firstDashLevelTime && _chargeTime > secondDashLevelTime && _chargeTime > thirdDashLevelTime)
-                {
-                    currentDashForce = thirdDashLevelPower * thirdDashLevelTime;
-                    Debug.Log("Third Level Dash");
-                    BatteryManager.Instance.BatteryCost(20);
-                }
-                else
-                {
-                    Debug.Log("No Force");
-                }
-                _animator.SetBool("IsDashing",true);
-                Rb.AddForce(currentDashForce * dashDirection, ForceMode.Impulse);
-                if (dashDirection != Vector3.zero)
-                {
-                    Rb.rotation = Quaternion.LookRotation(dashDirection);
-                }
-                _isDashing = true;
-                Invoke(nameof(DelayDestructionMode), 1);
-            }
+            int dashLevel = GetCurrentDashLevel();
+            if (dashLevel < 0 || dashLevel >= dashLevels.Count) return;
+
+            DashLevel level = dashLevels[dashLevel];
+            float force = level.power * level.timeThreshold;
+            Rb.AddForce(force * dashDirection.normalized, ForceMode.Impulse);
+
+            _animator.SetBool("IsDashing", true);
+            _isDashing = true;
+
+            if (dashDirection != Vector3.zero)
+                Rb.rotation = Quaternion.LookRotation(dashDirection);
+
+            if (dashLevel == 1) BatteryManager.OnBatteryDecrease.Invoke(10);
+            if (dashLevel == 2) BatteryManager.OnBatteryDecrease.Invoke(20);
+
+            Invoke(nameof(DelayDestructionMode), 1);
         }
-
-        private void DelayDestructionMode()
-        {
-            destructionMode = false;
-        }
-
 
         private void DashingUpdate()
         {
             if (_isDashing && Rb.velocity.magnitude < 0.01f)
             {
                 _isDashing = false;
-                _animator.SetBool("IsDashing",false);
-                //dashTrail.enabled = false;
+                _animator.SetBool("IsDashing", false);
                 chargingSmokeParticules.SetActive(false);
-                _lastDashDirection = Vector3.zero;
                 chargingParticules.SetActive(false);
-
+                _lastDashDirection = Vector3.zero;
+                _currentDashLevel = -1;
+                return;
             }
 
             if (_isCharging)
             {
-                _animator.SetBool("IsDashing",true);
-                _animator.SetFloat("DashTimer",_chargeTime);
+                _animator.SetBool("IsDashing", true);
+                _animator.SetFloat("DashTimer", _chargeTime);
                 _chargeTime += Time.deltaTime;
 
                 if (move.magnitude > 0.5f)
-                {
                     _lastDashDirection = new Vector3(move.x, 0f, move.y);
-                }
 
+                int levelIndex = GetCurrentDashLevel();
+                ApplyDashLevelEffects(levelIndex);
 
-                
-                // change light of turtle when charging 
-                if (_chargeTime > firstDashLevelTime && _chargeTime < secondDashLevelTime) {
-                    materialToUpdate.SetColor("_EmissionColor",colorsDashLevel[0]);
-                  // dashMaterial.SetColor("_EmissionColor",colorsDashLevel[0]);
-                    
-                    
-                }
-                else if (_chargeTime > firstDashLevelTime && _chargeTime > secondDashLevelTime && _chargeTime < thirdDashLevelTime) {
-                  
-                    materialToUpdate.SetColor("_EmissionColor",colorsDashLevel[1]);
-                    //dashMaterial.SetColor("_EmissionColor",colorsDashLevel[1]);
-                    //dashTrail.enabled = true;
-                    chargingSmokeParticules.SetActive(true);
-                    chargingParticules.SetActive(true);
-                    level1Dashsound.Play();
-                }
-                else if (_chargeTime > firstDashLevelTime && _chargeTime > secondDashLevelTime && _chargeTime > thirdDashLevelTime) {
-                 
-                    materialToUpdate.SetColor("_EmissionColor",colorsDashLevel[2]);
-                  // dashMaterial.SetColor("_EmissionColor",colorsDashLevel[2]);
+                if (levelIndex >= 2)
                     destructionMode = true;
-                    level2Dashsound.Play();
-                }
-                else {
-                    materialToUpdate.SetColor("_EmissionColor",colorsDashLevel[0]);
-                  //  dashMaterial.SetColor("_EmissionColor",colorsDashLevel[0]);
-                }
             }
-            
         }
-        
+
+        private int GetCurrentDashLevel()
+        {
+            for (int i = dashLevels.Count - 1; i >= 0; i--)
+            {
+                if (_chargeTime >= dashLevels[i].timeThreshold)
+                    return i;
+            }
+
+            return -1;
+        }
+
+        private void ApplyDashLevelEffects(int levelIndex)
+        {
+            if (levelIndex == _currentDashLevel || levelIndex < 0 || levelIndex >= dashLevels.Count) return;
+
+            _currentDashLevel = levelIndex;
+            DashLevel level = dashLevels[levelIndex];
+
+            materialToUpdate.SetColor("_EmissionColor", level.emissionColor);
+            
+            if (level.sfx) { AudioManager.Instance.PlaySound(level.sfx); }
+            
+            if (levelIndex >= 1)
+            {
+                chargingSmokeParticules.SetActive(true);
+                chargingParticules.SetActive(true);
+                AudioManager.Instance.PlayLoopSfx(AudioManager.Instance.ClipsIndex.TurtleTurn);
+            }
+        }
 
         private void StartCharging()
         {
@@ -323,83 +256,68 @@ namespace Michael.Scripts.Controller
 
         private void StopCharging()
         {
+            if (_currentDashLevel == -1)
+            {
+                // Si pas assez chargé pour dash → reset l’état visuel
+                _animator.SetBool("IsDashing", false);
+                chargingParticules.SetActive(false);
+                chargingSmokeParticules.SetActive(false);
+                _lastDashDirection = Vector3.zero;
+            }
             _isCharging = false;
         }
 
-        #endregion
-
-        #region Secondary Capacity
+        private void DelayDestructionMode()
+        {
+            destructionMode = false;
+        }
 
         protected override void SecondaryCapacity()
         {
-            if (!_isDashing) {
-                EnableAttackCollider();
-                Invoke(nameof(DisableAttackCollider), 0.4f);
-                _animator.SetTrigger("Attack");
-                BatteryManager.Instance.BatteryCost(10);
-                biteSound.Play();
-                
-            }
+            if (_isDashing) return;
+
+            EnableAttackCollider();
+            Invoke(nameof(DisableAttackCollider), 0.4f);
+            _animator.SetTrigger("Attack");
+            BatteryManager.OnBatteryDecrease.Invoke(10);
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleBite);
         }
-        private void EnableAttackCollider()
+
+        private void EnableAttackCollider() => _attackCollider.enabled = true;
+        private void DisableAttackCollider() => _attackCollider.enabled = false;
+
+        protected override void ThirdCapacity()
         {
-            _attackCollider.enabled = true;
-        }
-
-        private void DisableAttackCollider()
-        {
-            _attackCollider.enabled = false;
-        }
-
-        #endregion
-
-        #region Third Capacity
-
-        protected override void ThirdCapacity() {
-
             if (GameManager.Instance.TurtleTrap.Count <= 2)
             {
-                GameObject trap = Instantiate(TrapPrefab,TrapSpawn.position,TrapSpawn.rotation);
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleSpawnTrap);
+                GameObject trap = Instantiate(TrapPrefab, TrapSpawn.position, TrapSpawn.rotation);
                 GameManager.Instance.TurtleTrap.Add(trap);
-                BatteryManager.Instance.BatteryCost(10);
+                BatteryManager.OnBatteryDecrease.Invoke(10);
             }
-            else
+        }
+
+        protected override void FourthCapacity()
+        {
+            if (_isScanning) return;
+
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleScan);
+            scanSphereArea.transform.DOScale(scanRange, 3f);
+            _isScanning = true;
+            BatteryManager.OnBatteryDecrease.Invoke(10);
+        }
+
+        private void ScanningUpdate()
+        {
+            if (!_isScanning) return;
+
+            scanTime += Time.deltaTime;
+            if (scanTime >= scanDuration)
             {
-                Debug.Log("3 trap maximum");
+                _isScanning = false;
+                scanTime = 0;
+                scanSphereArea.transform.DOScale(0, 0);
             }
-          
         }
-
-        #endregion
-        
-        #region Fourth Capacity
-
-        protected override void FourthCapacity() { //SCANNER LES FLEURS
-
-            if (!_isScanning)
-            {
-                scansound.Play();
-                scanSphereArea.transform.DOScale(scanRange, 3f);
-                _isScanning = true;
-                BatteryManager.Instance.BatteryCost(20);
-            }
-            
-        }
-
-        private void ScanningUpdate() {
-            if (_isScanning) {
-              
-                scanTime += Time.deltaTime;
-                if (scanTime >= scanDuration) {
-                    _isScanning = false;
-                    scanTime = 0;
-                    scanSphereArea.transform.DOScale(0, 0);
-                    
-                }
-            }
-            
-        }
-        
-        #endregion
     }
 }

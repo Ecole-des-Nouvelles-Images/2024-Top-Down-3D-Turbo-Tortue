@@ -17,16 +17,16 @@ namespace Intégration.V1.Scripts.UI
 
         private void Start()
         {
-            // Invoke("Countdown",1);
+            Invoke("Countdown",1);
         }
 
         private void Update()
         {
-            if (GameManager.Instance.GameisStarted)
+           /* if (GameManager.Instance.GameisStarted)
             {
                 Countdown();
                 GameManager.Instance.GameisStarted = false;
-            }
+            }*/
         }
 
         private void Countdown()

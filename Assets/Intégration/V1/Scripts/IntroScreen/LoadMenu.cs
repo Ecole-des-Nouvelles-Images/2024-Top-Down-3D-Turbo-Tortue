@@ -17,6 +17,7 @@ namespace Intégration.V1.Scripts.IntroScreen
         public void LoadMenuScene(VideoPlayer videoPlayer)
         {
             CustomSceneManager.Instance.LoadScene(_menuSceneTitle);
+            AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.MenuMusic);
         }
         
   

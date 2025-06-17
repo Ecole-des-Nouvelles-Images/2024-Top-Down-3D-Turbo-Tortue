@@ -12,11 +12,13 @@ namespace Intégration.V1.Scripts.Game
         {
             if (other.CompareTag("Flower"))
             {
-                if (!_collected)
+                if (!_collected && !GameManager.Instance.GameFinished)
                 {
                     FlowerController flowerController = other.GetComponent<FlowerController>();
-                    if (flowerController.sun < flowerController.maxSun)
+                    
+                    if (flowerController.Sun < flowerController.maxSun)
                     {
+                        AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.SunCollected);
                         if (other.GetComponent<CloverController>())
                         {
                             GameManager.Instance._sunOccupiedSpawns.Remove(gameObject);
@@ -24,11 +26,11 @@ namespace Intégration.V1.Scripts.Game
                             int rngLuckCost = Random.Range(0, 4);
                             if (rngLuckCost != 1)
                             {
-                                other.GetComponent<FlowerController>().sun++;
+                                other.GetComponent<FlowerController>().AddSun(1);
                             }
                             else
                             {
-                                other.GetComponent<FlowerController>().sun += 3;
+                                other.GetComponent<FlowerController>().AddSun(3);
                                 Debug.Log("chanceux");
                             }
 
@@ -38,7 +40,7 @@ namespace Intégration.V1.Scripts.Game
                         else
                         {
                             GameManager.Instance._sunOccupiedSpawns.Remove(gameObject);
-                            other.GetComponent<FlowerController>().sun++;
+                            other.GetComponent<FlowerController>().AddSun(1);
                             _collected = true;
                             Destroy(gameObject);
                         }
@@ -48,10 +50,11 @@ namespace Intégration.V1.Scripts.Game
 
             if (other.CompareTag("Turtle"))
             {
-                if (!_collected)
+                if (!_collected && !GameManager.Instance.GameFinished)
                 {
+                    AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.SunCollected);
                     GameManager.Instance._sunOccupiedSpawns.Remove(gameObject);
-                    BatteryManager.Instance.CurrentBatteryTime += 15;
+                    BatteryManager.OnSunCollected.Invoke(15);
                     _collected = true;
                     Destroy(gameObject);
                     ;

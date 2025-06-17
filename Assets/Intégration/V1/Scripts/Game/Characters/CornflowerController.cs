@@ -10,9 +10,9 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void MainCapacity()
         {
-            if (sun >= CapacityCost && !IsPlanted)
+            if (Sun >= CapacityCost && !IsPlanted)
             {
-                capacitysound.Play();
+                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 _Shield.OpenShield();
                 OnLooseSunCapacity(CapacityCost);
             }

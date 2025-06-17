@@ -1,6 +1,8 @@
 using System.Collections;
+using DG.Tweening;
 using Michael.Scripts.Manager;
 using UnityEngine;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
 
 namespace Intégration.V1.Scripts.SharedScene
@@ -25,6 +27,7 @@ namespace Intégration.V1.Scripts.SharedScene
         {
             Scene activeScene = SceneManager.GetActiveScene();
             LoadScene(activeScene.name);
+            
         }
 
         /**
@@ -32,10 +35,16 @@ namespace Intégration.V1.Scripts.SharedScene
      */
         public void LoadScene(string sceneName)
         {
+            DOTween.KillAll();
             DataManager.Instance.loadingScreen.SetActive(true);
             Scene activeScene = SceneManager.GetActiveScene();
             SceneManager.UnloadSceneAsync(activeScene);
             StartCoroutine(LoadSceneAndSetActive(sceneName));
+           
+            foreach (var user in InputUser.all)
+            {
+                Debug.Log("user dispo : " +user + "numero : " + user.index);
+            }
         }
 
 
@@ -54,4 +63,10 @@ namespace Intégration.V1.Scripts.SharedScene
             yield return null;
         }
     }
+    
+    
+    
+    
+    
+    
 }

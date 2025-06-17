@@ -1,22 +1,27 @@
+using System;
 using Intégration.V1.Scripts.UI;
 using Michael.Scripts.Ui;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 
 namespace Intégration.V1.Scripts.Game.Characters
 {
     public abstract class CharacterController : MonoBehaviour
     {
-        [SerializeField] protected float moveSpeed;
-        [SerializeField] protected Animator _animator;
-        [SerializeField] protected float idleTreshold = 0.1f;
-        public Rigidbody Rb;
-        protected Vector2 move;
+        public int PlayerIndex;
         private static readonly int Run = Animator.StringToHash("Run");
-
+        [SerializeField] protected float moveSpeed;
+        [SerializeField] protected float idleTreshold = 0.1f;
+        protected Vector2 move;
+        protected Rigidbody Rb;
+        protected Animator _animator;
+        
+        
         private void Awake()
         {
             Rb = GetComponent<Rigidbody>();
+            _animator = GetComponentInChildren<Animator>();
         }
 
         public void OnPause()

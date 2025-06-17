@@ -71,8 +71,8 @@ public class CursorPlayer : MonoBehaviour
 
     private void UpdateCursorPosition(GameObject selectedObject)
     {
-        RadialGridLayoutGroup radialLayout = selectedObject?.GetComponentInChildren<RadialGridLayoutGroup?>();
-        transform.SetParent(radialLayout?.transform);
+        RadialGridLayoutGroup radialLayout = selectedObject?.GetComponentInChildren<RadialGridLayoutGroup>();
+        transform.SetParent(radialLayout.transform);
         _cursorImage.color = selectedObject.GetComponentInChildren<UISelectionFeedBack>().OutlineColor;
         radialLayout.enabled = false;
         radialLayout.enabled = true;

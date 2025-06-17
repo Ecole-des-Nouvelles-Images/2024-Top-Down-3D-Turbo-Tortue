@@ -154,13 +154,13 @@ namespace Noah.Scripts
                          _chargeTime < thirdDashLevelTime)
                 {
                     currentDashForce = secondDashLevelPower * secondDashLevelTime;
-                    BatteryManager.Instance.BatteryCost(10);
+                    //BatteryManager.Instance.BatteryCost(10);
                 }
                 else if (_chargeTime > firstDashLevelTime && _chargeTime > secondDashLevelTime &&
                          _chargeTime > thirdDashLevelTime)
                 {
                     currentDashForce = thirdDashLevelPower * thirdDashLevelTime;
-                    BatteryManager.Instance.BatteryCost(20);
+                   // BatteryManager.Instance.BatteryCost(20);
                 }
                 else
                 {
@@ -264,7 +264,7 @@ namespace Noah.Scripts
                 EnableAttackCollider();
                 Invoke(nameof(DisableAttackCollider), 0.7f);
                 _animator.SetTrigger("Attack");
-                BatteryManager.Instance.BatteryCost(10);
+              // BatteryManager.Instance.BatteryCost(10);
             }
         }
 
@@ -310,7 +310,7 @@ namespace Noah.Scripts
             {
                 GameObject trap = Instantiate(TrapPrefab, TrapSpawn.position, TrapSpawn.rotation);
                 GameManager.Instance.TurtleTrap.Add(trap);
-                BatteryManager.Instance.BatteryCost(10);
+               // BatteryManager.Instance.BatteryCost(10);
             }
             else
             {
@@ -330,7 +330,7 @@ namespace Noah.Scripts
             {
                 scanSphereArea.transform.DOScale(scanRange, 3f);
                 _isScanning = true;
-                BatteryManager.Instance.BatteryCost(20);
+               // BatteryManager.Instance.BatteryCost(20);
             }
         }
 
