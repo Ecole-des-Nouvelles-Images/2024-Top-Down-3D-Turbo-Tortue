@@ -91,23 +91,34 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
         _musicAudioSource.clip = musicClip;
         _musicAudioSource.Play();
     }
+    
+    public void ReplayMusic()
+    {
+        _musicAudioSource.Play();
+    }
 
-    public void PlaySound(AudioClip clip)
+    public void PlaySound(AudioClip clip,float volume = 1f)
     {
-        _sfxAudioSource.PlayOneShot(clip);
+        _sfxAudioSource.PlayOneShot(clip,volume);
     }
     
-    public void PlayRandomSound(List<AudioClip> clips)
+    public bool IsLoopingSfxPlaying()
     {
-        _sfxAudioSource.PlayOneShot(clips[Random.Range(0,clips.Count)]);
+        return _loopSfxAudioSource.isPlaying;
     }
     
-    public void PlayLoopSfx(AudioClip clip)
+    public void PlayRandomSound(List<AudioClip> clips, float volume = 1f)
+    {
+        _sfxAudioSource.PlayOneShot(clips[Random.Range(0,clips.Count)],volume);
+    }
+    
+    public void PlayLoopSfx(AudioClip clip, float volume = 1f)
     {
         if (_loopSfxAudioSource.isPlaying && _loopSfxAudioSource.clip == clip) return;
 
         _loopSfxAudioSource.clip = clip;
         _loopSfxAudioSource.loop = true;
+        _loopSfxAudioSource.volume = volume;
         _loopSfxAudioSource.Play();
     }
     

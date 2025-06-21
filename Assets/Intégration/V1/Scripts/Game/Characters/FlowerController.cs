@@ -19,7 +19,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         public event Action<bool> OnDeathChanged;
         
         public bool CanRespawn;
-        public int characterIndex;
         private int _sun;
         public int Sun
         {
@@ -64,7 +63,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] private GameObject dirt;
         private float currentPlantingCooldown = 0f;
 
-
         private void OnEnable()
         {
             GameManager.Instance.OnFlowersWin += WinAnimation;
@@ -77,23 +75,21 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected virtual void Start()
         {
-            PlayerInput playerInput = GetComponent<PlayerInput>();
-            playerInput.onDeviceLost += input =>
-            {
-                Debug.Log($"OnDeviceLost: {input}");
-            };
-            playerInput.onDeviceRegained += input =>
-            {
-                Debug.Log($"OnDeviceRegained: {input}");
-            };
+            base.Start();
+            _playerStats = GetComponent<PlayerStats>();
+            _playerStats.IsTurtle = false;
+            _playerStats.playerIndex = PlayerIndex;
+            _playerStats.characterIndex = characterIndex;
+            
             StartAnimation();
+            
         }
 
         private void StartAnimation()
         {
             if (deadArrowUI)
             {
-                deadArrowUI.transform.DOLocalMoveY(0.05f, 1)
+                deadArrowUI.transform.DOLocalMoveY(-2.1f, 1)
                     .SetEase(Ease.InOutSine)
                     .SetLoops(-1, LoopType.Yoyo);
             }
@@ -111,7 +107,10 @@ namespace Intégration.V1.Scripts.Game.Characters
         {
             
             _animator.SetFloat("Velocity", Rb.velocity.magnitude);
-
+            if (GameManager.Instance.GameFinished)
+            {
+                deadArrowUI.SetActive(false);
+            }
           
             if (deadFlowerController)
             {
@@ -126,6 +125,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                         ThirdCapacity();
                         isCharging = false;
                         reanimateTimer = 0;
+                        
                     }
                 }
                 else
@@ -134,7 +134,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                         value => deadFlowerController.reviveChargingIcon.fillAmount = value, 0f, 0.3f);
                 }
             }
-
+            
 
             if (IsStunned)
             {
@@ -153,6 +153,13 @@ namespace Intégration.V1.Scripts.Game.Characters
             {
                 currentPlantingCooldown -= Time.deltaTime;
             }
+
+
+            if (IsPlanted && !GameManager.Instance.GameFinished && !PauseControlller.IsPaused)
+            {
+                _playerStats.timeSpentHidden += Time.deltaTime;
+            }
+           
         }
 
         public override void OnMainCapacity(InputAction.CallbackContext context)
@@ -160,6 +167,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (context.performed && !IsStunned && !PauseControlller.IsPaused)
             {
                 MainCapacity();
+                
             }
         }
 
@@ -185,7 +193,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         protected override void SecondaryCapacity()
         {
             // SE PLANTER DANS LE SOL 
-
             GetPlanted();
             currentPlantingCooldown = plantingCooldown;
         }
@@ -201,7 +208,8 @@ namespace Intégration.V1.Scripts.Game.Characters
                 aliveModelCollider.enabled = true;
                 currentPlantingCooldown = plantingCooldown;
                 
-                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDig);
+                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersPlanted);
+                RumbleManager.Instance.RumblePulse(_gamepad);
             }
         }
 
@@ -225,6 +233,7 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void ThirdCapacity() // revive ally 
         {
+            _playerStats.flowersRevived++;
             Debug.Log("revive"); 
             Sun = 0;
             deadFlowerController.GetRevive();
@@ -247,7 +256,6 @@ namespace Intégration.V1.Scripts.Game.Characters
                     GameManager.Instance.TurtleTrap.Remove(other.gameObject);
                     Destroy(other.gameObject);
                     GetStunned();
-                   AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleTrapActivated);
                 }
             }
 
@@ -305,14 +313,17 @@ namespace Intégration.V1.Scripts.Game.Characters
             Rb.isKinematic = true;
             _animator.SetBool("isPlanted", IsPlanted);
             aliveModelCollider.enabled = false;
-            AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDig);
+            
+            AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersPlanted);
+            RumbleManager.Instance.RumblePulse(_gamepad);
         }
 
         [ContextMenu("GetStunned")]
         private void GetStunned()
         {
             explosionParticleSystem.Play();
-
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleTrapActivated);
+            
             if (!isInvincible && !isUnstoppable && !isUnhittable)
             {
                 stunParticleSystem.gameObject.SetActive(true);
@@ -320,6 +331,8 @@ namespace Intégration.V1.Scripts.Game.Characters
                 GetUnplanted();
                 _animator.SetBool("IsDizzy", true);
                 IsStunned = true;
+                
+                RumbleManager.Instance.RumblePulse(_gamepad);
             }
         }
 
@@ -327,8 +340,11 @@ namespace Intégration.V1.Scripts.Game.Characters
         [ContextMenu("TakeHit")]
         private void TakeHit()
         {
-            if (!isInvincible && !isUnhittable)
+            if (!isInvincible && !isUnhittable && !GameManager.Instance.GameFinished)
             {
+                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDeath);
+                RumbleManager.Instance.RumblePulse(_gamepad,1,1);
+                
                 aliveModelCollider.enabled = false;
                 aliveModel.SetActive(false);
                 deadModel.SetActive(true);
@@ -336,25 +352,24 @@ namespace Intégration.V1.Scripts.Game.Characters
                 GetComponent<PlayerInput>().currentActionMap = null;
                 Sun = 0;
                 isDead = true;
+                _playerStats.deathNumber++;
                 OnDeathChanged?.Invoke(isDead);
+                stunParticleSystem.Clear();
                 GameManager.Instance.FlowersAlive.Remove(this.gameObject);
+                
                
                 if (!CanRespawn) {
                     GameManager.Instance.WinVerification();
                 }
-
-                if (!GameManager.Instance.GameFinished)
-                {
-                    deadArrowUI.SetActive(true);
-                }
+                deadArrowUI.SetActive(true);
                 
-               
             }
         }
 
         [ContextMenu("GetRevive")]
         public void GetRevive()
         {
+            if ( GameManager.Instance.GameFinished) return;
             if (!isDead) return;
 
             aliveModelCollider.enabled = true;
@@ -378,6 +393,7 @@ namespace Intégration.V1.Scripts.Game.Characters
         public void AddSun(int amount)
         {
             Sun += amount;
+            _playerStats.sunsCollected += amount;
         }
 
         private void WinAnimation()

@@ -2,15 +2,10 @@ using System;
 using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
-using Intégration.V1.Scripts.Game;
-using Intégration.V1.Scripts.SharedScene;
 using Michael.Scripts.Controller;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.UI;
-using UnityEngine.Serialization;
+using UnityEngine.VFX;
 using Random = UnityEngine.Random;
 
 namespace Michael.Scripts.Manager
@@ -19,9 +14,12 @@ namespace Michael.Scripts.Manager
 
     public class GameManager : MonoBehaviourSingleton<GameManager>
     {
+        public Action OnIntroStarted;
         public Action OnFlowersWin;
+        public Action OnTurtleDead;
         [Header("Booleen")]
         public bool TurtleIsDead = false;
+        public bool FlowersIsDead = false;
         public bool GameFinished = false;
         public bool GameisStarted = false;
 
@@ -41,31 +39,30 @@ namespace Michael.Scripts.Manager
         [SerializeField] private GameObject circularTransition;
         [SerializeField] private GameObject PlayersUi;
         [SerializeField] private EndGameUiManager endGameUiManager;
-        [Header("others")]
-        [SerializeField] private GameObject CrashVfx;
-        [SerializeField] private GameObject firstCamera;
+        
+        [Header("Cameras")]
+        public GameObject firstCamera;
         [SerializeField] private CinemachineTargetGroup _targetGroup;
         
-       
-       
+        [Header("Effects")]
+        [SerializeField] private GameObject MeteorVfx;
+        [SerializeField] private GameObject CrashVfx;
         
+        private QteManager _qteManager;
+
         void Start()
         {
-            GameisStarted = true;
-            //GameisStarted = false;
-            // Invoke(nameof(ShowRulesPanels), 3f);
-          
-            CircleTransition(15,1f);
+            CircleTransition(15,1.5f);
         }
 
         public void CircleTransition(float endScale, float duration)
         {
-            circularTransition.transform.DOScale(endScale, duration);
+           circularTransition.transform.DOScale(endScale, duration);
         }
         
         public void StartGame()
         {
-            CrashVfx.SetActive(true);
+            MeteorVfx.SetActive(true);
             InvokeRepeating(nameof(SpawnSun), 2, 8);
             Invoke("TurtleEntrance", 1.45f);
             
@@ -89,10 +86,10 @@ namespace Michael.Scripts.Manager
 
         public void WinVerification()
         {
-            if (FlowersAlive.Count <= 0 && !GameFinished) {
-               
-                
-               FinishGame();
+            if (FlowersAlive.Count <= 0 && !GameFinished)
+            {
+                FlowersIsDead = true;
+                FinishGame();
             }
             else if (TurtleIsDead && !GameFinished) {
                
@@ -134,14 +131,20 @@ namespace Michael.Scripts.Manager
                 }
             }
         }
-
+       
         private void TurtleEntrance()
         {
-            Turtle.GetComponent<TurtleController>().EnableTurtle();
+            RumbleManager.Instance.RumbleAllGamepad();
+            Turtle.transform.position = MeteorVfx.transform.position;
+            _qteManager = Turtle.GetComponent<QteManager>();
+            _qteManager.StartQTE();
+            CrashVfx.SetActive(true);
             CameraShake(1, 0.5f, 10);
+            
             firstCamera.SetActive(false);
             PlayersUi.SetActive(true);
-            PlayersUi.transform.DOShakePosition(0.5f, 0.1f, 10);
+            PlayersUi.transform.DOShakePosition(0.5f, 0.2f, 10);
+            GameisStarted = true;
         }
 
 

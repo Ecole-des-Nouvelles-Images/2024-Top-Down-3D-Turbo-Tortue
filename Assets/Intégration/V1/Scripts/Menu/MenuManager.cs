@@ -1,25 +1,32 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using Intégration.V1.Scripts.SharedScene;
+using Intégration.V1.Scripts.UI;
 using Michael.Scripts.Manager;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Users;
 using UnityEngine.UI;
 
 namespace Intégration.V1.Scripts.Menu
 {
     public class MenuManager : MonoBehaviourSingleton<MenuManager>
     {
+        [Header("Options Ui")]
         [SerializeField] private Slider _masterSlider;
         [SerializeField] private Slider _musicSlider;
         [SerializeField] private Slider _sfxSlider;
+        [SerializeField] private Toggle _vibrationTogle;
         
         private void Start()
         {
             _masterSlider.value = AudioManager.Instance.MasterVolume;
             _musicSlider.value = AudioManager.Instance.AmbientVolume;
             _sfxSlider.value = AudioManager.Instance.SFXVolume;
+            _vibrationTogle.isOn = true;
         }
 
         private void OnEnable()
@@ -39,12 +46,14 @@ namespace Intégration.V1.Scripts.Menu
                 _masterSlider.onValueChanged.AddListener(delegate { AudioManager.Instance.MasterVolume = _masterSlider.value; });
                 _musicSlider.onValueChanged.AddListener(delegate { AudioManager.Instance.AmbientVolume = _musicSlider.value; });
                 _sfxSlider.onValueChanged.AddListener(delegate { AudioManager.Instance.SFXVolume = _sfxSlider.value; });
+                _vibrationTogle.onValueChanged.AddListener(ToggleVibration);
             }
             else
             {
                 _masterSlider.onValueChanged.RemoveAllListeners();
                 _musicSlider.onValueChanged.RemoveAllListeners();
                 _sfxSlider.onValueChanged.RemoveAllListeners();
+                _vibrationTogle.onValueChanged.RemoveListener(ToggleVibration);
             }
         }
         
@@ -76,21 +85,68 @@ namespace Intégration.V1.Scripts.Menu
         }
 
 
-        public void ToggleVibration()
+        private void ToggleVibration(bool isON)
         {
-            DataManager.CanVibrate = !DataManager.CanVibrate;
+            DataManager.CanVibrate = isON;
+            //RumbleManager.Instance.RumbleAllGamepad();
         }
-
-        public void ToggleUIWorldSpace()
-        {
-            DataManager.UiInWorldSpace = !DataManager.UiInWorldSpace;
-        }
+        
         
         public void PlayPressedSound()
         {
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
         }
         
+        #region EndGamePanel Methods
         
+        public void ReloadScene()
+        {
+            //remet le pause a zero
+            Time.timeScale = 1;
+            PauseControlller.IsPaused = false;
+            AudioManager.Instance.SetLowpassFrequency(4000f);
+            
+            GameManager.Instance.CircleTransition(1,1.2f);
+            RemoveAllInputUsers();
+            CustomSceneManager.Instance.Invoke(nameof(CustomSceneManager.ReloadActiveScene),1f);
+            AudioManager.Instance.ReplayMusic();
+        }
+
+        public void LoadMenuScene(string sceneName)
+        {
+            //remet le pause a zero
+            Time.timeScale = 1;
+            PauseControlller.IsPaused = false;
+            AudioManager.Instance.SetLowpassFrequency(4000f);
+            
+            
+            GameManager.Instance.CircleTransition(1,1.2f);
+            RemoveAllInputUsers();
+            DataManager.Instance.PlayerChoice.Clear();
+            CustomSceneManager.Instance.LoadScene(sceneName);
+            AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.MenuMusic);
+        }
+        
+        
+        private void RemoveAllInputUsers()
+        {
+            // Copie de la liste des utilisateurs actifs pour éviter de modifier la collection en itérant
+            List<InputUser> users = new List<InputUser>(InputUser.all);
+
+            foreach (var user in users)
+            {
+                user.UnpairDevicesAndRemoveUser();
+            }
+            Debug.Log("Tous les InputUser ont été supprimés.");
+        }
+
+
+       /* private void OnDestroy()
+        {
+            RemoveAllInputUsers();
+        }*/
+        
+        #endregion
     }
+    
 }

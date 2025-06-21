@@ -34,7 +34,7 @@ namespace Intégration.V1.Scripts.UI
             if (GetComponent<Button>())
             {
                 gameObject.GetComponent<Image>().color = _selectedbuttonColor;
-                transform.DOScale(1.1f, 0.5f);
+                transform.DOScale(1.1f, 0.5f).SetUpdate(true);
                 buttonText.color = Color.white;
 
                 if (tutoPanel)
@@ -50,14 +50,14 @@ namespace Intégration.V1.Scripts.UI
                 if (GetComponent<Slider>())
                 {
                     optionsButton.GetComponent<Image>().color = _selectedbuttonColor;
-                    optionsButton.transform.DOScale(1.1f, 0.5f);
+                    optionsButton.transform.DOScale(1.1f, 0.5f).SetUpdate(true);;
                     buttonText.color = _selectedbuttonColor;
                 }
 
                 if (GetComponent<Toggle>())
                 {
                     // optionsButton.gameObject.GetComponent<Toggle>().colors. = _deselectedbuttonColor;
-                    optionsButton.transform.DOScale(1.1f, 0.5f);
+                    optionsButton.transform.DOScale(1.1f, 0.5f).SetUpdate(true);;
                     buttonText.color = _selectedbuttonColor;
                 }
             }
@@ -68,7 +68,7 @@ namespace Intégration.V1.Scripts.UI
             if (GetComponent<Button>())
             {
                 gameObject.GetComponent<Image>().color = _deselectedbuttonColor;
-                transform.DOScale(1.0f, 0.5f);
+                transform.DOScale(1.0f, 0.5f).SetUpdate(true);;
                 buttonText.color = Color.grey;
 
                 if (tutoPanel)
@@ -84,14 +84,14 @@ namespace Intégration.V1.Scripts.UI
                 if (GetComponent<Slider>())
                 {
                     optionsButton.gameObject.GetComponent<Image>().color = _deselectedbuttonColor;
-                    optionsButton.transform.DOScale(1.0f, 0.5f);
+                    optionsButton.transform.DOScale(1.0f, 0.5f).SetUpdate(true);;
                     buttonText.color = _deselectedbuttonColor;
                 }
 
                 if (GetComponent<Toggle>())
                 {
                     // optionsButton.gameObject.GetComponent<Toggle>().colors. = _deselectedbuttonColor;
-                    optionsButton.transform.DOScale(1.0f, 0.5f);
+                    optionsButton.transform.DOScale(1.0f, 0.5f).SetUpdate(true);;
                     buttonText.color = _deselectedbuttonColor;
                 }
             }

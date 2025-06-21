@@ -1,16 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Cinemachine;
 using Intégration.V1.Scripts.Game.Characters;
 using Intégration.V1.Scripts.SharedScene;
 using Intégration.V1.Scripts.UI;
-using Michael.Scripts;
 using Michael.Scripts.Controller;
 using Michael.Scripts.Manager;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Users;
+using CharacterController = Intégration.V1.Scripts.Game.Characters.CharacterController;
 
 namespace Intégration.V1.Scripts.Game
 {
@@ -55,7 +53,7 @@ namespace Intégration.V1.Scripts.Game
                     
                     if (userManager != null)
                     {
-                        userManager.Initialize(playerInfo.device);
+                        userManager.Initialize(playerInfo.device,  character.GetComponent<CharacterController>());
                     }
                     Debug.Log($"[Spawner] InputUser associé à {playerInfo.device} pour le joueur {playerIndex}");
 
@@ -64,11 +62,13 @@ namespace Intégration.V1.Scripts.Game
                 {
                     Debug.LogWarning($"[Spawner] PlayerInput ou device manquant pour joueur {playerIndex}");
                 }
+                
+                
+                
 
                 // 🏵️ Cas spécifique : Flower
                 if (character.CompareTag("Flower"))
-                {
-                    var flowerController = character.GetComponent<FlowerController>();
+                {   var flowerController = character.GetComponent<FlowerController>();
                     flowerController.characterIndex = prefabIndex;
                     flowerController.PlayerIndex = playerIndex;
 

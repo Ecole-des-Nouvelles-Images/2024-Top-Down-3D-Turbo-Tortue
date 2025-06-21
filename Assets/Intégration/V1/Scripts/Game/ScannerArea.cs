@@ -1,39 +1,53 @@
+using System;
 using UnityEngine;
 
 namespace Intégration.V1.Scripts.Game
 {
     public class ScannerArea : MonoBehaviour
     {
-    
+
+        public event Action OnFlowerDetected;
+
+        private void ChangeLayerOfScannedObjects(GameObject scannedObject, string targetLayerName)
+        {
+            int targetLayer = LayerMask.NameToLayer(targetLayerName);
+            if (targetLayer == -1)
+            {
+                Debug.LogWarning("Layer not found: " + targetLayerName);
+                return;
+            }
+
+            // Change uniquement les MeshRenderer, pas les UI ou autres
+            Renderer[] renderers = scannedObject.GetComponentsInChildren<Renderer>(true);
+
+            foreach (var renderer in renderers)
+            {
+                renderer.gameObject.layer = targetLayer;
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag("Flower")) {
-                
-                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleScanAlert);
-                other.gameObject.layer = LayerMask.NameToLayer("Flower");
-                foreach (Transform child in other.transform)
-                {
-                    child.gameObject.layer = LayerMask.NameToLayer("Flower");
-                    foreach (Transform childtochild in child)
-                    {
-                        childtochild.gameObject.layer = LayerMask.NameToLayer("Flower");
-                    }
-                }
+            if (other.CompareTag("Flower"))
+            {
+                OnFlowerDetected?.Invoke();
+                ChangeLayerOfScannedObjects(other.gameObject, "Flower");
+            }
+            else if ( (other.CompareTag("FlowerTrap")))
+            {
+                ChangeLayerOfScannedObjects(other.gameObject, "Flower");
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.CompareTag("Flower")) {
-                other.gameObject.layer = LayerMask.NameToLayer("Default");
-                foreach (Transform child in other.transform)
-                {
-                    child.gameObject.layer = LayerMask.NameToLayer("Default");
-                    foreach (Transform childtochild in child)
-                    {
-                        childtochild.gameObject.layer = LayerMask.NameToLayer("Default");
-                    }
-                }
+            if (other.CompareTag("Flower"))
+            {
+                ChangeLayerOfScannedObjects(other.gameObject, "Default");
+            }
+            else if ( (other.CompareTag("FlowerTrap")))
+            {
+                ChangeLayerOfScannedObjects(other.gameObject, "Default");
             }
         }
     }

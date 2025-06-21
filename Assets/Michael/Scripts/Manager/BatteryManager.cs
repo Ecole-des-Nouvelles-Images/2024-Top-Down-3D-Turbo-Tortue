@@ -8,7 +8,7 @@ namespace Michael.Scripts.Manager
     public class BatteryManager : MonoBehaviour
     {
         public static Action<float> OnBatteryDecrease;
-        public static Action<float> OnSunCollected;
+        public static Action<int> OnSunCollected;
         public static bool NitroActivate;
         private float _currentBatteryTime;
         public float CurrentBatteryTime
@@ -21,8 +21,11 @@ namespace Michael.Scripts.Manager
         public float MaxBatteryTime => _maxBatteryTime;
         
         [SerializeField] private GameManager _gameManager;
-      
-       
+
+        private void Awake()
+        {
+            CurrentBatteryTime = _maxBatteryTime;
+        }
 
         private void OnEnable()
         {
@@ -35,11 +38,7 @@ namespace Michael.Scripts.Manager
             OnBatteryDecrease -= LoseBattery;
             OnSunCollected -= SunCollected;
         }
-
-        void Start()
-        {
-            CurrentBatteryTime = _maxBatteryTime;
-        }
+        
         
         void Update()
         {
@@ -55,6 +54,7 @@ namespace Michael.Scripts.Manager
             // Vérification de la mort de la tortue
             if (CurrentBatteryTime <= 0 && !GameManager.Instance.TurtleIsDead){
                
+                GameManager.Instance.OnTurtleDead.Invoke();
                 GameManager.Instance.TurtleIsDead = true;
                 GameManager.Instance.WinVerification();
             }
@@ -68,7 +68,7 @@ namespace Michael.Scripts.Manager
             GameManager.Instance.WinVerification();
         }
 
-        private void SunCollected(float sunValue)
+        private void SunCollected(int sunValue)
         {
             if (_gameManager.GameFinished) return;
             CurrentBatteryTime += sunValue;

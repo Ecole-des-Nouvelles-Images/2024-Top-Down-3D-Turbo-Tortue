@@ -117,6 +117,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 StartGrapple();
                 OnLooseSunCapacity(CapacityCost);
+                RumbleManager.Instance.RumblePulse(_gamepad);
             }
         }
 

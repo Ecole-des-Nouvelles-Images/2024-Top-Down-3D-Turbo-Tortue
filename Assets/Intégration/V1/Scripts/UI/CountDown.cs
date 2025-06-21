@@ -17,7 +17,7 @@ namespace Intégration.V1.Scripts.UI
 
         private void Start()
         {
-            Invoke("Countdown",1);
+            Invoke("Countdown",1.6f);
         }
 
         private void Update()
@@ -55,18 +55,25 @@ namespace Intégration.V1.Scripts.UI
                     Invoke("Countdown", delayBetweenNumbers);
                     number--;
                 }
+                
+                if (number == 1)
+                {
+                    AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleExplosion);
+                }
             }
             else
             {
                 countdownText.gameObject.SetActive(false);
                 //countdownText.text = "GO!";
                 GameManager.Instance.StartGame();
+               
             }
         }
 
 
         private void StartCountDown()
         {
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UICountDown);
             number--;
             Countdown();
         }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Intégration.V1.Scripts.Game.Characters
 {
@@ -101,6 +102,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 isUnhittable = true;
                 OnLooseSunCapacity(CapacityCost);
+                RumbleManager.Instance.RumblePulse(_gamepad);
             }
         }
         /*

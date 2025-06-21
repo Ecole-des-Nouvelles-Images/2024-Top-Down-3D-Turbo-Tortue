@@ -1,4 +1,5 @@
 using Intégration.V1.Scripts.Game.Characters;
+using Michael.Scripts.Controller;
 using Michael.Scripts.Manager;
 using UnityEngine;
 
@@ -52,6 +53,7 @@ namespace Intégration.V1.Scripts.Game
             {
                 if (!_collected && !GameManager.Instance.GameFinished)
                 {
+                    
                     AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.SunCollected);
                     GameManager.Instance._sunOccupiedSpawns.Remove(gameObject);
                     BatteryManager.OnSunCollected.Invoke(15);

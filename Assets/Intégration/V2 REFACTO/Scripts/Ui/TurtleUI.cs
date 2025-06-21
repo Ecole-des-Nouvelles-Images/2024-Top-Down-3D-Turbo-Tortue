@@ -77,7 +77,7 @@ public class TurtleUI : MonoBehaviour
         AnimateUIColor(batteryFillImage,currentTargetColor,ColorBarRate);
 
         // si la batterie est faible, l'icone clignote
-        if (isBatteryCritical && !wasCritical)
+        if (isBatteryCritical && !wasCritical && GameManager.Instance.GameisStarted && !GameManager.Instance.GameFinished)
         {
             StartBlinkingIcon();
         }

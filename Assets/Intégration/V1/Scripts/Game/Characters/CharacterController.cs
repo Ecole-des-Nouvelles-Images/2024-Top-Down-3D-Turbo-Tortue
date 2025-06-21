@@ -1,5 +1,7 @@
 using System;
+using System.Linq;
 using Intégration.V1.Scripts.UI;
+using Michael.Scripts.Manager;
 using Michael.Scripts.Ui;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -10,26 +12,49 @@ namespace Intégration.V1.Scripts.Game.Characters
     public abstract class CharacterController : MonoBehaviour
     {
         public int PlayerIndex;
+        public int characterIndex;
         private static readonly int Run = Animator.StringToHash("Run");
         [SerializeField] protected float moveSpeed;
         [SerializeField] protected float idleTreshold = 0.1f;
         protected Vector2 move;
         protected Rigidbody Rb;
         protected Animator _animator;
+        protected PlayerStats _playerStats;
+        protected PlayerInput _playerInput;
+        public Gamepad _gamepad;
         
+
         
-        private void Awake()
+        protected virtual void Awake()
         {
             Rb = GetComponent<Rigidbody>();
             _animator = GetComponentInChildren<Animator>();
+            _playerInput = GetComponent<PlayerInput>();
+            
         }
 
-        public void OnPause()
+        protected virtual void Start()
         {
-            if (!PauseControlller.IsPaused)
+            
+        }
+
+        public void DeviceDeconnected()
+        {
+            RumbleManager.Instance.StopRumbleLoop(_gamepad);
+        }
+        
+        public virtual void OnPause(InputAction.CallbackContext context)
+        {
+            if (context.performed && !PauseControlller.IsPaused && GameManager.Instance.GameisStarted && !GameManager.Instance.GameFinished)
             {
-                PauseControlller.Instance.OpenPausePanel();
+                Pause();
             }
+        }
+        
+        protected virtual void Pause()
+        {
+            Debug.Log("JAI APPUY2C USR PAUESE ??");
+            PauseControlller.OnGamePaused.Invoke();
         }
 
         protected virtual void FixedUpdate()

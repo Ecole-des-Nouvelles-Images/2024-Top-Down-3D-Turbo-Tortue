@@ -1,6 +1,6 @@
 using Michael.Scripts;
-using Michael.Scripts.Controller;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Intégration.V1.Scripts.Game.Characters
 {
@@ -15,6 +15,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 _Shield.OpenShield();
                 OnLooseSunCapacity(CapacityCost);
+                RumbleManager.Instance.RumblePulse(_gamepad);
             }
         }
 

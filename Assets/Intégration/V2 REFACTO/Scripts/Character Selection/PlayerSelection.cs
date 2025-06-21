@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using DG.Tweening;
 using Intégration.V1.Scripts.Game.FeedBack;
 using Intégration.V1.Scripts.SharedScene;
@@ -299,6 +300,9 @@ namespace Intégration.V2_REFACTO.Scripts
             {
                 Destroy(disconnectPanel);
             });;
+
+            RumbleManager.Instance.StopRumbleLoop(_playerInput.user.pairedDevices.OfType<Gamepad>().FirstOrDefault());
+            
         }
 
         public void OnDeviceRegained()
@@ -352,7 +356,7 @@ namespace Intégration.V2_REFACTO.Scripts
 
         private void RumbleGamepad()
         {
-            RumbleManager.Instance.RumblePulse(1f, 1f, 0.1f, _playerInput?.devices[0] as Gamepad);
+            RumbleManager.Instance.RumblePulse(_playerInput.user.pairedDevices.OfType<Gamepad>().FirstOrDefault());
         }
 
         #endregion

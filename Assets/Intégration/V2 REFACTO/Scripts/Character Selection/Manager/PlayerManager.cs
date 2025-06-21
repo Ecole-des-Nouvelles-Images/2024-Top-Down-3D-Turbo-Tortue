@@ -137,7 +137,7 @@ public class PlayerManager : MonoBehaviour
         {
             if (!PlayersSelectionConfirmed)
             {
-                RumbleManager.Instance.RumblePulse(1f, 1f, 0.1f, gamepad);
+                RumbleManager.Instance.RumblePulse(gamepad);
                 CheckCurrentGamepads(gamepad);
             }
         }

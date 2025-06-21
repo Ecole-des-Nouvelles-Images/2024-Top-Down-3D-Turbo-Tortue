@@ -1,10 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
+using Michael.Scripts.Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using CharacterController = Intégration.V1.Scripts.Game.Characters.CharacterController;
 
 public class InputUserManager : MonoBehaviour
 {
@@ -12,8 +11,6 @@ public class InputUserManager : MonoBehaviour
     private PlayerInput playerInput;
     private InputUser user;
     private bool userInitialized = false;
-   
-
     private void Start()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -21,7 +18,7 @@ public class InputUserManager : MonoBehaviour
 
   
 
-    public void Initialize(InputDevice device)
+    public void Initialize(InputDevice device, CharacterController _characterController)
     {
         if (playerInput == null)
             playerInput = GetComponent<PlayerInput>();
@@ -33,6 +30,22 @@ public class InputUserManager : MonoBehaviour
             InputUser.PerformPairingWithDevice(device, user);
             user.AssociateActionsWithUser(playerInput.actions);
             userInitialized = true;
+
+
+            if (_characterController != null)
+            {
+                _characterController._gamepad =  user.pairedDevices.OfType<Gamepad>().FirstOrDefault();
+            }
+            else
+            {
+                Debug.Log("FFFFFFF" );
+            }
+
+            
+            if (_characterController._gamepad == null)
+            {
+                Debug.LogWarning($"[Input] Aucun gamepad trouvé pour {user} !");
+            }
         }
         else
         {
@@ -47,9 +60,8 @@ public class InputUserManager : MonoBehaviour
             if (AssignedDevice != null && !user.pairedDevices.Contains(AssignedDevice))
             {
                 InputUser.PerformPairingWithDevice(AssignedDevice, user);
+                user.AssociateActionsWithUser(playerInput.actions);
             }
-
-            user.AssociateActionsWithUser(playerInput.actions);
         }
     }
 

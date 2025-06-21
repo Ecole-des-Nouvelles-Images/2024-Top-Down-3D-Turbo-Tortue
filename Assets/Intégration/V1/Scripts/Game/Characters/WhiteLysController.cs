@@ -30,6 +30,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                             }
 
                             floweralive.GetComponent<FlowerController>().AddSun(Sun);
+                            RumbleManager.Instance.RumblePulse(_gamepad);
                            
                         }
                     }

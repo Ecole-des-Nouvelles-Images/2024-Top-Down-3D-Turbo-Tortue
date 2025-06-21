@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using DG.Tweening;
+using Intégration.V1.Scripts.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Image = UnityEngine.UI.Image;
+using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
 namespace Michael.Scripts.Manager
@@ -15,7 +17,7 @@ namespace Michael.Scripts.Manager
         [SerializeField] private PlayerInput _turtlePlayerInput;
         [SerializeField] private InputAction[] _qteActions;
         [SerializeField] private GameObject _currentQTeImage;
-        [SerializeField] private GameObject _FailQTeImage;
+        [SerializeField] private Image _FailQTeImage;
         [SerializeField] private List<InputAction> qteSequence;
         [SerializeField] private List<Sprite> qteImages;
         [SerializeField] private int TouchQteCount;
@@ -24,10 +26,12 @@ namespace Michael.Scripts.Manager
         private bool qteActive;
         private float qteTimer;
         private int currentButtonIndex =0;
-        private bool _qteSucces = false;
+        private CanvasGroup failImageCG;
+        private Sequence _failQteSequence;
         
         private void Start()
         {
+            failImageCG = _FailQTeImage.GetComponent<CanvasGroup>();
             OnQteFinished += QTESuccess;
 
             _qteActions[0] = _turtlePlayerInput.actions["UpArrow"];
@@ -42,6 +46,7 @@ namespace Michael.Scripts.Manager
 
         void UpdteQTEUi()
         {
+           
             if (currentButtonIndex < TouchQteCount)
             {
                 InputAction currentAction = qteSequence[currentButtonIndex];
@@ -76,8 +81,9 @@ namespace Michael.Scripts.Manager
         {
             if (!qteActive)
             {
-                _FailQTeImage.SetActive(false);
-                _qteSucces = false;
+                failImageCG.alpha = 0;
+                _FailQTeImage.rectTransform.DOAnchorPosY(0, 0f);
+                
                 qteActive = true;
                 GenerateQTESequence();
                 currentButtonIndex = 0;
@@ -108,6 +114,8 @@ namespace Michael.Scripts.Manager
 
         void CheckQTEInput()
         {
+            if (PauseControlller.IsPaused) return;
+            
             foreach (var action in _qteActions)
             {
                 if (action.WasPressedThisFrame() && action == qteSequence[currentButtonIndex])
@@ -139,7 +147,6 @@ namespace Michael.Scripts.Manager
         void QTESuccess()
         {
             qteActive = false;
-            _qteSucces = true;
             qteSequence.Clear();
             _currentQTeImage.SetActive(false);
             _turtlePlayerInput.currentActionMap = _turtlePlayerInput.actions.FindActionMap("Character");
@@ -152,10 +159,15 @@ namespace Michael.Scripts.Manager
         void QTEFailure()
         {
             qteActive = false;
-            _qteSucces = false;
             qteSequence.Clear();
             _currentQTeImage.SetActive(false);
-            _FailQTeImage.SetActive(true);
+         
+           
+           _failQteSequence =  DOTween.Sequence();
+           
+           _failQteSequence.Append(failImageCG.DOFade(1,0f));
+           _failQteSequence.Join(_FailQTeImage.rectTransform.DOAnchorPosY(1, 0.5f));
+           _failQteSequence.Append(failImageCG.DOFade(0,0.5f));
             
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.QTEFailed);
             Invoke("StartQTE", 1f);

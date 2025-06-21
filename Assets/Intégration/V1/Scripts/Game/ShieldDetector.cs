@@ -1,6 +1,4 @@
 using Intégration.V1.Scripts.Game.Characters;
-using Michael.Scripts.Controller;
-using TMPro;
 using UnityEngine;
 
 namespace Intégration.V1.Scripts.Game
