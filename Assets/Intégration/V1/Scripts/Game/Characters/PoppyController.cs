@@ -57,7 +57,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (GameManager.Instance.FlowersAlive.Count > 1)
             {
                 isBoosted = false;
-                moveSpeed = 525;
+                moveSpeed = normalMoveSpeed;
                 MeshTrail.StopPassive();
             }
 
@@ -117,7 +117,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 StartGrapple();
                 OnLooseSunCapacity(CapacityCost);
-                RumbleManager.Instance.RumblePulse(_gamepad);
+                RumbleManager.Instance.RumblePulse(Gamepad);
             }
         }
 

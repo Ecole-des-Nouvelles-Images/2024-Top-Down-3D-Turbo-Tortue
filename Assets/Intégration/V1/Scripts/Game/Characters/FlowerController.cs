@@ -1,6 +1,7 @@
 using System;
 using DG.Tweening;
 using Intégration.V1.Scripts.UI;
+using Michael.Scripts.Controller;
 using Michael.Scripts.Manager;
 using Michael.Scripts.Ui;
 using Unity.Mathematics;
@@ -51,7 +52,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] protected GameObject deadModel;
         [SerializeField] protected GameObject aliveModel;
         [SerializeField] protected Collider aliveModelCollider;
-        [SerializeField] private float magnetudeToStun = 22f;
         [SerializeField] private float stunDuration = 3f;
         [SerializeField] private float stunTimer = 0;
         [SerializeField] private ParticleSystem explosionParticleSystem;
@@ -209,7 +209,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 currentPlantingCooldown = plantingCooldown;
                 
                 AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersPlanted);
-                RumbleManager.Instance.RumblePulse(_gamepad);
+                RumbleManager.Instance.RumblePulse(Gamepad);
             }
         }
 
@@ -238,6 +238,8 @@ namespace Intégration.V1.Scripts.Game.Characters
             Sun = 0;
             deadFlowerController.GetRevive();
             canReanimate = false;
+            
+            
         }
 
         protected abstract void PassiveCapacity();
@@ -261,24 +263,24 @@ namespace Intégration.V1.Scripts.Game.Characters
 
             if (other.CompareTag("Seed"))
             {
+                if (isUnhittable) return;
+                
                 canReanimate = true;
                 deadFlowerController = other.GetComponentInParent<FlowerController>();
                 deadFlowerController.reviveChargingIcon.gameObject.SetActive(true);
                 deadFlowerController.deadArrowUI.SetActive(false);
             }
+
+            if (!other.gameObject.CompareTag("Turtle") || isDead) return;
+            TurtleController _turtleController = other.gameObject.GetComponent<TurtleController>();
+            if (!_turtleController.destructionMode) return;
+            
+            GetStunned();
+            _turtleController.destructionMode = false;
         }
 
         private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.CompareTag("Turtle") && !isDead)
-            {
-                Rigidbody turtleRb = other.gameObject.GetComponent<Rigidbody>();
-                if (turtleRb.velocity.magnitude > magnetudeToStun)
-                {
-                    GetStunned();
-                }
-            }
-
             if (other.CompareTag("Shield"))
             {
                 isInvincible = true;
@@ -315,12 +317,13 @@ namespace Intégration.V1.Scripts.Game.Characters
             aliveModelCollider.enabled = false;
             
             AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersPlanted);
-            RumbleManager.Instance.RumblePulse(_gamepad);
+            RumbleManager.Instance.RumblePulse(Gamepad);
         }
 
         [ContextMenu("GetStunned")]
         private void GetStunned()
         {
+            if (isDead) return;
             explosionParticleSystem.Play();
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleTrapActivated);
             
@@ -332,38 +335,35 @@ namespace Intégration.V1.Scripts.Game.Characters
                 _animator.SetBool("IsDizzy", true);
                 IsStunned = true;
                 
-                RumbleManager.Instance.RumblePulse(_gamepad);
+                RumbleManager.Instance.RumblePulse(Gamepad);
             }
         }
 
 
         [ContextMenu("TakeHit")]
-        private void TakeHit()
+        protected virtual void TakeHit()
         {
-            if (!isInvincible && !isUnhittable && !GameManager.Instance.GameFinished)
-            {
-                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDeath);
-                RumbleManager.Instance.RumblePulse(_gamepad,1,1);
+            if (isInvincible || isUnhittable || GameManager.Instance.GameFinished || isDead) return;
+            
+            Debug.Log("FLOWERS HIT");
+            AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDeath);
+            RumbleManager.Instance.RumblePulse(Gamepad,1,1);
                 
-                aliveModelCollider.enabled = false;
-                aliveModel.SetActive(false);
-                deadModel.SetActive(true);
-                //GetComponent<PlayerInput>().enabled = false;
-                GetComponent<PlayerInput>().currentActionMap = null;
-                Sun = 0;
-                isDead = true;
-                _playerStats.deathNumber++;
-                OnDeathChanged?.Invoke(isDead);
-                stunParticleSystem.Clear();
-                GameManager.Instance.FlowersAlive.Remove(this.gameObject);
-                
-               
-                if (!CanRespawn) {
-                    GameManager.Instance.WinVerification();
-                }
-                deadArrowUI.SetActive(true);
-                
-            }
+            aliveModelCollider.enabled = false;
+            aliveModel.SetActive(false);
+            deadModel.SetActive(true);
+            GetComponent<PlayerInput>().currentActionMap = null;
+            Sun = 0;
+            isDead = true;
+            _playerStats.deathNumber++;
+            OnDeathChanged?.Invoke(isDead);
+            stunParticleSystem.Clear();
+            deadArrowUI.SetActive(true);
+
+            if (CanRespawn) return;
+            
+            GameManager.Instance.FlowersAlive.Remove(gameObject);
+            GameManager.Instance.WinVerification();
         }
 
         [ContextMenu("GetRevive")]
@@ -373,15 +373,16 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (!isDead) return;
 
             aliveModelCollider.enabled = true;
-            //GetComponent<PlayerInput>().enabled = true;
             GetComponent<PlayerInput>().SwitchCurrentActionMap("Character");
             isDead = false;
             OnDeathChanged?.Invoke(isDead);
             aliveModel.SetActive(true);
             deadModel.SetActive(false);
-            GameManager.Instance.FlowersAlive.Add(this.gameObject);
             ReviveVFX.Play();
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.FlowersRevive);
+            
+            if (CanRespawn) return;
+            GameManager.Instance.FlowersAlive.Add(gameObject);
         }
 
 

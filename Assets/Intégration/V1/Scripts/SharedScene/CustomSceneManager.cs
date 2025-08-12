@@ -11,9 +11,13 @@ namespace Intégration.V1.Scripts.SharedScene
     {
         [SerializeField] private string startScene;
         private bool _isShared = false;
+        private bool _firstTimeLoad = true;
 
         private void Start()
         {
+            Cursor.lockState =CursorLockMode.Locked;
+            Cursor.visible = false;
+            
             Scene scene = SceneManager.GetSceneByName(startScene);
             if (!scene.isLoaded && !_isShared) LoadScene(startScene);
             _isShared = true;
@@ -36,11 +40,13 @@ namespace Intégration.V1.Scripts.SharedScene
         public void LoadScene(string sceneName)
         {
             DOTween.KillAll();
-            DataManager.Instance.loadingScreen.SetActive(true);
+            if (!_firstTimeLoad) { DataManager.Instance.loadingScreen.SetActive(true); }
+           
             Scene activeScene = SceneManager.GetActiveScene();
             SceneManager.UnloadSceneAsync(activeScene);
             StartCoroutine(LoadSceneAndSetActive(sceneName));
-           
+            _firstTimeLoad = false;
+            
             foreach (var user in InputUser.all)
             {
                 Debug.Log("user dispo : " +user + "numero : " + user.index);

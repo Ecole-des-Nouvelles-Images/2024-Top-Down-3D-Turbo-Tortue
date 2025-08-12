@@ -8,6 +8,13 @@ namespace Intégration.V1.Scripts.SharedScene
 {
     public class DataManager : MonoBehaviourSingleton<DataManager>
     {
+        public enum MapChoice
+        {
+           Garden,
+           Laboratory,
+        }
+        
+        
         [System.Serializable] 
         public class PlayerInfo
         {
@@ -17,13 +24,13 @@ namespace Intégration.V1.Scripts.SharedScene
         public Dictionary<int, PlayerInfo> PlayerChoice = new(); // stock le choix de personnage et les manettes
         
         public GameObject loadingScreen;
-        public static bool CanVibrate = true;
+        public bool CanVibrate = true;
+        public MapChoice CurrentMap = MapChoice.Garden;
 
 
-     
-       
-      
-      
-        
+
+
+
+
     }
 }

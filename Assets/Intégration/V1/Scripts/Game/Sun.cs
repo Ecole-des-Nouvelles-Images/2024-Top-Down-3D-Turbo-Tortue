@@ -16,6 +16,7 @@ namespace Intégration.V1.Scripts.Game
                 if (!_collected && !GameManager.Instance.GameFinished)
                 {
                     FlowerController flowerController = other.GetComponent<FlowerController>();
+                    if (flowerController.isUnhittable) return; 
                     
                     if (flowerController.Sun < flowerController.maxSun)
                     {
@@ -27,11 +28,11 @@ namespace Intégration.V1.Scripts.Game
                             int rngLuckCost = Random.Range(0, 4);
                             if (rngLuckCost != 1)
                             {
-                                other.GetComponent<FlowerController>().AddSun(1);
+                                flowerController.AddSun(1);
                             }
                             else
                             {
-                                other.GetComponent<FlowerController>().AddSun(3);
+                                flowerController.AddSun(3);
                                 Debug.Log("chanceux");
                             }
 
@@ -41,7 +42,7 @@ namespace Intégration.V1.Scripts.Game
                         else
                         {
                             GameManager.Instance._sunOccupiedSpawns.Remove(gameObject);
-                            other.GetComponent<FlowerController>().AddSun(1);
+                            flowerController.AddSun(1);
                             _collected = true;
                             Destroy(gameObject);
                         }

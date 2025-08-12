@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
+using Intégration.V1.Scripts.Menu;
 using Michael.Scripts.Controller;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,7 +37,6 @@ namespace Michael.Scripts.Manager
         [SerializeField] private GameObject SunSpawnsParent;
         
         [Header("Ui References")]
-        [SerializeField] private GameObject circularTransition;
         [SerializeField] private GameObject PlayersUi;
         [SerializeField] private EndGameUiManager endGameUiManager;
         
@@ -47,18 +47,19 @@ namespace Michael.Scripts.Manager
         [Header("Effects")]
         [SerializeField] private GameObject MeteorVfx;
         [SerializeField] private GameObject CrashVfx;
+       // [SerializeField] private ParticleSystem _dandelionDeathVfx;
         
+        [Header("Transition references")]
+        [SerializeField] private GameObject circularTransition;
+
         private QteManager _qteManager;
 
         void Start()
         {
-            CircleTransition(15,1.5f);
+            MenuManager.Instance.CircleTransition(circularTransition,15,1.5f);
         }
 
-        public void CircleTransition(float endScale, float duration)
-        {
-           circularTransition.transform.DOScale(endScale, duration);
-        }
+       
         
         public void StartGame()
         {
@@ -82,7 +83,11 @@ namespace Michael.Scripts.Manager
 
         }
 
-        
+        /*public void DandelionDeath()
+        {
+            _dandelionDeathVfx.Play();
+        }*/
+
 
         public void WinVerification()
         {

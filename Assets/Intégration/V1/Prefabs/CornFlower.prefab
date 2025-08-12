@@ -5105,7 +5105,7 @@ ParticleSystem:
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
-  moveWithTransform: 1
+  moveWithTransform: 0
   moveWithCustomTransform: {fileID: 0}
   scalingMode: 1
   randomSeed: 0
@@ -10281,7 +10281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerIndex: 0
   characterIndex: 0
-  moveSpeed: 525
+  normalMoveSpeed: 525
   idleTreshold: 0.1
   CanRespawn: 0
   maxSun: 3
@@ -10301,7 +10301,6 @@ MonoBehaviour:
   deadModel: {fileID: 1704415566025546687}
   aliveModel: {fileID: 7740714839584347774}
   aliveModelCollider: {fileID: 5910961718276433835}
-  magnetudeToStun: 22
   stunDuration: 3
   stunTimer: 0
   explosionParticleSystem: {fileID: 8934890122036423162}
@@ -11525,8 +11524,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8713065609354456771, guid: 479ca233a1b472b4eb5edaa3241ffa4e,
         type: 3}
+      propertyPath: _shieldOn
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8713065609354456771, guid: 479ca233a1b472b4eb5edaa3241ffa4e,
+        type: 3}
       propertyPath: _DisolveSpeed
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8713065609354456771, guid: 479ca233a1b472b4eb5edaa3241ffa4e,
+        type: 3}
+      propertyPath: _autoCloseDelay
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9178826969115793041, guid: 479ca233a1b472b4eb5edaa3241ffa4e,
         type: 3}

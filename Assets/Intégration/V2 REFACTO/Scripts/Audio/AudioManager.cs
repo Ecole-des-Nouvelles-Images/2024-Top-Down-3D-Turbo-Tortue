@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 {
     [Space]
     [SerializeField] private AudioMixer _mixerSystem;
-
+   
     [Space]
     public AudioClipsIndex ClipsIndex;
 
@@ -33,7 +33,7 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
     private static readonly string MasterVolumeParameter = "VolumeMaster";
     private static readonly string AmbientVolumeParameter = "VolumeMusic";
     private static readonly string SFXVolumeParameter = "VolumeSFX";
-    private static readonly string LowpassParameter = "LowPassFreqMaster";
+    private static readonly string LowpassParameter = "LowPassFreqMusic";
 
     private float _masterVolume;
     public float MasterVolume {
@@ -82,7 +82,7 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
     
     public void SetLowpassFrequency(float frequency)
     {
-        _mixerSystem.SetFloat(LowpassParameter, frequency);
+        _mixerSystem.SetFloat(LowpassParameter,frequency);
     }
     
     

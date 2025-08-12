@@ -9,14 +9,18 @@ namespace Intégration.V1.Scripts.Game.Characters
 {
     public class WhiteLysController : FlowerController
     {
-        [SerializeField] private VisualEffect shareEnergy;
+        [SerializeField] private VisualEffect _shareEnergy;
+        [SerializeField] private float _speedBoostDuration;
+        [SerializeField] private float _speedBonus;
+        [SerializeField] private ParticleSystem _boostParticules;
+        private bool _isBoosted;
 
         protected override void MainCapacity()
         {
             //give his sun to other flowers
             if (Sun > 0)
             {
-                shareEnergy.Play();
+                _shareEnergy.Play();
                 AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 foreach (GameObject floweralive in GameManager.Instance.FlowersAlive)
                 {
@@ -30,7 +34,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                             }
 
                             floweralive.GetComponent<FlowerController>().AddSun(Sun);
-                            RumbleManager.Instance.RumblePulse(_gamepad);
+                            RumbleManager.Instance.RumblePulse(Gamepad);
                            
                         }
                     }
@@ -47,13 +51,23 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void ThirdCapacity()
         {
-            /*  sun =- 1;
-              if (sun < 0) {
-                  sun = 0;
-
-              }*/
+            _playerStats.flowersRevived++;
             deadFlowerController.GetRevive();
             canReanimate = false;
+
+            if (_isBoosted) return;
+            
+            moveSpeed += _speedBonus;
+            _isBoosted = true;
+            _boostParticules.Play();
+            Invoke(nameof(CancelSpeedBoost),_speedBoostDuration);
+        }
+
+        private void CancelSpeedBoost()
+        {
+            _isBoosted = false;
+            moveSpeed = normalMoveSpeed;
+            _boostParticules.Stop();
         }
 
         public override void OnThirdCapacity(InputAction.CallbackContext context)
@@ -71,5 +85,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 }
             }
         }
+        
+
     }
 }

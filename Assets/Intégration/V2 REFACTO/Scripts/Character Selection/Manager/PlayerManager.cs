@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Intégration.V1.Scripts.Menu;
 using Intégration.V1.Scripts.SharedScene;
 using Intégration.V2_REFACTO.Scripts;
 using UnityEngine;
@@ -17,7 +18,7 @@ public class PlayerManager : MonoBehaviour
     
 
     [Header("Player manager")]
-    [SerializeField] private PlayerInputManager _playerInputManager;
+    PlayerInputManager _playerInputManager;
     [SerializeField] private Transform _playerUIParent;
     [SerializeField] private int _minPlayers;
     private bool AllPlayersReady; 
@@ -46,6 +47,11 @@ public class PlayerManager : MonoBehaviour
     private Dictionary<PlayerInput, Action<InputAction.CallbackContext>> startHandlers = new();
     private Dictionary<PlayerInput, Action<InputAction.CallbackContext>> cancelHandlers = new();
 
+    [Header("Transition references")]
+    [SerializeField] private GameObject circularTransition;
+
+    
+    
     private void Awake()
     {
         _playerInputManager = GetComponent<PlayerInputManager>();
@@ -70,7 +76,7 @@ public class PlayerManager : MonoBehaviour
 
     private void Start()
     {
-       
+        //MenuManager.Instance.CircleTransition(circularTransition,15,1.5f);
         
         foreach (var user in InputUser.all)
         {
@@ -181,6 +187,25 @@ public class PlayerManager : MonoBehaviour
         RegisterPlayer(playerInput);
     }
 
+    public void ChoiceMap(int mapindex)
+    {
+        if (mapindex == 1)
+        {
+            DataManager.Instance.CurrentMap = DataManager.MapChoice.Garden; 
+        }
+        else if (mapindex == 2)
+        {
+            DataManager.Instance.CurrentMap = DataManager.MapChoice.Laboratory; 
+        }
+        else
+        {
+            DataManager.Instance.CurrentMap = DataManager.MapChoice.Garden; 
+        }
+       
+      
+    }
+    
+    
     public void LoadGameSene()
     {
         foreach (var player in playerInputsList)
@@ -190,7 +215,18 @@ public class PlayerManager : MonoBehaviour
         if (!isStartingGame)
         {
             AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.GameMusic);
-            CustomSceneManager.Instance.LoadScene("Game");
+            //MenuManager.Instance.CircleTransition(circularTransition,1,1.5f);
+
+            switch (DataManager.Instance.CurrentMap)
+            {
+                case DataManager.MapChoice.Garden:
+                    CustomSceneManager.Instance.LoadScene("Game_Garden");
+                    break;
+                case DataManager.MapChoice.Laboratory:
+                    CustomSceneManager.Instance.LoadScene("Game_Labo");
+                    break;
+            }
+   
             Debug.Log("start game");
             isStartingGame = true;
         }

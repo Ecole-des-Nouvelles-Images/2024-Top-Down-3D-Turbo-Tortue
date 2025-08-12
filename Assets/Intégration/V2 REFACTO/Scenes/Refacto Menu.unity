@@ -2290,8 +2290,9 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Lys Blanc n\u2019a besoin d\u2019aucun soleil pour\nr\xE9animer les fleurs
-    alli\xE9es.\r"
+  m_text: "Lys Blanc n\u2019a besoin d\u2019aucun soleil pour r\xE9animer les fleurs
+    alli\xE9es.\r \nChaque fois qu\u2019il r\xE9anime une fleur, il gagne un bonus
+    de vitesse temporaire."
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,
@@ -9698,7 +9699,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Passif -  Lueur d''Espoir
+  m_text: 'Passif - Lueur d''Espoir
 
 '
   m_isRightToLeft: 0
@@ -37569,7 +37570,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -174.2, y: 0}
+  m_AnchoredPosition: {x: -154, y: 0}
   m_SizeDelta: {x: 40.811707, y: 40.812}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1111419633
@@ -51097,7 +51098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Capacit\xE9 - Grapin ( 1       ) :"
+  m_text: "Capacit\xE9 - Grappin ( 1       ) :"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,
@@ -51556,6 +51557,7 @@ MonoBehaviour:
   _musicSlider: {fileID: 1420944200}
   _sfxSlider: {fileID: 784420172}
   _vibrationTogle: {fileID: 1219164336}
+  circularTransition: {fileID: 1857224840}
 --- !u!4 &1497480117
 Transform:
   m_ObjectHideFlags: 0
@@ -55096,7 +55098,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "Passif - Souffle \xC9vanescent\r\n"
+  m_text: "Passif - L\xE9ger comme l'air\n"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,
@@ -57098,8 +57100,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "lorsque Pissenlit meurt, un nuage de p\xE9tales vient bri\xE8vement recouvrir
-    l\u2019\xE9cran.\r\n"
+  m_text: "Tant que Pissenlit est plant\xE9, il n\u2019appara\xEEt pas sur le scan
+    de turbo tortue, le bruit de detection est quand m\xEAme d\xE9clench\xE9. "
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,

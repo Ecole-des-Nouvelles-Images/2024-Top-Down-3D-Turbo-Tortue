@@ -70,7 +70,6 @@ namespace Michael.Scripts.Controller
         
         private float _chargeTime;
         private int _currentDashLevel = -1;
-        private float _normalSpeed;
         private Vector3 _lastDashDirection;
         
         private ScannerArea _scannerArea;
@@ -79,7 +78,7 @@ namespace Michael.Scripts.Controller
         {
             base.Awake();
             _scannerArea = scanSphereArea.GetComponent<ScannerArea>();
-            _normalSpeed = moveSpeed;
+            moveSpeed = normalMoveSpeed;
         }
 
         protected virtual void Start()
@@ -134,8 +133,14 @@ namespace Michael.Scripts.Controller
 
         protected override void Update()
         {
+            if(CurrentState == TurtleState.Dead) return;
+            
             UpdateState();
-            if (CurrentState != TurtleState.Charging) UpdateNitroVisuals(CurrentState == TurtleState.Boosting);
+            
+            if (CurrentState != TurtleState.Charging)
+            {
+                UpdateNitroVisuals(CurrentState == TurtleState.Boosting);
+            }
             _animator.SetFloat("Velocity", Rb.velocity.magnitude);
         }
 
@@ -217,23 +222,22 @@ namespace Michael.Scripts.Controller
                 _lastDashDirection = (_lastDashDirection != Vector3.zero) ? _lastDashDirection : transform.forward;
             else
                 _lastDashDirection = new Vector3(move.x, 0f, move.y).normalized;*/
-
-            moveSpeed *= boosterMultiplier;
             
+            moveSpeed *= boosterMultiplier;
+            RumbleManager.Instance.StopRumbleLoop(Gamepad);
+            RumbleManager.Instance.RumbleLoop(Gamepad, 0.2f, 0.2f);
             AudioManager.Instance.StopLoopingSfx();
             AudioManager.Instance.PlayLoopSfx(AudioManager.Instance.ClipsIndex.TurtleReactorNitro, 0.5f);
-            RumbleManager.Instance.RumbleLoop(_gamepad, 0.2f, 0.2f);
+          
             CurrentState = TurtleState.Boosting;
-            
         }
 
         private void StopBoost()
         {
-            _lastDashDirection = Vector3.zero;
-            moveSpeed = _normalSpeed;
+            moveSpeed = normalMoveSpeed;
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleEndNitro, 0.5f);
             AudioManager.Instance.StopLoopingSfx();
-            RumbleManager.Instance.StopRumbleLoop(_gamepad);
+            RumbleManager.Instance.StopRumbleLoop(Gamepad);
             move = Vector2.zero;
             if (CurrentState == TurtleState.Boosting)
                 CurrentState = TurtleState.Default;
@@ -264,7 +268,7 @@ namespace Michael.Scripts.Controller
             _chargeTime = 0f;
             _currentDashLevel = -1;
             CurrentState = TurtleState.Charging;
-            RumbleManager.Instance.RumbleLoop(_gamepad, 0.2f, 0.2f);
+            RumbleManager.Instance.RumbleLoop(Gamepad, 0.2f, 0.2f);
         }
 
         private void StopCharging()
@@ -272,7 +276,7 @@ namespace Michael.Scripts.Controller
             chargingParticules.SetActive(false);
             chargingSmokeParticules.SetActive(false);
             _currentDashLevel = -1;
-            RumbleManager.Instance.StopRumbleLoop(_gamepad);
+            RumbleManager.Instance.StopRumbleLoop(Gamepad);
             if (CurrentState == TurtleState.Charging)
                 CurrentState = TurtleState.Default;
         }
@@ -376,6 +380,11 @@ namespace Michael.Scripts.Controller
                 // Pas de joystick, mais boost actif → avancer dans la dernière direction connue
                 direction = _lastDashDirection;
             }
+            else if (CurrentState == TurtleState.Boosting)
+            {
+                direction = transform.forward;
+            }
+
             else
             {
                 // Aucun mouvement
@@ -417,7 +426,7 @@ namespace Michael.Scripts.Controller
                 GameObject trap = Instantiate(TrapPrefab, TrapSpawn.position, TrapSpawn.rotation);
                 GameManager.Instance.TurtleTrap.Add(trap);
                 BatteryManager.OnBatteryDecrease.Invoke(_trapCost);
-                RumbleManager.Instance.RumblePulse(_gamepad);
+                RumbleManager.Instance.RumblePulse(Gamepad);
             }
         }
 
@@ -428,7 +437,7 @@ namespace Michael.Scripts.Controller
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleScan);
             scanSphereArea.transform.DOScale(scanRange, scanDuration);
             BatteryManager.OnBatteryDecrease.Invoke(_scanCost);
-            RumbleManager.Instance.RumblePulse(_gamepad);
+            RumbleManager.Instance.RumblePulse(Gamepad);
             CurrentState = TurtleState.Scanning;
         }
 

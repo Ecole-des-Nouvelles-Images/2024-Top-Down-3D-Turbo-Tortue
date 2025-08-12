@@ -15,7 +15,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 _Shield.OpenShield();
                 OnLooseSunCapacity(CapacityCost);
-                RumbleManager.Instance.RumblePulse(_gamepad);
+                RumbleManager.Instance.RumblePulse(Gamepad);
             }
         }
 

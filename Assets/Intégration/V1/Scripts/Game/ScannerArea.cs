@@ -1,4 +1,5 @@
 using System;
+using Intégration.V1.Scripts.Game.Characters;
 using UnityEngine;
 
 namespace Intégration.V1.Scripts.Game
@@ -30,8 +31,14 @@ namespace Intégration.V1.Scripts.Game
         {
             if (other.CompareTag("Flower"))
             {
+                DandelionController dandelionController = other.GetComponent<DandelionController>();
                 OnFlowerDetected?.Invoke();
-                ChangeLayerOfScannedObjects(other.gameObject, "Flower");
+
+                if (dandelionController == null || !dandelionController.IsPlanted)
+                {
+                    ChangeLayerOfScannedObjects(other.gameObject, "Flower");
+                }
+
             }
             else if ( (other.CompareTag("FlowerTrap")))
             {

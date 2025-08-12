@@ -21,12 +21,16 @@ namespace Intégration.V1.Scripts.Menu
         [SerializeField] private Slider _sfxSlider;
         [SerializeField] private Toggle _vibrationTogle;
         
+        [Header("Transition references")]
+        [SerializeField] private GameObject circularTransition;
+        
+        
         private void Start()
         {
             _masterSlider.value = AudioManager.Instance.MasterVolume;
             _musicSlider.value = AudioManager.Instance.AmbientVolume;
             _sfxSlider.value = AudioManager.Instance.SFXVolume;
-            _vibrationTogle.isOn = true;
+            _vibrationTogle.isOn = DataManager.Instance.CanVibrate;
         }
 
         private void OnEnable()
@@ -55,6 +59,11 @@ namespace Intégration.V1.Scripts.Menu
                 _sfxSlider.onValueChanged.RemoveAllListeners();
                 _vibrationTogle.onValueChanged.RemoveListener(ToggleVibration);
             }
+        }
+        
+        public void CircleTransition(GameObject transitionImage,float endScale, float duration)
+        {
+            transitionImage.transform.DOScale(endScale, duration).SetUpdate(true);
         }
         
 
@@ -87,7 +96,7 @@ namespace Intégration.V1.Scripts.Menu
 
         private void ToggleVibration(bool isON)
         {
-            DataManager.CanVibrate = isON;
+            DataManager.Instance.CanVibrate = isON;
             //RumbleManager.Instance.RumbleAllGamepad();
         }
         
@@ -106,7 +115,7 @@ namespace Intégration.V1.Scripts.Menu
             PauseControlller.IsPaused = false;
             AudioManager.Instance.SetLowpassFrequency(4000f);
             
-            GameManager.Instance.CircleTransition(1,1.2f);
+            CircleTransition(circularTransition,1,1.2f);
             RemoveAllInputUsers();
             CustomSceneManager.Instance.Invoke(nameof(CustomSceneManager.ReloadActiveScene),1f);
             AudioManager.Instance.ReplayMusic();
@@ -120,11 +129,11 @@ namespace Intégration.V1.Scripts.Menu
             AudioManager.Instance.SetLowpassFrequency(4000f);
             
             
-            GameManager.Instance.CircleTransition(1,1.2f);
-            RemoveAllInputUsers();
-            DataManager.Instance.PlayerChoice.Clear();
-            CustomSceneManager.Instance.LoadScene(sceneName);
-            AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.MenuMusic);
+           CircleTransition(circularTransition,1,1.2f);
+           RemoveAllInputUsers();
+           DataManager.Instance.PlayerChoice.Clear();
+           CustomSceneManager.Instance.LoadScene(sceneName);
+           AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.MenuMusic);
         }
         
         

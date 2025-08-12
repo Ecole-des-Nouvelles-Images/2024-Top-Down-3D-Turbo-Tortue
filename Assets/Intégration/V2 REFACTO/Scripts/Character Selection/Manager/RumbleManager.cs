@@ -14,7 +14,7 @@ public class RumbleManager : MonoBehaviourSingleton<RumbleManager>
     
     public void RumblePulse(Gamepad gamepad, float lowFrequency = 0.6f, float highFrequency = 0.6f, float duration = 0.1f)
     {
-        if (!DataManager.CanVibrate) return;
+        if (!DataManager.Instance.CanVibrate) return;
         gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
         _stopRumbleCoroutine = StartCoroutine(StopRumblePulse(duration, gamepad));
     }
@@ -33,7 +33,7 @@ public class RumbleManager : MonoBehaviourSingleton<RumbleManager>
     
     public void RumbleLoop(Gamepad gamepad, float lowFrequency = 1, float highFrequency = 1)
     {
-        if (!DataManager.CanVibrate) return;
+        if (!DataManager.Instance.CanVibrate) return;
         gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
     }
     
@@ -60,10 +60,10 @@ public class RumbleManager : MonoBehaviourSingleton<RumbleManager>
     
     public void RumbleAllGamepad(float lowFrequency = 1f, float highFrequency = 1f, float duration = 0.1f)
     {
-        if (!DataManager.CanVibrate) return;
+        if (!DataManager.Instance.CanVibrate) return;
         foreach (GameObject player in GameManager.Instance.Players)
         {
-            Gamepad pad = player.GetComponent<CharacterController>()._gamepad;
+            Gamepad pad = player.GetComponent<CharacterController>().Gamepad;
             RumblePulse(pad,lowFrequency,highFrequency,duration);
         }
     }

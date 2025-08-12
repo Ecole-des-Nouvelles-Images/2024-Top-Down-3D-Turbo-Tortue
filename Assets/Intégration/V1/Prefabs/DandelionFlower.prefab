@@ -407,7 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PlayerIndex: 0
   characterIndex: 0
-  moveSpeed: 525
+  normalMoveSpeed: 525
   idleTreshold: 0.3
   CanRespawn: 0
   maxSun: 3
@@ -427,7 +427,6 @@ MonoBehaviour:
   deadModel: {fileID: 9214815904163377635}
   aliveModel: {fileID: 8487193312828004991}
   aliveModelCollider: {fileID: 8753650036598929146}
-  magnetudeToStun: 22
   stunDuration: 3
   stunTimer: 0
   explosionParticleSystem: {fileID: 5141914183657874046}

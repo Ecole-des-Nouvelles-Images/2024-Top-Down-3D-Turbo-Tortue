@@ -33,6 +33,7 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: 6079676841222027516}
+  - {fileID: 3891840203260762834}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
@@ -78,6 +79,8 @@ AudioMixerController:
     name: LowPassFreqMaster
   - guid: 28e82c6355340fc4582dff74fea26ae4
     name: VolumeMusic
+  - guid: 42d8c7029308a584f9a68a297de50733
+    name: LowPassFreqMusic
   - guid: eee9ca3133c301d45b4f55b0a8572ef0
     name: VolumeSFX
   m_AudioMixerGroupViews:
@@ -165,6 +168,24 @@ AudioMixerEffectController:
   m_EffectName: Attenuation
   m_MixLevel: 4a45ecc8045b4c84a9bd04f0f489c716
   m_Parameters: []
+  m_SendTarget: {fileID: 0}
+  m_EnableWetMix: 0
+  m_Bypass: 0
+--- !u!244 &3891840203260762834
+AudioMixerEffectController:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_EffectID: 7d5568c4734b0f944b9090af4f393f2d
+  m_EffectName: Lowpass
+  m_MixLevel: 3235712588893354ebcee32bfb52bea4
+  m_Parameters:
+  - m_ParameterName: Cutoff freq
+    m_GUID: 42d8c7029308a584f9a68a297de50733
+  - m_ParameterName: Resonance
+    m_GUID: 172a16c89084e4d448afbe80d4f2e00f
   m_SendTarget: {fileID: 0}
   m_EnableWetMix: 0
   m_Bypass: 0

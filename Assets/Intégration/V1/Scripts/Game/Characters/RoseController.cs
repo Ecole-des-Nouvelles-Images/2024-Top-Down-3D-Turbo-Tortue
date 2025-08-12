@@ -1,4 +1,5 @@
 using System.Collections;
+using Michael.Scripts.Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -27,14 +28,25 @@ namespace Intégration.V1.Scripts.Game.Characters
         protected override void Update()
         {
             base.Update();
-            if (_currentTrap) {
-                Respawn();
+            if (_currentTrap)
+            {
+                if (!isDead || _isRespawning) return;
+                
+                CanRespawn = true;
+                _isRespawning = true;
+                Invoke(nameof(Respawn),respawnDelay);
             }
             else
             {
+                if (_isRespawning)
+                {
+                    GameManager.Instance.FlowersAlive.Remove(gameObject);
+                    GameManager.Instance.WinVerification();
+                    
+                }
                 CanRespawn = false;
+                _isRespawning = false;
             }
-          
         }
 
         protected override void MainCapacity() {
@@ -51,26 +63,32 @@ namespace Intégration.V1.Scripts.Game.Characters
                         OnLooseSunCapacity(CapacityCost);
                         AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                     }
-                    RumbleManager.Instance.RumblePulse(_gamepad);
+                    RumbleManager.Instance.RumblePulse(Gamepad);
                 }
         }
 
         private void Respawn()
         {
-            if (isDead && !_isRespawning)
+            if (CanRespawn)
             {
-                StartCoroutine(RespawnWaiter());
+                Rb.MovePosition(_currentTrap.transform.position);
+                Destroy(_currentTrap);
+                GetRevive();
+                CanRespawn = false;
+                _isRespawning = false;
             }
+            else
+            {
+                GameManager.Instance.WinVerification();
+            }
+         
         }
 
-        IEnumerator RespawnWaiter() {
-            _isRespawning = true;
-            yield return new WaitForSeconds(respawnDelay);
-            Rb.MovePosition(_currentTrap.transform.position);
-            Destroy(_currentTrap);
-            GetRevive();
-            CanRespawn = false;
-           _isRespawning = false;
+        protected override void TakeHit()
+        {
+            if (_isRespawning) return;
+            base.TakeHit();
         }
+        
     }
 }

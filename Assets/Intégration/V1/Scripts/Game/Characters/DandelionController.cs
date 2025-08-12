@@ -1,3 +1,4 @@
+using Michael.Scripts.Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -17,6 +18,16 @@ namespace Intégration.V1.Scripts.Game.Characters
             base.Start();
             _unhittableTimer = 0;
         }
+
+        /*protected override void TakeHit()
+        {
+            base.TakeHit();
+            if (!isInvincible && !isUnhittable && !GameManager.Instance.GameFinished)
+            {
+               GameManager.Instance.DandelionDeath();
+
+            }
+        }*/
 
         protected override void Update()
         {
@@ -71,7 +82,7 @@ namespace Intégration.V1.Scripts.Game.Characters
 
             pollenVfx.Stop();
             //  aliveModel.SetActive(true);
-            moveSpeed = 525;
+            moveSpeed = normalMoveSpeed;
             dandelionCollider.enabled = true; 
             _isBoosted = false;
             _animator.SetBool("IsInvincible", false);
@@ -102,33 +113,9 @@ namespace Intégration.V1.Scripts.Game.Characters
                 AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                 isUnhittable = true;
                 OnLooseSunCapacity(CapacityCost);
-                RumbleManager.Instance.RumblePulse(_gamepad);
+                RumbleManager.Instance.RumblePulse(Gamepad);
             }
         }
-        /*
-        private Vector3 FindSafePosition()
-        {
-            float radius = 1f;
-            float maxDistance = 10f;
-
-            Vector3[] directions = {
-                Vector3.forward,
-                Vector3.back,
-                Vector3.left,
-                Vector3.right,
-            };
-
-            foreach (var direction in directions)
-            {
-                RaycastHit hit;
-                if (!Physics.Raycast(transform.position, direction, out hit, maxDistance))
-                {
-                    return transform.position + direction * radius;
-                }
-            }
-
-            return transform.position + Vector3.up * radius;
-        }
-        */
+       
     }
 }

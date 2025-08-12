@@ -34,7 +34,7 @@ public class InputUserManager : MonoBehaviour
 
             if (_characterController != null)
             {
-                _characterController._gamepad =  user.pairedDevices.OfType<Gamepad>().FirstOrDefault();
+                _characterController.Gamepad =  user.pairedDevices.OfType<Gamepad>().FirstOrDefault();
             }
             else
             {
@@ -42,7 +42,7 @@ public class InputUserManager : MonoBehaviour
             }
 
             
-            if (_characterController._gamepad == null)
+            if (_characterController.Gamepad == null)
             {
                 Debug.LogWarning($"[Input] Aucun gamepad trouvé pour {user} !");
             }
