@@ -1,0 +1,48 @@
+DOCUMENTATION
+
+In Play Mode you can call the Effects using the buttons 1-8. You can Change the Effects and Buttons on the EffectManager.
+The Effects have customizable properties for Color and Timing.
+I'll go over each Property and what it does.
+Note that in some cases you might have to go into the VFX-Graph and change the curves if you change the timing.
+For Colors you might have to go into the VFX-Graph aswell if you want to change the Color of the Steam of the Geyser for example, since color is also modified by the Property "BrightenColor".
+If you use the Decal version you will run into trouble having multiple running at the same time since they are using the same material.
+For the Decal Versions only the Circle Indicator is a Decal. Also the Script to animate the Decal uses the Name of the Instatiated Effect as Reference. So if you change the name of the Prefab, you got to change the name in the scritp aswell.
+
+IndicatorTexture - Exchangeable Indicator Texture.
+Diameter - Diameter of the Effect in Meters (using the standard Indicator).
+Intensity - Disables/Enables particle systems to manage the Intensity of the effect.
+
+Anticipation - The Time unitl the Impact of the Effect (in Seconds).
+Dissapation - The Time after the Impact to dissapate the Effect (in Seconds).
+
+BrightColor - Brighter Color of the Effect.
+DarkColor - Darker Color of the Effect.
+UseLUT - Toggle to use a LUT instead of the Parameters "BrightColor" and "DarkColor".
+LUT - Gradient Texture/ LUT, make sure to set the Texture to Clamp.
+MakeGlowWithBloom - Enables the Colors to have Values bigger than 1, otherwise the Colors are Clamped to 1.
+-> The Amout of GLow will depend on your Bloom settings and the Parameter "Brighten Color" on each System in VFX-Graph or the amount of Intensity of the chosen Colors.
+
+Don't Change Category - The Script uses these Parameters to animate the DecalIndicators. 
+
+
+Additional Meteor Parameters:
+
+MeteorSpawnDelay - The Delay after which the Meteor spawns from the point of when the Effect starts.
+MeteorSpawn - Spawn Position of the Meteor, make sure to not set the X Value to exactly 0, otherwise no Meteor will spawn.
+ColorOverTime - Gradient used to change to Color over Life of some Components.
+MeteorSize - Size of the Meteor.
+
+Additional PlantHeal Parameters:
+ShockwaveSize - Shockwave Size. Has 3 Presets.
+
+Additional Geyser Parameters:
+Height - Height of the Geyser, not Metric.
+
+Additional Lightning Parameters:
+Height - Lightning Height, not Metric.
+
+
+Scripts:
+EffectManager - Has two Lists to assign Effects and their Keybinds.
+PlayVFX - Script to play and animate the Decal VFX and destroy them after they played.
+SelfDestroy - Script to Destroy the Effects using no decals after they played.
