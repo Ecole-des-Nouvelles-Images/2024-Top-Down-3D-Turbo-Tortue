@@ -26,7 +26,6 @@ Material:
   m_ModifiedSerializedProperties: 16
   m_ValidKeywords:
   - _ENVIRONMENTREFLECTIONS_OFF
-  - _METALLICSPECGLOSSMAP
   - _NORMALMAP
   - _SPECULARHIGHLIGHTS_OFF
   m_InvalidKeywords: []
@@ -62,6 +61,6 @@ Material:
     - _AlphaClip: 0
     - _AlphaToMask: 0
     - _Cutoff: 0.5
-    - _Smoothness: 1
+    - _Smoothness: 0.75
     m_Colors: []
   m_BuildTextureStacks: []
