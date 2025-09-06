@@ -7,7 +7,8 @@
   </a>
 </h1>
 
-![TurboTortue](https://github.com/user-attachments/assets/63703d10-dc62-467a-9cbb-803ed9e0abcd)
+
+<img width="1606" height="900" alt="qdqzf" src="https://github.com/user-attachments/assets/64759da8-2221-409f-9d8a-0e1c1e3c9bfb" />
 
 <h2 align="center">
   <strong>Summary</strong>
@@ -76,3 +77,19 @@
 </p>
 
 https://github.com/user-attachments/assets/4c7658da-f2d2-47db-b50f-f7639f6b0fbb
+
+
+
+<img width="3840" height="2160" alt="SplashartsScreens_01" src="https://github.com/user-attachments/assets/ce2af303-b50a-4fd0-9d91-d543ad960f5c" />
+
+<img width="3840" height="2160" alt="SplashartsScreens_02" src="https://github.com/user-attachments/assets/fe5b05b3-7083-4241-9cfd-cad28cf1a240" />
+
+<img width="3840" height="2160" alt="SplashartsScreens_03" src="https://github.com/user-attachments/assets/37408091-8c05-41b1-a745-322413ede12a" />
+
+<img width="3840" height="2160" alt="SplashartsScreens_04" src="https://github.com/user-attachments/assets/8781a836-ca13-4beb-bfc4-5e1e6a7b6e5a" />
+
+<img width="3840" height="2160" alt="SplashartsScreens_05" src="https://github.com/user-attachments/assets/7389a2a2-ae42-4ac8-83cd-b9488814ca0b" />
+
+<img width="3840" height="2160" alt="SplashartsScreens_06" src="https://github.com/user-attachments/assets/cbb92b68-3e10-43b0-a291-88beb26aa210" />
+
+
