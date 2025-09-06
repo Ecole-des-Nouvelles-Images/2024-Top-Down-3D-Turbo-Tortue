@@ -1,0 +1,637 @@
+fileFormatVersion: 2
+guid: 5bd067b383c15ea409e32a84f6b754e9
+importerOverride:
+  nativeImporterType: 2089858483
+  scriptedImporterType:
+    serializedVersion: 2
+    Hash: b10b55a1aa6a1aa32521bc0cab59632e
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: b2a9591990af98743ba3ff7cf1000886, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 1
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 1
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 0
+    wrapV: 0
+    wrapW: 0
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  spriteImportData:
+  - name: Illustration_TurboTortue_V2_1
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 3840
+      height: 2160
+    spriteID: cf6324cac2a49d84899111393e92aa84
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+    spritePosition: {x: 0, y: 0}
+  mosaicSpriteImportData: []
+  rigSpriteImportData:
+  - name: Front
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 6304
+      width: 3840
+      height: 1868
+    spriteID: 4e1854c3604f6574497f51d720fe8902
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 6304}
+    spritePosition: {x: 0, y: 0}
+  - name: Lights
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4253
+      width: 3764
+      height: 2043
+    spriteID: 5d790fe1be9a98d44835e509ef913c09
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4253}
+    spritePosition: {x: 63, y: 90}
+  - name: Lights Glow
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 2172
+      width: 3791
+      height: 2073
+    spriteID: d65d9c670848f654495056acc6a0de83
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 2172}
+    spritePosition: {x: 48, y: 78}
+  - name: Leaves
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 3852
+      y: 4
+      width: 3584
+      height: 1409
+    spriteID: eb1a05db70b3acb4696e174eabd279bf
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 3852, y: 4}
+    spritePosition: {x: 0, y: 714}
+  - name: Flower_01
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 5740
+      y: 3308
+      width: 1095
+      height: 972
+    spriteID: 7b8d59d60580c474c9b7fa071ef0ea7d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 5740, y: 3308}
+    spritePosition: {x: 2745, y: 0}
+  - name: Flower_02
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 5740
+      y: 2467
+      width: 1292
+      height: 833
+    spriteID: 55ce34f7240e36f45badd04ee4e1dbc0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 5740, y: 2467}
+    spritePosition: {x: 1430, y: 0}
+  - name: Flower_03
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 7444
+      y: 4
+      width: 657
+      height: 1082
+    spriteID: 48067273bd3f1074da432dfc95c953cb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 7444, y: 4}
+    spritePosition: {x: 2595, y: 0}
+  - name: Grass Front
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 3852
+      y: 4569
+      width: 3840
+      height: 554
+    spriteID: 3d80729a7bb815c44aa026ac250f3e8d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 3852, y: 4569}
+    spritePosition: {x: 0, y: 0}
+  - name: Grass Ambiant
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 3852
+      y: 5131
+      width: 2473
+      height: 789
+    spriteID: 8936bbdf40897284aab8c361b98e5803
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 3852, y: 5131}
+    spritePosition: {x: 0, y: 0}
+  - name: Flower_04
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 7700
+      y: 1421
+      width: 433
+      height: 922
+    spriteID: f8d4a25ee56f2f34c98959b0a6970832
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 7700, y: 1421}
+    spritePosition: {x: 2293, y: 0}
+  - name: Flower_05
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 7457
+      y: 2467
+      width: 363
+      height: 629
+    spriteID: d0e939c628606bb4bbf0b07983ec3e28
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 7457, y: 2467}
+    spritePosition: {x: 3477, y: 622}
+  - name: Flower_06
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 7040
+      y: 2467
+      width: 409
+      height: 651
+    spriteID: 352be49d59bf00546b0f9a07753affcf
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 7040, y: 2467}
+    spritePosition: {x: 3261, y: 519}
+  - name: Tortoise
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 3852
+      y: 2467
+      width: 1880
+      height: 2094
+    spriteID: 628bd7de876c4264c9cbcf34910c93ff
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 3852, y: 2467}
+    spritePosition: {x: 0, y: 36}
+  - name: Grass Back
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 3852
+      y: 1421
+      width: 3840
+      height: 1038
+    spriteID: 240ed26c3df09bf43b8ddf7e653da714
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 3852, y: 1421}
+    spritePosition: {x: 0, y: 0}
+  - name: Sky
+    originalName: 
+    pivot: {x: 0.5, y: 0.5}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 3840
+      height: 2160
+    spriteID: ea87a56baa5fd344ebe75a1187682ced
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+    spritePosition: {x: 0, y: 0}
+  characterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
+  sharedRigSpriteImportData: []
+  sharedRigCharacterData:
+    bones: []
+    parts: []
+    dimension: {x: 0, y: 0}
+    characterGroups: []
+    pivot: {x: 0, y: 0}
+    boneReadOnly: 0
+  platformSettings:
+  - name: DefaultTexturePlatform
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 4096
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 2
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: Standalone
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  mosaicLayers: 1
+  characterMode: 1
+  documentPivot: {x: 0, y: 0}
+  documentAlignment: 7
+  importHiddenLayers: 0
+  layerMappingOption: 0
+  generatePhysicsShape: 0
+  paperDollMode: 0
+  keepDupilcateSpriteName: 1
+  skeletonAssetReferenceID: 
+  pipeline: {instanceID: 0}
+  pipelineVersion: 
+  padding: 4
+  spriteSizeExpand: 0
+  spriteCategoryList:
+    categories: []
+  spritePackingTag: 
+  resliceFromLayer: 0
+  mosaicPSDLayers: []
+  rigPSDLayers:
+  - name: Front
+    spriteName: Front
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 4e1854c3604f6574497f51d720fe8902
+    layerID: 22
+    mosaicPosition: {x: 4, y: 6304}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Lights
+    spriteName: Lights
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 5d790fe1be9a98d44835e509ef913c09
+    layerID: 21
+    mosaicPosition: {x: 4, y: 4253}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Lights Glow
+    spriteName: Lights Glow
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d65d9c670848f654495056acc6a0de83
+    layerID: 20
+    mosaicPosition: {x: 4, y: 2172}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Leaves
+    spriteName: Leaves
+    isGroup: 0
+    parentIndex: -1
+    spriteID: eb1a05db70b3acb4696e174eabd279bf
+    layerID: 19
+    mosaicPosition: {x: 3852, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Flower_01
+    spriteName: Flower_01
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 7b8d59d60580c474c9b7fa071ef0ea7d
+    layerID: 17
+    mosaicPosition: {x: 5740, y: 3308}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Flower_02
+    spriteName: Flower_02
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 55ce34f7240e36f45badd04ee4e1dbc0
+    layerID: 16
+    mosaicPosition: {x: 5740, y: 2467}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Flower_03
+    spriteName: Flower_03
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 48067273bd3f1074da432dfc95c953cb
+    layerID: 15
+    mosaicPosition: {x: 7444, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Grass Front
+    spriteName: Grass Front
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 3d80729a7bb815c44aa026ac250f3e8d
+    layerID: 12
+    mosaicPosition: {x: 3852, y: 4569}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Grass Ambiant
+    spriteName: Grass Ambiant
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 8936bbdf40897284aab8c361b98e5803
+    layerID: 11
+    mosaicPosition: {x: 3852, y: 5131}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Flower_04
+    spriteName: Flower_04
+    isGroup: 0
+    parentIndex: -1
+    spriteID: f8d4a25ee56f2f34c98959b0a6970832
+    layerID: 8
+    mosaicPosition: {x: 7700, y: 1421}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Flower_05
+    spriteName: Flower_05
+    isGroup: 0
+    parentIndex: -1
+    spriteID: d0e939c628606bb4bbf0b07983ec3e28
+    layerID: 7
+    mosaicPosition: {x: 7457, y: 2467}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Flower_06
+    spriteName: Flower_06
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 352be49d59bf00546b0f9a07753affcf
+    layerID: 6
+    mosaicPosition: {x: 7040, y: 2467}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Tortoise
+    spriteName: Tortoise
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 628bd7de876c4264c9cbcf34910c93ff
+    layerID: 4
+    mosaicPosition: {x: 3852, y: 2467}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Grass Back
+    spriteName: Grass Back
+    isGroup: 0
+    parentIndex: -1
+    spriteID: 240ed26c3df09bf43b8ddf7e653da714
+    layerID: 3
+    mosaicPosition: {x: 3852, y: 1421}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  - name: Sky
+    spriteName: Sky
+    isGroup: 0
+    parentIndex: -1
+    spriteID: ea87a56baa5fd344ebe75a1187682ced
+    layerID: 2
+    mosaicPosition: {x: 4, y: 4}
+    flatten: 0
+    isImported: 1
+    isVisible: 1
+  sharedRigPSDLayers: []
+  pSDLayerImportSetting: []
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 638927525375438620
+  spriteSizeExpandChanged: 0
+  generateGOHierarchy: 0
+  textureAssetName: 
+  prefabAssetName: 
+  spriteLibAssetName: 
+  skeletonAssetName: 
+  secondarySpriteTextures: []
