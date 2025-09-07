@@ -18,6 +18,7 @@ namespace Intégration.V1.Scripts.UI
         [SerializeField] private CanvasGroup _pausePanelCG;
         [SerializeField] private RectTransform _gameTitle;
         [SerializeField] private RectTransform _buttonsBackground;
+        [SerializeField] private float _pauseIntroDuration = 0.5f;
 
         [Header("Pause logic")]
         [SerializeField] private MultiplayerEventSystem _eventSystem;
@@ -49,9 +50,9 @@ namespace Intégration.V1.Scripts.UI
             _openPauseSeq.SetUpdate(true);
             //RumbleManager.Instance.StopAllVibrations();
 
-            _openPauseSeq.Append(_pausePanelCG.DOFade(1, 0.3f));
-           _openPauseSeq.Join(_buttonsBackground.DOAnchorPosX(600,0.3f)).SetEase(Ease.OutBack);
-           _openPauseSeq.Join(_gameTitle.DOAnchorPosX(-650,0.3f)).SetEase(Ease.OutBack);
+            _openPauseSeq.Append(_pausePanelCG.DOFade(1, _pauseIntroDuration));
+           _openPauseSeq.Join(_buttonsBackground.DOAnchorPosX(0,_pauseIntroDuration)).SetEase(Ease.OutBack);
+           _openPauseSeq.Join(_gameTitle.DOAnchorPosX(-350,_pauseIntroDuration)).SetEase(Ease.OutBack);
            _openPauseSeq.OnComplete(() =>
            {
                Time.timeScale = 0;
@@ -75,9 +76,9 @@ namespace Intégration.V1.Scripts.UI
             _closePauseSeq = DOTween.Sequence();
             _closePauseSeq.SetUpdate(true);
 
-            _closePauseSeq.Append(_pausePanelCG.DOFade(0, 0.3f));
-            _closePauseSeq.Join(_buttonsBackground.DOAnchorPosX(0,0.3f)).SetEase(Ease.OutBack);
-            _closePauseSeq.Join(_gameTitle.DOAnchorPosX(0,0.3f)).SetEase(Ease.OutBack);
+            _closePauseSeq.Append(_pausePanelCG.DOFade(0, _pauseIntroDuration));
+            _closePauseSeq.Join(_buttonsBackground.DOAnchorPosX(-350,_pauseIntroDuration)).SetEase(Ease.OutBack);
+            _closePauseSeq.Join(_gameTitle.DOAnchorPosX(0,_pauseIntroDuration)).SetEase(Ease.OutBack);
             _closePauseSeq.OnComplete(() =>
             {
                 Time.timeScale = 1;

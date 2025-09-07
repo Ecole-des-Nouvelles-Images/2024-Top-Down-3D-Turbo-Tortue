@@ -6,7 +6,7 @@ public class LoadingScreenRandom : MonoBehaviour
     public Sprite[] sprites;
     private Image img;
 
-    void Start()
+    void OnEnable()
     {
         img = GetComponent<Image>();
         if (sprites.Length > 0)
