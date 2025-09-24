@@ -4,6 +4,7 @@ using DG.Tweening;
 using Michael.Scripts.Manager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem.UI;
 
 public class GameIntro : MonoBehaviour
 {
@@ -16,7 +17,8 @@ public class GameIntro : MonoBehaviour
     [SerializeField] private RectTransform _scientistDialogueBox;
     [SerializeField] private TextMeshProUGUI _turtleSubtitleText;
     [SerializeField] private TextMeshProUGUI _scientistSubtitleText;
-
+    [SerializeField] private MultiplayerEventSystem eventSystem;
+    [SerializeField] private GameObject _skipButtons;
     [Header("Settings")] [SerializeField] private float slideDuration = 0.6f;
     [SerializeField] private float typeDelay = 0.1f;
     [SerializeField] private float pauseBetween = 0.3f;
@@ -33,6 +35,7 @@ public class GameIntro : MonoBehaviour
 
     private void GameIntroDialogue()
     {
+        eventSystem.SetSelectedGameObject(_skipButtons);
         Time.timeScale = 0;
 
         _dialogueSeq = DOTween.Sequence();
@@ -69,12 +72,16 @@ public class GameIntro : MonoBehaviour
         _dialogueSeq.Join(_scientistImage.DOAnchorPosX(0, slideDuration).SetEase(Ease.InBack));
         _dialogueSeq.Join(_turtleImage   .DOAnchorPosX(0,  slideDuration).SetEase(Ease.InBack));
         
-        _dialogueSeq.OnComplete(() =>
-        {
-            Time.timeScale = 1;
-        });
-        
-        
+        _dialogueSeq.OnComplete(SkipIntro);
+    }
+
+    public void SkipIntro()
+    {
+        Debug.Log("skipIntro");
+        eventSystem.SetSelectedGameObject(null);
+        _dialogueSeq.Kill();
+        _introPanelCG.DOFade(0,1f).SetUpdate(true);
+        Time.timeScale = 1;
     }
     
     
