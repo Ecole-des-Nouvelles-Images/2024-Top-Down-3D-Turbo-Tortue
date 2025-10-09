@@ -4,6 +4,7 @@ using Intégration.V1.Scripts.UI;
 using Michael.Scripts.Controller;
 using Michael.Scripts.Manager;
 using Michael.Scripts.Ui;
+using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -62,6 +63,13 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] private VisualEffect ReviveVFX;
         [SerializeField] private GameObject dirt;
         private float currentPlantingCooldown = 0f;
+        private Sequence _playerIndexSequence;
+
+        [Header("IndexUi")]
+        [SerializeField] private Image PlayerIndexUi;
+        [SerializeField] private Image PlayerIndexBackground;
+        [SerializeField] private CanvasGroup _playerIndexCG;
+        [SerializeField] private TextMeshProUGUI _playerIndexText;
 
         private void OnEnable()
         {
@@ -80,9 +88,22 @@ namespace Intégration.V1.Scripts.Game.Characters
             _playerStats.IsTurtle = false;
             _playerStats.playerIndex = PlayerIndex;
             _playerStats.characterIndex = characterIndex;
-            
+
+            ShowPlayerIndex();
             StartAnimation();
             
+        }
+
+        private void ShowPlayerIndex()
+        {
+            _playerIndexText.text = "J" + (PlayerIndex+1);
+            _playerIndexSequence =  DOTween.Sequence();
+            PlayerIndexBackground.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.7f, 1f);
+           
+            _playerIndexSequence.Append(_playerIndexCG.DOFade(1,1f));
+            _playerIndexSequence.Join(PlayerIndexUi.rectTransform.DOAnchorPosY(0f, 1f));
+            _playerIndexSequence.AppendInterval(1);
+            _playerIndexSequence.Append(_playerIndexCG.DOFade(0,1f));
         }
 
         private void StartAnimation()
@@ -264,6 +285,8 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (other.CompareTag("Seed"))
             {
                 if (isUnhittable) return;
+                if (isDead) return;
+              
                 
                 canReanimate = true;
                 deadFlowerController = other.GetComponentInParent<FlowerController>();
@@ -372,7 +395,10 @@ namespace Intégration.V1.Scripts.Game.Characters
             if ( GameManager.Instance.GameFinished) return;
             if (!isDead) return;
 
+            isInvincible = true; 
+            Invoke(nameof(RespawnProtection),2f);
             aliveModelCollider.enabled = true;
+            IsPlanted = false;
             GetComponent<PlayerInput>().SwitchCurrentActionMap("Character");
             isDead = false;
             OnDeathChanged?.Invoke(isDead);
@@ -385,6 +411,11 @@ namespace Intégration.V1.Scripts.Game.Characters
             GameManager.Instance.FlowersAlive.Add(gameObject);
         }
 
+        private void RespawnProtection()
+        {
+            isInvincible = false;
+        }
+        
 
         protected void OnLooseSunCapacity(int capacityCost)
         {

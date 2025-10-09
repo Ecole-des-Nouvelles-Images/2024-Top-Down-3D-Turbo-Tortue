@@ -66,6 +66,7 @@ namespace Michael.Scripts.Controller
         [Header("Trap")]
         [SerializeField] private GameObject TrapPrefab;
         [SerializeField] private Transform TrapSpawn;
+        [SerializeField] private float _maxTrapCount = 2 ;
         
         
         private float _chargeTime;
@@ -419,7 +420,7 @@ namespace Michael.Scripts.Controller
 
         protected override void ThirdCapacity()
         {
-            if (GameManager.Instance.TurtleTrap.Count <= 2)
+            if (GameManager.Instance.TurtleTrap.Count <= _maxTrapCount)
             {
                 _playerStats.trapsPlaced++;
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleSpawnTrap, 0.5f);
