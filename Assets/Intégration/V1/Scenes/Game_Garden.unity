@@ -1747,6 +1747,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 364708340}
   explosionVFX: {fileID: 466743853}
+  _canRespawn: 0
   _respawnDelay: 30
 --- !u!1 &12911819
 GameObject:
@@ -4686,7 +4687,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\xE9lev\xE9 \u2248 7% de batterie"
+  m_text: "\xE9lev\xE9"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,
@@ -29354,7 +29355,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "moyen \u2248 3% de batterie"
+  m_text: moyen
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,
@@ -41026,6 +41027,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 1238469894}
   explosionVFX: {fileID: 1038052900}
+  _canRespawn: 0
   _respawnDelay: 30
 --- !u!1 &811630722
 GameObject:
@@ -55346,6 +55348,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 945495273}
   explosionVFX: {fileID: 771272936}
+  _canRespawn: 0
   _respawnDelay: 30
 --- !u!1 &952440834
 GameObject:
@@ -64451,6 +64454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 2015900958}
   explosionVFX: {fileID: 1347733363}
+  _canRespawn: 0
   _respawnDelay: 30
 --- !u!1001 &1175908741
 PrefabInstance:
@@ -64812,6 +64816,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 1638226733}
   explosionVFX: {fileID: 364860426}
+  _canRespawn: 0
   _respawnDelay: 30
 --- !u!1 &1182268997
 GameObject:
@@ -76098,6 +76103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 1477123765}
   explosionVFX: {fileID: 299932119}
+  _canRespawn: 0
   _respawnDelay: 30
 --- !u!1 &1455872825
 GameObject:
@@ -76353,6 +76359,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 1557863266}
   explosionVFX: {fileID: 1686640769}
+  _canRespawn: 0
   _respawnDelay: 30
 --- !u!1 &1466808340
 GameObject:
@@ -76585,7 +76592,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "moyen \u2248 3% de batterie"
+  m_text: moyen
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,
@@ -82581,7 +82588,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93dbfc48ff1069449ab0e79c99c3c813, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxBatteryTime: 300
+  _maxBatteryTime: 150
   _gameManager: {fileID: 2018925706}
 --- !u!114 &1501747243
 MonoBehaviour:
@@ -86813,6 +86820,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   originalObject: {fileID: 2054276383}
   explosionVFX: {fileID: 934553054}
+  _canRespawn: 0
   _respawnDelay: 30
 --- !u!4 &1618208783
 Transform:
@@ -90113,7 +90121,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "moyen \u2248 3% de batterie"
+  m_text: "\xE9lev\xE9"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,
@@ -90124,7 +90132,7 @@ MonoBehaviour:
   m_fontColor32:
     serializedVersion: 2
     rgba: 4280469755
-  m_fontColor: {r: 0.9843137, g: 0.78431374, b: 0.13333334, a: 1}
+  m_fontColor: {r: 0.9843137, g: 0.31764707, b: 0.13333334, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -103148,7 +103156,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "moyen \u2248 3% de batterie"
+  m_text: moyen
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 661b4f8444bff2f4ba6d15cee77ec296, type: 2}
   m_sharedMaterial: {fileID: 1408157766556387733, guid: 661b4f8444bff2f4ba6d15cee77ec296,
