@@ -21124,7 +21124,7 @@ MonoBehaviour:
     power: 10
     emissionColor: {r: 0.854902, g: 0.73333335, b: 0.2627451, a: 1}
     sfx: {fileID: 8300000, guid: 36345095804f1ac4c979371bd30fa97e, type: 3}
-  - timeThreshold: 1.3
+  - timeThreshold: 1.5
     power: 13
     emissionColor: {r: 0.91372555, g: 0.25490198, b: 0.25490198, a: 1}
     sfx: {fileID: 8300000, guid: b9b04a3cca48704468167edf712b1505, type: 3}
@@ -21138,7 +21138,7 @@ MonoBehaviour:
   TrapPrefab: {fileID: 6696123197788748044, guid: 1ba76a8d896c91e47aa29cc35ee22ab2,
     type: 3}
   TrapSpawn: {fileID: 5385597024245364116}
-  _maxTrapCount: 4
+  _maxTrapCount: 5
 --- !u!135 &4178576160397501460
 SphereCollider:
   m_ObjectHideFlags: 0

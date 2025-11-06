@@ -10,6 +10,8 @@ namespace Intégration.V1.Scripts.UI
     {
         [SerializeField] private TextMeshProUGUI buttonText;
         [SerializeField] private Color _deselectedbuttonColor;
+        [SerializeField] private Color _deselectedTextColor;
+        [SerializeField] private Color _selectedTextColor = Color.white;
         [SerializeField] private Color _selectedbuttonColor;
         [SerializeField] private GameObject tutoPanel;
         [SerializeField] private GameObject optionsButton;
@@ -36,7 +38,7 @@ namespace Intégration.V1.Scripts.UI
             {
                 gameObject.GetComponent<Image>().color = _selectedbuttonColor;
                 transform.DOScale(1.1f, _bounceDuration).SetUpdate(true).SetEase(Ease.OutBounce);
-                buttonText.color = Color.white;
+                buttonText.color = _selectedTextColor;
 
                 if (tutoPanel)
                 {
@@ -76,7 +78,7 @@ namespace Intégration.V1.Scripts.UI
             {
                 gameObject.GetComponent<Image>().color = _deselectedbuttonColor;
                 transform.DOScale(1.0f, _bounceDuration).SetUpdate(true).SetEase(Ease.InBounce);
-                buttonText.color = Color.grey;
+                buttonText.color = _deselectedTextColor;
 
                 if (tutoPanel)
                 {
