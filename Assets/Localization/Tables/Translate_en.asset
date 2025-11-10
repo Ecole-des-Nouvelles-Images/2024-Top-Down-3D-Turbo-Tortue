@@ -197,15 +197,15 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 417629656854528
     m_Localized: 'Turbo Turtle curls into its shell and spins, then bursts forward
-      when released.
+      when the button is released.
 
 
       Level 1: 1s charge
 
-      Level 2: 1.5s charge
+      Level 2: 1.5s
+      charge
 
-      (Breaks
-      some obstacles and stuns flowers)'
+      (can break some obstacles and stuns flowers)'
     m_Metadata:
       m_Items: []
   - m_Id: 417752331857920
@@ -213,13 +213,13 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 418191228022784
-    m_Localized: Turbo Turtle activates a short-range scan to spot flowers through
+    m_Localized: Turbo Turtle activates a limited range scan to spot flowers through
       obstacles.
     m_Metadata:
       m_Items: []
   - m_Id: 418911813644288
-    m_Localized: "\u201CTurbo Turtle drops a mine that stuns flowers on impact (up
-      to 5 active mines)."
+    m_Localized: Turbo Turtle drops a mine that stuns flowers on impact (up to 5
+      active mines).
     m_Metadata:
       m_Items: []
   - m_Id: 428248883802112
@@ -235,7 +235,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 428762589573120
-    m_Localized: Corn
+    m_Localized: Cornflower
     m_Metadata:
       m_Items: []
   - m_Id: 428814393421824
