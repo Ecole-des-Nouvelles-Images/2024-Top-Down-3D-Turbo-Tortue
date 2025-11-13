@@ -127,7 +127,7 @@ namespace Intégration.V1.Scripts.Game.Characters
         protected override void Update()
         {
             
-            _animator.SetFloat("Velocity", Rb.velocity.magnitude);
+            _animator.SetFloat("Velocity", Rb.linearVelocity.magnitude);
             if (GameManager.Instance.GameFinished)
             {
                 deadArrowUI.SetActive(false);

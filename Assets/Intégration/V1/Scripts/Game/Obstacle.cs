@@ -18,7 +18,7 @@ namespace Intégration.V1.Scripts.Game
             if (collision.gameObject.CompareTag("Turtle"))
             {
                 Rigidbody turtleRb = collision.gameObject.GetComponent<Rigidbody>();
-                if (turtleRb.velocity.magnitude > shakeThreshold)
+                if (turtleRb.linearVelocity.magnitude > shakeThreshold)
                 {
                     ShakeObject();
                     if (Tomatoe.Count != 0)

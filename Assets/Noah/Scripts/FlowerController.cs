@@ -45,7 +45,7 @@ namespace Noah.Scripts
 
         protected override void Update()
         {
-            _animator.SetFloat("Velocity", Rb.velocity.magnitude);
+            _animator.SetFloat("Velocity", Rb.linearVelocity.magnitude);
             
             
             if (sun < 0)
@@ -184,7 +184,7 @@ namespace Noah.Scripts
             if (other.gameObject.CompareTag("Turtle") && !isDead)
             {
                 Rigidbody turtleRb = other.gameObject.GetComponent<Rigidbody>();
-                if (turtleRb.velocity.magnitude > magnetudeToStun)
+                if (turtleRb.linearVelocity.magnitude > magnetudeToStun)
                 {
                     GetStunned();
                 }

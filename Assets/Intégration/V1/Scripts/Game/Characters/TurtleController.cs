@@ -142,7 +142,7 @@ namespace Michael.Scripts.Controller
             {
                 UpdateNitroVisuals(CurrentState == TurtleState.Boosting);
             }
-            _animator.SetFloat("Velocity", Rb.velocity.magnitude);
+            _animator.SetFloat("Velocity", Rb.linearVelocity.magnitude);
         }
 
         private void UpdateState()
@@ -353,7 +353,7 @@ namespace Michael.Scripts.Controller
 
         private void UpdateDashing()
         {
-            if (Rb.velocity.magnitude < 0.01f)
+            if (Rb.linearVelocity.magnitude < 0.01f)
             {
                 _animator.SetBool("IsDashing", false);
                 _lastDashDirection = Vector3.zero;
