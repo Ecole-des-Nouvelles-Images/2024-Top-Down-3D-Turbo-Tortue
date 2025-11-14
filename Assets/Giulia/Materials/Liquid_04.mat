@@ -39,9 +39,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _WobbleX: 0
     m_Colors:
     - _BottomColor: {r: 0, g: 0.0062513025, b: 0.5698112, a: 1}
+    - _FillAmount: {r: 0, g: 0.49, b: 0.9070034, a: 0}
     - _FoamColor: {r: 0, g: 0.17770484, b: 0.5529412, a: 1}
     - _Rim_Color: {r: 0.32549024, g: 0.76002026, b: 1, a: 1}
     - _TopColor: {r: 0.09411765, g: 0.13252322, b: 0.85490197, a: 1}
