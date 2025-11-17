@@ -45,17 +45,26 @@ namespace Intégration.V1.Scripts.UI
                 
                 _bounceTween.Kill();
                 transform.localScale = Vector3.one;
-                _bounceTween = transform.DOScale(1.05f, _bounceDuration).SetUpdate(true).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);;
+
+                if (tutoPanel)
+                {
+                    tutoPanel.SetActive(true);
+                    _bounceTween = transform.DOScale(1.05f, _bounceDuration).SetUpdate(true).SetEase(Ease.OutBounce);
+                }
+                else
+                {
+                    _bounceTween = transform.DOScale(1.05f, _bounceDuration).SetUpdate(true).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);;
+                  
+                }
                 buttonText.color = _selectedTextColor;
+                
+                
                 if (_outlineImage)
                 {
                     _outlineImage.SetActive(true);
                 }
 
-                if (tutoPanel)
-                {
-                    tutoPanel.SetActive(true);
-                }
+                
 
                 _currentButton = GetComponent<Button>();
             }
@@ -132,7 +141,9 @@ namespace Intégration.V1.Scripts.UI
         
 
         public void OnSubmit(BaseEventData eventData)
-        { 
+        {
+            if (optionsButton || tutoPanel) return;
+            
             transform.localScale = Vector3.one;
             _bounceTween.Kill();
             transform.DOPunchScale(Vector3.one * 0.2f, _bounceDuration).SetUpdate(true).SetEase(Ease.Linear);

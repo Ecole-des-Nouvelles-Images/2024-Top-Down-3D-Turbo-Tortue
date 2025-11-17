@@ -370,7 +370,12 @@ namespace Intégration.V1.Scripts.Game.Characters
             
             Debug.Log("FLOWERS HIT");
             AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDeath);
-            RumbleManager.Instance.RumblePulse(Gamepad,1,1);
+
+            if (Gamepad != null)
+            {
+                RumbleManager.Instance.RumblePulse(Gamepad,1,1);
+            }
+          
                 
             aliveModelCollider.enabled = false;
             aliveModel.SetActive(false);

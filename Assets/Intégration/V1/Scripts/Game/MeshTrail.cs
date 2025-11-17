@@ -25,11 +25,11 @@ namespace Intégration.V1.Scripts.Game
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space) && !isTrailActive)
+            /*if (Input.GetKeyDown(KeyCode.Space) && !isTrailActive)
             {
                 isTrailActive = true;
                 StartCoroutine(ActivateTrail(activateTime));
-            }
+            }*/
         }
 
         public void InvokePassive()
