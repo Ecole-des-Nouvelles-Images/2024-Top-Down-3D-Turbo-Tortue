@@ -23,11 +23,13 @@ public class GameIntro : MonoBehaviour
     [SerializeField] private float typeDelay = 0.1f;
     [SerializeField] private float pauseBetween = 0.3f;
 
-
+    //[SerializeField] private TMP_Text _test;
+    
     private Sequence _dialogueSeq;
 
     void Start()
     {
+        //_test.maxVisibleCharacters = 0; 
         _scientistSubtitleText.text = "";
         _turtleSubtitleText.text = "";
         Invoke(nameof(GameIntroDialogue), 1.5f);
