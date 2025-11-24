@@ -531,7 +531,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 60f64aa8-f1c3-4c8a-9b96-6fcecb0674ad
-    m_ActionName: Character/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick]
+    m_ActionName: 'Character/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d,/XInputControllerWindows/leftStick,/XInputControllerWindows1/leftStick]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6756088893593418315}
@@ -548,7 +548,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 02558de8-c0f3-409b-b27c-05639ab1028a
-    m_ActionName: Character/Main Capacity[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/Keyboard/shift]
+    m_ActionName: 'Character/Main Capacity[/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth,/Keyboard/shift]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6756088893593418315}
@@ -565,39 +565,39 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 6f50b094-ef52-4e58-804b-04526939dda3
-    m_ActionName: Character/Secondary Capacity[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]
+    m_ActionName: 'Character/Secondary Capacity[/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c95b2375-e6d9-4b88-9c4c-c5e76515df4b
-    m_ActionName: UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows1/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows1/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows1/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows1/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows1/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows1/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows1/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows1/rightStick/right,/XInputControllerWindows/dpad,/XInputControllerWindows1/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
+    m_ActionName: 'UI/Navigate[/XInputControllerWindows/leftStick/up,/XInputControllerWindows1/leftStick/up,/XInputControllerWindows/rightStick/up,/XInputControllerWindows1/rightStick/up,/XInputControllerWindows/leftStick/down,/XInputControllerWindows1/leftStick/down,/XInputControllerWindows/rightStick/down,/XInputControllerWindows1/rightStick/down,/XInputControllerWindows/leftStick/left,/XInputControllerWindows1/leftStick/left,/XInputControllerWindows/rightStick/left,/XInputControllerWindows1/rightStick/left,/XInputControllerWindows/leftStick/right,/XInputControllerWindows1/leftStick/right,/XInputControllerWindows/rightStick/right,/XInputControllerWindows1/rightStick/right,/XInputControllerWindows/dpad,/XInputControllerWindows1/dpad,/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 7607c7b6-cd76-4816-beef-bd0341cfe950
-    m_ActionName: UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]
+    m_ActionName: 'UI/Submit[/Keyboard/enter,/XInputControllerWindows/buttonSouth,/XInputControllerWindows1/buttonSouth]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 15cef263-9014-4fd5-94d9-4e4a6234a6ef
-    m_ActionName: UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]
+    m_ActionName: 'UI/Cancel[/Keyboard/escape,/XInputControllerWindows/buttonEast,/XInputControllerWindows1/buttonEast]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 32b35790-4ed0-4e9a-aa41-69ac6d629449
-    m_ActionName: UI/Point[/Mouse/position,/Pen/position]
+    m_ActionName: 'UI/Point[/Mouse/position,/Pen/position]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 3c7022bf-7922-4f7c-a998-c437916075ad
-    m_ActionName: UI/Click[/Mouse/leftButton,/Pen/tip]
+    m_ActionName: 'UI/Click[/Mouse/leftButton,/Pen/tip]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 0489e84a-4833-4c40-bfae-cea84b696689
-    m_ActionName: UI/ScrollWheel[/Mouse/scroll]
+    m_ActionName: 'UI/ScrollWheel[/Mouse/scroll]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: dad70c86-b58c-4b17-88ad-f5e53adf419e
-    m_ActionName: UI/MiddleClick[/Mouse/middleButton]
+    m_ActionName: 'UI/MiddleClick[/Mouse/middleButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 44b200b1-1557-4083-816c-b22cbdf77ddf
-    m_ActionName: UI/RightClick[/Mouse/rightButton]
+    m_ActionName: 'UI/RightClick[/Mouse/rightButton]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 24908448-c609-4bc3-a128-ea258674378a
@@ -609,27 +609,27 @@ MonoBehaviour:
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 4445f40b-762d-46bb-bf31-dd679270ec75
-    m_ActionName: QTE/UpArrow[/XInputControllerWindows/dpad/up,/XInputControllerWindows1/dpad/up]
+    m_ActionName: 'QTE/UpArrow[/XInputControllerWindows/dpad/up,/XInputControllerWindows1/dpad/up]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 47ba0147-cf6e-438e-8c4b-1ee659ae6687
-    m_ActionName: QTE/DownArrow[/XInputControllerWindows/dpad/down,/XInputControllerWindows1/dpad/down]
+    m_ActionName: 'QTE/DownArrow[/XInputControllerWindows/dpad/down,/XInputControllerWindows1/dpad/down]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 699213f0-9ebc-4b33-a3e5-f1761180bf72
-    m_ActionName: QTE/RightArrow[/XInputControllerWindows/dpad/right,/XInputControllerWindows1/dpad/right]
+    m_ActionName: 'QTE/RightArrow[/XInputControllerWindows/dpad/right,/XInputControllerWindows1/dpad/right]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 7c7f1867-d47c-4370-af84-ea82ea9d0819
-    m_ActionName: QTE/LeftArrow[/XInputControllerWindows/dpad/left,/XInputControllerWindows1/dpad/left]
+    m_ActionName: 'QTE/LeftArrow[/XInputControllerWindows/dpad/left,/XInputControllerWindows1/dpad/left]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: f1299a73-aa66-4919-b06a-88d4abe0d243
-    m_ActionName: QTE/LeftShoulder[/XInputControllerWindows/leftShoulder,/XInputControllerWindows1/leftShoulder]
+    m_ActionName: 'QTE/LeftShoulder[/XInputControllerWindows/leftShoulder,/XInputControllerWindows1/leftShoulder]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: e18606a6-2b04-4262-9435-b8419ed934ef
-    m_ActionName: QTE/RightShoulder[/XInputControllerWindows/rightShoulder,/XInputControllerWindows1/rightShoulder]
+    m_ActionName: 'QTE/RightShoulder[/XInputControllerWindows/rightShoulder,/XInputControllerWindows1/rightShoulder]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6756088893593418315}
@@ -645,15 +645,15 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: f240888d-0759-475d-b3b1-1df73fd0c598
-    m_ActionName: Character/ThirdCapacity[/XInputControllerWindows/buttonWest,/XInputControllerWindows1/buttonWest]
+    m_ActionName: 'Character/ThirdCapacity[/XInputControllerWindows/buttonWest,/XInputControllerWindows1/buttonWest]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 98612f79-46c0-498f-9573-2951227867fa
-    m_ActionName: Character/FourthCapacity[/XInputControllerWindows/buttonNorth,/XInputControllerWindows1/buttonNorth]
+    m_ActionName: 'Character/FourthCapacity[/XInputControllerWindows/buttonNorth,/XInputControllerWindows1/buttonNorth]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: c6cee065-2dcb-4c5c-bc03-efb6a502f11b
-    m_ActionName: Character/Booster[/DualShock4GamepadHID/rightTrigger,/DualShock4GamepadHID/leftTrigger]
+    m_ActionName: 'Character/Booster[/DualShock4GamepadHID/rightTrigger,/DualShock4GamepadHID/leftTrigger]'
   - m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6756088893593418315}
@@ -670,11 +670,11 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
     m_ActionId: 48f46006-6b8a-40f7-9701-52f8ca7720e4
-    m_ActionName: Character/Pause[/XInputControllerWindows/start,/XInputControllerWindows1/start]
+    m_ActionName: 'Character/Pause[/XInputControllerWindows/start,/XInputControllerWindows1/start]'
   - m_PersistentCalls:
       m_Calls: []
     m_ActionId: 3e007b0e-bd27-40ae-acdd-2a246a51bcb5
-    m_ActionName: UI/StartGame[/XInputControllerWindows/buttonWest,/XInputControllerWindows1/buttonWest]
+    m_ActionName: 'UI/StartGame[/XInputControllerWindows/buttonWest,/XInputControllerWindows1/buttonWest]'
   m_NeverAutoSwitchControlSchemes: 1
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Character
@@ -687,10 +687,10 @@ Rigidbody:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3772682401075968194}
-  serializedVersion: 4
+  serializedVersion: 5
   m_Mass: 0.1
-  m_Drag: 15
-  m_AngularDrag: 0.05
+  m_LinearDamping: 15
+  m_AngularDamping: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
   m_InertiaTensor: {x: 1, y: 1, z: 1}
   m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
@@ -1128,8 +1128,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: j1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: ded7ee569dd496746893b068f000bf1b, type: 2}
-  m_sharedMaterial: {fileID: 5399338472120904017, guid: ded7ee569dd496746893b068f000bf1b,
+  m_fontAsset: {fileID: 11400000, guid: 1ac091e4061dbfa448c1490e7899c36d, type: 2}
+  m_sharedMaterial: {fileID: -6739673828555958921, guid: 1ac091e4061dbfa448c1490e7899c36d,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -1170,15 +1170,17 @@ MonoBehaviour:
   m_lineSpacingMax: 0
   m_paragraphSpacing: 0
   m_charWidthMaxAdj: 0
-  m_enableWordWrapping: 1
+  m_TextWrappingMode: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
   m_linkedTextComponent: {fileID: 0}
   parentLinkedComponent: {fileID: 0}
   m_enableKerning: 1
+  m_ActiveFontFeatures: 6e72656b
   m_enableExtraPadding: 0
   checkPaddingRequired: 0
   m_isRichText: 1
+  m_EmojiFallbackSupport: 1
   m_parseCtrlCharacters: 1
   m_isOrthographic: 1
   m_isCullingEnabled: 0
@@ -6028,6 +6030,11 @@ ParticleSystemRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -6049,6 +6056,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -6248,6 +6256,11 @@ VFXRenderer:
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_StaticBatchInfo:
@@ -6267,6 +6280,7 @@ VFXRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
@@ -7192,7 +7206,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2246523798804582043, guid: 4af3dd75dbd26f542beaa4cf39fb578e,
         type: 3}
-      propertyPath: m_Materials.Array.data[1]
+      propertyPath: 'm_Materials.Array.data[1]'
       value: 
       objectReference: {fileID: 2100000, guid: b3a551f24dab3ec45bb52538586ccb93, type: 2}
     - target: {fileID: 8708234834640191167, guid: 4af3dd75dbd26f542beaa4cf39fb578e,
