@@ -30,7 +30,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture:
-        m_Texture: {fileID: 2800000, guid: efdf7c18b3c52ec418c25521e9a965f3, type: 3}
+        m_Texture: {fileID: 2800000, guid: 08868241a34d80344a1fb3bf4d90fc3b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -47,11 +47,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _IsPulled: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _SpeedTilling: 1
     m_Colors:
-    - _Tilling: {r: 1, g: 1, b: 6.39, a: 0}
+    - _Color: {r: 0.30588236, g: 0.61960787, b: 0.18431373, a: 1}
+    - _Tilling: {r: 1, g: 1, b: 1, a: 0}
     - _TillingSpeed: {r: -1, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
