@@ -47,11 +47,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 17372850696192
-    m_Localized: 'SFX Volume '
+    m_Localized: Sound Effects Volume
     m_Metadata:
       m_Items: []
   - m_Id: 17559920848896
-    m_Localized: Gamepad vibration
+    m_Localized: Gamepad Vibration
     m_Metadata:
       m_Items: []
   - m_Id: 17655722946560
@@ -59,7 +59,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 50649728823296
-    m_Localized: game designers & developers
+    m_Localized: Game Designers & Developers
     m_Metadata:
       m_Items: []
   - m_Id: 50815689043968
@@ -71,19 +71,19 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 51943411560448
-    m_Localized: Game Rules
+    m_Localized: How to Play
     m_Metadata:
       m_Items: []
   - m_Id: 52166720499712
-    m_Localized: Commands
+    m_Localized: Controls
     m_Metadata:
       m_Items: []
   - m_Id: 52224941633536
-    m_Localized: Flowers capacities
+    m_Localized: Flowers' Abilities
     m_Metadata:
       m_Items: []
   - m_Id: 52377073233920
-    m_Localized: Turtle capacities
+    m_Localized: Turbo Turtle's Abilities
     m_Metadata:
       m_Items: []
   - m_Id: 70555631366144
@@ -106,12 +106,13 @@ MonoBehaviour:
     m_Localized: Revive
     m_Metadata:
       m_Items: []
-  - m_Id: 72717891547136
-    m_Localized: Collect suns on the map to unleash your abilities
+  - m_Id: 8515446984433664
+    m_Localized: Bring a Flower back to life
     m_Metadata:
       m_Items: []
-  - m_Id: 73052739612672
-    m_Localized: Collect suns on the map to recharge the battery
+  - m_Id: 8513540824260608
+    m_Localized: Turbo Turtle loses battery over time and when using its powers.
+      Collecting Suns lets it stay alive and avoid running out!
     m_Metadata:
       m_Items: []
   - m_Id: 73353655758848
@@ -244,6 +245,62 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 428924829446144
     m_Localized: Rose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8495364757544960
+    m_Localized: 2D & 3D Artist
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8496045115596800
+    m_Localized: Animator
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8498721811357696
+    m_Localized: Objectives
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8499963035934720
+    m_Localized: Flowers' Aim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8500286030897152
+    m_Localized: Turbo Turtle's Aim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8500909644210176
+    m_Localized: Flowers have to run, hide and use their powers to drain Turbo Turtle's
+      battery!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8501869036724224
+    m_Localized: Turbo Turtle has to eliminate all the Flowers before its battery
+      drains to zero!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8503203353878528
+    m_Localized: Energy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8504687399297024
+    m_Localized: Reviving
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8506246514368512
+    m_Localized: Flowers' Energy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8506458846814208
+    m_Localized: Turbo Turtle's Battery
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8508129450680320
+    m_Localized: The Suns you pick up grant the Flowers unique abilities! Their powers
+      cost between 1 and 3 Sun-Energy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8516727576748032
+    m_Localized: With 3 Suns, it is possible to revive an eliminated Flower by approaching
+      it and holding <sprite index=35>, which will consume all the Sun-Energy.
     m_Metadata:
       m_Items: []
   references:
