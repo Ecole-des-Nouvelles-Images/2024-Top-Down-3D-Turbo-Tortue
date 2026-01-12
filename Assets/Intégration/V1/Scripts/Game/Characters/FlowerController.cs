@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using DG.Tweening;
 using Intégration.V1.Scripts.UI;
 using Michael.Scripts.Controller;
@@ -58,8 +59,7 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] private ParticleSystem explosionParticleSystem;
         [SerializeField] private ParticleSystem stunParticleSystem;
         [SerializeField] private float plantingCooldown = 0.7f;
-        [SerializeField] private Image reviveChargingIcon;
-        [SerializeField] private GameObject deadArrowUI;
+        [SerializeField] private GameObject aliveArrowUI;
         [SerializeField] private VisualEffect ReviveVFX;
         [SerializeField] private GameObject dirt;
         private float currentPlantingCooldown = 0f;
@@ -70,7 +70,18 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] private Image PlayerIndexBackground;
         [SerializeField] private CanvasGroup _playerIndexCG;
         [SerializeField] private TextMeshProUGUI _playerIndexText;
-
+        
+        [Header("Dead UI")]
+        [SerializeField] private GameObject deadArrowUI;
+        [SerializeField] private GameObject _redSuns;
+        [SerializeField] private GameObject _sunLayoutGroup;
+        [SerializeField] private Image reviveChargingIcon;
+        [SerializeField] private List<Image> sunImage;
+        [SerializeField] private Sprite fullSun;
+        [SerializeField] private Sprite emptySun;
+        
+        private Sequence _shakeSequence;
+        
         private void OnEnable()
         {
             GameManager.Instance.OnFlowersWin += WinAnimation;
@@ -110,11 +121,26 @@ namespace Intégration.V1.Scripts.Game.Characters
         {
             if (deadArrowUI)
             {
-                deadArrowUI.transform.DOLocalMoveY(-2.1f, 1)
-                    .SetEase(Ease.InOutSine)
-                    .SetLoops(-1, LoopType.Yoyo);
+                deadArrowUI.transform.DOLocalMoveY(-0.5f, 1f).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);
             }
         }
+
+        public void NotEnoughSunEffect()
+        {
+            _shakeSequence.Kill();
+            _shakeSequence = DOTween.Sequence();
+
+            _redSuns.SetActive(true);
+            _sunLayoutGroup.SetActive(false);
+            _shakeSequence.Join(_redSuns.transform.DOScale(1.1f, 0.25f));
+            _shakeSequence.OnComplete(() =>
+            {
+                _shakeSequence.Join(_redSuns.transform.DOShakePosition(1f, 0.25f));
+               _redSuns.SetActive(false);
+               _sunLayoutGroup.SetActive(true);
+            });
+        }
+        
 
         protected override void FixedUpdate()
         {
@@ -122,6 +148,39 @@ namespace Intégration.V1.Scripts.Game.Characters
             {
                 Move();
             }
+        }
+
+        private void UpdateSunRevive(int sun)
+        {
+            // Update revive sun visuals
+            for (int i = 0; i < sunImage.Count; i++)
+            {
+                if (i < sun)
+                {
+                    sunImage[i].sprite = fullSun;
+                    sunImage[i].transform.DOScale(1.2f, 0.3f);
+                }
+                else
+                {
+                    sunImage[i].sprite = emptySun;
+                    sunImage[i].transform.DOScale(1f, 0.3f);
+                }
+            }
+        }
+
+        private void EnableDeathUI(int sun)
+        {
+            //reviveChargingIcon.gameObject.SetActive(true);
+            _sunLayoutGroup.SetActive(true);
+            //deadArrowUI.SetActive(false);
+            
+        }
+        
+        private void DisableDeathUI()
+        {
+            //reviveChargingIcon.gameObject.SetActive(false);
+            _sunLayoutGroup.SetActive(false);
+            //deadArrowUI.SetActive(false);
         }
 
         protected override void Update()
@@ -238,17 +297,25 @@ namespace Intégration.V1.Scripts.Game.Characters
         {
             // REANIMATION
 
-            if (canReanimate && Sun == maxSun && !IsStunned && !PauseControlller.IsPaused)
+            if (canReanimate && !IsStunned && !PauseControlller.IsPaused)
             {
-                if (context.started)
+                if (Sun == maxSun)
                 {
-                    isCharging = true;
+                    if (context.started)
+                    {
+                        isCharging = true;
+                    }
+                    else if (context.canceled)
+                    {
+                        isCharging = false;
+                        reanimateTimer = 0;
+                    }
                 }
-                else if (context.canceled)
+                else
                 {
-                    isCharging = false;
-                    reanimateTimer = 0;
+                    deadFlowerController.NotEnoughSunEffect();
                 }
+             
             }
         }
 
@@ -259,8 +326,6 @@ namespace Intégration.V1.Scripts.Game.Characters
             Sun = 0;
             deadFlowerController.GetRevive();
             canReanimate = false;
-            
-            
         }
 
         protected abstract void PassiveCapacity();
@@ -286,12 +351,10 @@ namespace Intégration.V1.Scripts.Game.Characters
             {
                 if (isUnhittable) return;
                 if (isDead) return;
-              
                 
                 canReanimate = true;
                 deadFlowerController = other.GetComponentInParent<FlowerController>();
-                deadFlowerController.reviveChargingIcon.gameObject.SetActive(true);
-                deadFlowerController.deadArrowUI.SetActive(false);
+                deadFlowerController.EnableDeathUI(_sun);
             }
 
             if (!other.gameObject.CompareTag("Turtle") || isDead) return;
@@ -308,6 +371,12 @@ namespace Intégration.V1.Scripts.Game.Characters
             {
                 isInvincible = true;
             }
+            if (other.CompareTag("Seed"))
+            {
+                deadFlowerController = other.GetComponentInParent<FlowerController>();
+                deadFlowerController.UpdateSunRevive(Sun);
+            }
+            
         }
 
         private void OnTriggerExit(Collider other)
@@ -319,8 +388,8 @@ namespace Intégration.V1.Scripts.Game.Characters
                 reanimateTimer = 0;
                 if (deadFlowerController)
                 {
-                    deadFlowerController.reviveChargingIcon.gameObject.SetActive(false);
-                    deadFlowerController.deadArrowUI.SetActive(true);
+                    deadFlowerController.DisableDeathUI();
+                    deadFlowerController.UpdateSunRevive(Sun);
                     deadFlowerController = null;
                 }
 

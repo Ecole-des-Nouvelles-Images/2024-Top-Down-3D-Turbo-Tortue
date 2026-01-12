@@ -21176,17 +21176,17 @@ MonoBehaviour:
   boostColor: {r: 0.9150943, g: 0.25467247, b: 0.25467247, a: 1}
   normalColor: {r: 0.8584906, g: 0.7386264, b: 0.26321647, a: 1}
   dashLevels:
-  - timeThreshold: 0.5
-    power: 7
-    emissionColor: {r: 0.17030083, g: 0.8396226, b: 0.23329581, a: 1}
+  - timeThreshold: 0
+    power: 0
+    emissionColor: {r: 0, g: 1, b: 0.09356713, a: 1}
     sfx: {fileID: 0}
   - timeThreshold: 1
-    power: 10
-    emissionColor: {r: 0.854902, g: 0.73333335, b: 0.2627451, a: 1}
+    power: 15
+    emissionColor: {r: 1, g: 0.44935164, b: 0, a: 1}
     sfx: {fileID: 8300000, guid: 36345095804f1ac4c979371bd30fa97e, type: 3}
   - timeThreshold: 1.5
     power: 20
-    emissionColor: {r: 0.91372555, g: 0.25490198, b: 0.25490198, a: 1}
+    emissionColor: {r: 1, g: 0, b: 0, a: 1}
     sfx: {fileID: 8300000, guid: b9b04a3cca48704468167edf712b1505, type: 3}
   materialToUpdate: {fileID: 2100000, guid: a45e505dd7f6a2943a250b7bbe09b4ec, type: 2}
   chargingParticules: {fileID: 1110142503304172048}
@@ -21195,8 +21195,13 @@ MonoBehaviour:
   scanRange: 12
   scanDuration: 3
   scanSphereArea: {fileID: 8721222829056409284}
-  TrapPrefab: {fileID: 6696123197788748044, guid: 1ba76a8d896c91e47aa29cc35ee22ab2,
-    type: 3}
+  TrapPrefab:
+  - {fileID: 6696123197788748044, guid: 1ba76a8d896c91e47aa29cc35ee22ab2, type: 3}
+  - {fileID: 6696123197788748044, guid: 5f00778845711a34692c2feb656bac93, type: 3}
+  - {fileID: 6696123197788748044, guid: e15a1d20a6c9dab44968afe81667e362, type: 3}
+  - {fileID: 6696123197788748044, guid: 789079b5ab290794aaedb4ca01c0b6d9, type: 3}
+  - {fileID: 6696123197788748044, guid: 7174ee72c28b5d74ba2d6b4917e2b9f1, type: 3}
+  - {fileID: 6696123197788748044, guid: 9c6206bfa43581b4d99a58094de92fd7, type: 3}
   TrapSpawn: {fileID: 5385597024245364116}
   _maxTrapCount: 5
 --- !u!135 &4178576160397501460

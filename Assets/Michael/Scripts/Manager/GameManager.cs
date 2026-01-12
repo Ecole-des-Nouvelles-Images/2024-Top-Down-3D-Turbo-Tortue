@@ -144,7 +144,7 @@ namespace Michael.Scripts.Manager
             _qteManager = Turtle.GetComponent<QteManager>();
             _qteManager.StartQTE();
             CrashVfx.SetActive(true);
-            CameraShake(1, 0.5f, 10);
+            CameraShake(1, 1f, 10);
             
             firstCamera.SetActive(false);
             PlayersUi.SetActive(true);

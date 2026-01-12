@@ -107,7 +107,7 @@ namespace UnityEngine.InputSystem
                     ""name"": ""Booster"",
                     ""type"": ""Button"",
                     ""id"": ""c6cee065-2dcb-4c5c-bc03-efb6a502f11b"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -143,7 +143,7 @@ namespace UnityEngine.InputSystem
                     ""name"": ""FourthCapacity"",
                     ""type"": ""Button"",
                     ""id"": ""98612f79-46c0-498f-9573-2951227867fa"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -287,6 +287,28 @@ namespace UnityEngine.InputSystem
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Booster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""7ee53f2d-f824-4bfc-b7cf-032d865fe1e2"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Booster"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f17736d8-c385-4595-8598-1d1a1b607e39"",
+                    ""path"": ""<Gamepad>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Booster"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

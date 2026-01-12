@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Intégration.V1.Scripts.Game;
@@ -7,6 +6,7 @@ using Michael.Scripts.Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using CharacterController = Intégration.V1.Scripts.Game.Characters.CharacterController;
+
 
 namespace Michael.Scripts.Controller
 {
@@ -64,7 +64,7 @@ namespace Michael.Scripts.Controller
         [SerializeField] private GameObject scanSphereArea;
 
         [Header("Trap")]
-        [SerializeField] private GameObject TrapPrefab;
+        [SerializeField] private List<GameObject> TrapPrefab;
         [SerializeField] private Transform TrapSpawn;
         [SerializeField] private float _maxTrapCount = 2 ;
         
@@ -424,7 +424,8 @@ namespace Michael.Scripts.Controller
             {
                 _playerStats.trapsPlaced++;
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleSpawnTrap, 0.5f);
-                GameObject trap = Instantiate(TrapPrefab, TrapSpawn.position, TrapSpawn.rotation);
+                
+                GameObject trap = Instantiate(TrapPrefab[Random.Range(0,TrapPrefab.Count)], TrapSpawn.position, TrapSpawn.rotation);
                 GameManager.Instance.TurtleTrap.Add(trap);
                 BatteryManager.OnBatteryDecrease.Invoke(_trapCost);
                 RumbleManager.Instance.RumblePulse(Gamepad);
