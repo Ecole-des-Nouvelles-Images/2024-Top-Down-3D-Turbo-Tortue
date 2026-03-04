@@ -81,7 +81,7 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] private Sprite emptySun;
         
         private Sequence _shakeSequence;
-        
+        private Renderer[] _renderers;
         private void OnEnable()
         {
             GameManager.Instance.OnFlowersWin += WinAnimation;
@@ -99,6 +99,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             _playerStats.IsTurtle = false;
             _playerStats.playerIndex = PlayerIndex;
             _playerStats.characterIndex = characterIndex;
+            _renderers = GetComponentsInChildren<Renderer>(true);
 
             ShowPlayerIndex();
             StartAnimation();
@@ -456,6 +457,11 @@ namespace Intégration.V1.Scripts.Game.Characters
             OnDeathChanged?.Invoke(isDead);
             stunParticleSystem.Clear();
             deadArrowUI.SetActive(true);
+            
+            foreach (var renderer in _renderers)
+            {
+                renderer.gameObject.layer = LayerMask.NameToLayer("Flower");;
+            }
 
             if (CanRespawn) return;
             
@@ -480,6 +486,11 @@ namespace Intégration.V1.Scripts.Game.Characters
             deadModel.SetActive(false);
             ReviveVFX.Play();
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.FlowersRevive);
+            
+            foreach (var renderer in _renderers)
+            {
+                renderer.gameObject.layer = LayerMask.NameToLayer("Default");;
+            }
             
             if (CanRespawn) return;
             GameManager.Instance.FlowersAlive.Add(gameObject);
