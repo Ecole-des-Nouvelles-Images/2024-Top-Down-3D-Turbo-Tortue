@@ -220,13 +220,13 @@ public class PlayerManager : MonoBehaviour
             switch (DataManager.Instance.CurrentMap)
             {
                 case DataManager.MapChoice.Garden:
-                    CustomSceneManager.Instance.LoadScene("Game_Garden");
+                    CustomSceneManager.Instance.LoadScene("Game_Garden",true);
                     break;
                 case DataManager.MapChoice.Laboratory:
                     CustomSceneManager.Instance.LoadScene("Game_Labo");
                     break;
             }
-   
+    
             Debug.Log("start game");
             isStartingGame = true;
         }

@@ -15,6 +15,7 @@ namespace TMPro.Examples
 
         private TMP_Text m_TextComponent;
         private bool hasTextChanged;
+        private Coroutine _shakeCoroutine;
 
 
         void Awake()
@@ -24,13 +25,21 @@ namespace TMPro.Examples
 
         void OnEnable()
         {
-            // Subscribe to event fired when text object has been regenerated.
             TMPro_EventManager.TEXT_CHANGED_EVENT.Add(ON_TEXT_CHANGED);
+
+            if (_shakeCoroutine == null)
+                _shakeCoroutine = StartCoroutine(AnimateVertexColors());
         }
 
         void OnDisable()
         {
             TMPro_EventManager.TEXT_CHANGED_EVENT.Remove(ON_TEXT_CHANGED);
+
+            if (_shakeCoroutine != null)
+            {
+                StopCoroutine(_shakeCoroutine);
+                _shakeCoroutine = null;
+            }
         }
 
 
