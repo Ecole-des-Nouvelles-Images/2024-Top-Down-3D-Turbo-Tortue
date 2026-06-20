@@ -62,7 +62,7 @@ namespace Intégration.V1.Scripts.UI
                 if (i < sun)
                 {
                     sunImage[i].sprite = fullSun;
-                    sunImage[i].transform.DOScale(1.1f, 0.3f);
+                    sunImage[i].transform.DOScale(1.2f, 0.3f);
                 }
                 else
                 {

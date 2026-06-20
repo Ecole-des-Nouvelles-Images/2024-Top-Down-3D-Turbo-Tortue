@@ -4,7 +4,7 @@
 /*            https://github.com/psygames/UnitySkipSplash           */
 /* ---------------------------------------------------------------- */
 
-#if !UNITY_EDITOR
+/*#if !UNITY_EDITOR
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -35,4 +35,4 @@ public class SkipSplash
 #endif
 
 }
-#endif
+#endif*/

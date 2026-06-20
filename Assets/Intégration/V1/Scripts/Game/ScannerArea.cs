@@ -31,6 +31,8 @@ namespace Intégration.V1.Scripts.Game
         {
             if (other.CompareTag("Flower"))
             {
+                if (other.GetComponent<FlowerController>().isDead) return;
+                
                 DandelionController dandelionController = other.GetComponent<DandelionController>();
                 OnFlowerDetected?.Invoke();
 

@@ -64,9 +64,6 @@ namespace Intégration.V1.Scripts.Game
                 }
                 
                 
-                
-
-                // 🏵️ Cas spécifique : Flower
                 if (character.CompareTag("Flower"))
                 {   var flowerController = character.GetComponent<FlowerController>();
                     flowerController.characterIndex = prefabIndex;

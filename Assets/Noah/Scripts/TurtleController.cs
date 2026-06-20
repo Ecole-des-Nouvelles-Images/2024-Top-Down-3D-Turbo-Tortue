@@ -71,7 +71,7 @@ namespace Noah.Scripts
         {
             DashingUpdate();
             ScanningUpdate();
-            _animator.SetFloat("Velocity", Rb.velocity.magnitude);
+            _animator.SetFloat("Velocity", Rb.linearVelocity.magnitude);
 
             if (GameManager.Instance.TurtleIsDead)
             {
@@ -180,7 +180,7 @@ namespace Noah.Scripts
 
         private void DashingUpdate()
         {
-            if (_isDashing && Rb.velocity.magnitude < 0.01f)
+            if (_isDashing && Rb.linearVelocity.magnitude < 0.01f)
             {
                 _isDashing = false;
                 _animator.SetBool("IsDashing", false);

@@ -20,6 +20,7 @@ namespace Intégration.V1.Scripts.IntroScreen
         
         [SerializeField] private string _menuSceneTitle;
        
+        [SerializeField] private float _showSkipButtonDelay = 1.5f;
      
 
         private void OnEnable()
@@ -44,7 +45,7 @@ namespace Intégration.V1.Scripts.IntroScreen
         private void PlayIntro(VideoPlayer videoPlayer)
         {
             _introVideo.Play();
-            _skipBarCanvasGroup.DOFade(1f,1f).SetDelay(3f).OnComplete(() => 
+            _skipBarCanvasGroup.DOFade(1f,1f).SetDelay(_showSkipButtonDelay).OnComplete(() => 
             {
                 _multiplayerEventSystem.SetSelectedGameObject(_skipButton);
             }); 

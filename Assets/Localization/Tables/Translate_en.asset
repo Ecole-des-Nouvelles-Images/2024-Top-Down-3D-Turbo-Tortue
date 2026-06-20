@@ -1,0 +1,308 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Translate_en
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: en
+  m_SharedData: {fileID: 11400000, guid: fcf2aab319f47e34e90dd701efe03def, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 53080502272
+    m_Localized: Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 436486025216
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 818884915200
+    m_Localized: Rules
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1690650030080
+    m_Localized: Credits
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5172840902656
+    m_Localized: Quit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17132840038400
+    m_Localized: Master Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17270543233024
+    m_Localized: Music Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17372850696192
+    m_Localized: Sound Effects Volume
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17559920848896
+    m_Localized: Gamepad Vibration
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655722946560
+    m_Localized: Language
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50649728823296
+    m_Localized: Game Designers & Developers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50815689043968
+    m_Localized: Musics
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50967090835456
+    m_Localized: Sound Effects
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51943411560448
+    m_Localized: How to Play
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52166720499712
+    m_Localized: Controls
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52224941633536
+    m_Localized: Flowers' Abilities
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52377073233920
+    m_Localized: Turbo Turtle's Abilities
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70555631366144
+    m_Localized: "Hide, survive, \nand outlast the turtle"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70715996385280
+    m_Localized: Destroy the flowers before the battery dies
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71383066882048
+    m_Localized: return
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71684834471936
+    m_Localized: Energy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71950996615168
+    m_Localized: Revive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8515446984433664
+    m_Localized: Bring a Flower back to life
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8513540824260608
+    m_Localized: Turbo Turtle loses battery over time and when using its powers.
+      Collecting Suns lets it stay alive and avoid running out!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73353655758848
+    m_Localized: "With 3 suns, a player can bring back a defeated flower \nby getting
+      close and holding the revive button."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75096028360704
+    m_Localized: Flowers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75140752224256
+    m_Localized: Turtle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75882380668928
+    m_Localized: Use your ability
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76195443519488
+    m_Localized: Hide underground
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76557936242688
+    m_Localized: Hold to revive an ally
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76675859099648
+    m_Localized: Dash (hold and release)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76929119563776
+    m_Localized: Bite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77163023314944
+    m_Localized: Turbo (hold)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77746409058304
+    m_Localized: Trap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89166299279360
+    m_Localized: Turbo Turtle extends its neck to munch on enemy flowers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 402636848771072
+    m_Localized: Movement
+    m_Metadata:
+      m_Items: []
+  - m_Id: 411050282856448
+    m_Localized: bite
+    m_Metadata:
+      m_Items: []
+  - m_Id: 413542014005248
+    m_Localized: dash
+    m_Metadata:
+      m_Items: []
+  - m_Id: 413586914029568
+    m_Localized: trap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 414699897761792
+    m_Localized: Spinning Charge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 414978265329664
+    m_Localized: Chomp attack
+    m_Metadata:
+      m_Items: []
+  - m_Id: 415292838129664
+    m_Localized: Expensive Boost
+    m_Metadata:
+      m_Items: []
+  - m_Id: 415614163759104
+    m_Localized: Detection Scan
+    m_Metadata:
+      m_Items: []
+  - m_Id: 416222107152384
+    m_Localized: Electric trap
+    m_Metadata:
+      m_Items: []
+  - m_Id: 417629656854528
+    m_Localized: 'Turbo Turtle curls into its shell and spins, then bursts forward
+      when the button is released.
+
+
+      Level 1: 1s charge
+
+      Level 2: 1.5s
+      charge
+
+      (can break some obstacles and stuns flowers)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 417752331857920
+    m_Localized: "Turbo Turtle\u2019s reactors are overheating, boosting speed."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 418191228022784
+    m_Localized: Turbo Turtle activates a limited range scan to spot flowers through
+      obstacles.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 418911813644288
+    m_Localized: Turbo Turtle drops a mine that stuns flowers on impact (up to 5
+      active mines).
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428248883802112
+    m_Localized: Poppy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428426927812608
+    m_Localized: Dandelion
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428524407631872
+    m_Localized: Lily
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428762589573120
+    m_Localized: Cornflower
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428814393421824
+    m_Localized: Clover
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428924829446144
+    m_Localized: Rose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8495364757544960
+    m_Localized: 2D & 3D Artist
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8496045115596800
+    m_Localized: Animator
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8498721811357696
+    m_Localized: Objectives
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8499963035934720
+    m_Localized: Flowers' Aim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8500286030897152
+    m_Localized: Turbo Turtle's Aim
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8500909644210176
+    m_Localized: Flowers have to run, hide and use their powers to drain Turbo Turtle's
+      battery!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8501869036724224
+    m_Localized: Turbo Turtle has to eliminate all the Flowers before its battery
+      drains to zero!
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8503203353878528
+    m_Localized: Energy
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8504687399297024
+    m_Localized: Reviving
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8506246514368512
+    m_Localized: Flowers
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8506458846814208
+    m_Localized: Turbo Turtle
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8508129450680320
+    m_Localized: The Suns you pick up grant the Flowers unique abilities! Their powers
+      cost between 1 and 3 Sun-Energy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8516727576748032
+    m_Localized: With 3 Suns, it is possible to revive an eliminated Flower by approaching
+      it and holding <sprite index=35>, which will consume all the Sun-Energy.
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []

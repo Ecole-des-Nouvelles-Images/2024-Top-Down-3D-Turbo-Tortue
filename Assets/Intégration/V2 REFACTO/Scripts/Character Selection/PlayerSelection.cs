@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Intégration.V2_REFACTO.Scripts
@@ -35,12 +36,14 @@ namespace Intégration.V2_REFACTO.Scripts
         [SerializeField] private Image _characterIcon;
         [SerializeField] private Image _capacityImage;
         [SerializeField] private GameObject _CursorUi;
-        [SerializeField] private GameObject _readyPopup;
+       // [SerializeField] private GameObject _readyPopup;
         [SerializeField] private GameObject _disconnectedPopup;
         [SerializeField] private GameObject _reconnectedPopup;
         [SerializeField] private GameObject _readyConfirmPopUp;
         [SerializeField] private List<Sprite> _characterSprites;
         [SerializeField] private List<Sprite> _capacitiesSprites;
+        [SerializeField] private List<GameObject> _FlowersDescriptions;
+        [SerializeField] private GameObject _descriptionPanel;
     
         [Header("Grid UI References")]
         public Button[] CharacterButtons;
@@ -94,10 +97,13 @@ namespace Intégration.V2_REFACTO.Scripts
         {
             _characterSelected = _eventSystem.currentSelectedGameObject?.GetComponent<Button>();
             _characterIcon.sprite = _characterSprites[Array.IndexOf(CharacterButtons, _characterSelected)];
+            ActivateFlowersDescriptions(Array.IndexOf(CharacterButtons, _characterSelected));
+            
             switch (_characterSelected?.tag)
             {
                 case "Turtle":
                     _capacityImage.gameObject.SetActive(false);
+                    
                     break;
                 case "Flower":
                     _capacityImage.gameObject.SetActive(true);
@@ -105,6 +111,19 @@ namespace Intégration.V2_REFACTO.Scripts
                     break;
             }
         }
+        
+        
+        private void ActivateFlowersDescriptions(int index)
+        {
+            _descriptionPanel.SetActive(true);
+            if (index < 0 || index >= _FlowersDescriptions.Count) return;
+            
+            for (int i = 0; i < _FlowersDescriptions.Count; i++)
+            {
+                _FlowersDescriptions[i].SetActive(i == index);
+            }
+        }
+        
     
         private void PlayerJoined()
         {
@@ -114,7 +133,7 @@ namespace Intégration.V2_REFACTO.Scripts
             _joinVisuals.SetActive(false);
             _CursorUi.SetActive(true);
             _playerIndexImage.gameObject.SetActive(true);
-            _readyPopup.SetActive(true);
+            //_readyPopup.SetActive(true);
             UpdateCursor();
         }
 
@@ -123,8 +142,9 @@ namespace Intégration.V2_REFACTO.Scripts
             _characterSelected = _eventSystem.currentSelectedGameObject?.GetComponent<Button>();
             Debug.Log("Ready");
             _characterSelected.GetComponent<CanvasGroup>().alpha = 0.5f;
-            _readyPopup.SetActive(false);
+            //_readyPopup.SetActive(false);
             _readyConfirmPopUp.SetActive(true);
+            _descriptionPanel.SetActive(false);
             _characterSelected.enabled = false;
             CheckOtherCursor();
        
@@ -263,7 +283,7 @@ namespace Intégration.V2_REFACTO.Scripts
                 _CursorUi.SetActive(false);
                 _eventSystem.SetSelectedGameObject(null);
                 _playerIndexImage.gameObject.SetActive(false);
-                _readyPopup.SetActive(false);
+                //_readyPopup.SetActive(false);
             }
             else if (CurrentState == PlayerState.Ready)
             {
@@ -279,8 +299,9 @@ namespace Intégration.V2_REFACTO.Scripts
                 SetPlayerState(PlayerState.Joined);
                 _characterSelected.enabled = true;
                 _characterSelected.GetComponent<CanvasGroup>().alpha = 1f;
-                _readyPopup.SetActive(true);
+                //_readyPopup.SetActive(true);
                 _readyConfirmPopUp.SetActive(false);
+                _descriptionPanel.SetActive(true);
                 UpdateIconCharacter();
                 //cancel player choice
             }

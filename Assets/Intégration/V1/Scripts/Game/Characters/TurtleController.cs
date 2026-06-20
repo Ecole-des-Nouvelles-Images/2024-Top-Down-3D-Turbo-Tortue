@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using Intégration.V1.Scripts.Game;
@@ -7,6 +6,7 @@ using Michael.Scripts.Manager;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using CharacterController = Intégration.V1.Scripts.Game.Characters.CharacterController;
+
 
 namespace Michael.Scripts.Controller
 {
@@ -64,8 +64,9 @@ namespace Michael.Scripts.Controller
         [SerializeField] private GameObject scanSphereArea;
 
         [Header("Trap")]
-        [SerializeField] private GameObject TrapPrefab;
+        [SerializeField] private List<GameObject> TrapPrefab;
         [SerializeField] private Transform TrapSpawn;
+        [SerializeField] private float _maxTrapCount = 2 ;
         
         
         private float _chargeTime;
@@ -141,7 +142,7 @@ namespace Michael.Scripts.Controller
             {
                 UpdateNitroVisuals(CurrentState == TurtleState.Boosting);
             }
-            _animator.SetFloat("Velocity", Rb.velocity.magnitude);
+            _animator.SetFloat("Velocity", Rb.linearVelocity.magnitude);
         }
 
         private void UpdateState()
@@ -352,7 +353,7 @@ namespace Michael.Scripts.Controller
 
         private void UpdateDashing()
         {
-            if (Rb.velocity.magnitude < 0.01f)
+            if (Rb.linearVelocity.magnitude < 0.01f)
             {
                 _animator.SetBool("IsDashing", false);
                 _lastDashDirection = Vector3.zero;
@@ -419,11 +420,12 @@ namespace Michael.Scripts.Controller
 
         protected override void ThirdCapacity()
         {
-            if (GameManager.Instance.TurtleTrap.Count <= 2)
+            if (GameManager.Instance.TurtleTrap.Count <= _maxTrapCount)
             {
                 _playerStats.trapsPlaced++;
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleSpawnTrap, 0.5f);
-                GameObject trap = Instantiate(TrapPrefab, TrapSpawn.position, TrapSpawn.rotation);
+                
+                GameObject trap = Instantiate(TrapPrefab[Random.Range(0,TrapPrefab.Count)], TrapSpawn.position, TrapSpawn.rotation);
                 GameManager.Instance.TurtleTrap.Add(trap);
                 BatteryManager.OnBatteryDecrease.Invoke(_trapCost);
                 RumbleManager.Instance.RumblePulse(Gamepad);

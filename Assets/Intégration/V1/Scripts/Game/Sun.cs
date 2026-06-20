@@ -57,7 +57,7 @@ namespace Intégration.V1.Scripts.Game
                     
                     AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.SunCollected);
                     GameManager.Instance._sunOccupiedSpawns.Remove(gameObject);
-                    BatteryManager.OnSunCollected.Invoke(15);
+                    BatteryManager.OnSunCollected.Invoke(35);
                     _collected = true;
                     Destroy(gameObject);
                     ;

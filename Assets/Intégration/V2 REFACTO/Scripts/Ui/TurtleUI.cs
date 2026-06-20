@@ -43,7 +43,7 @@ public class TurtleUI : MonoBehaviour
         float percent = current / max * 100f;
         
         bool wasCritical = isBatteryCritical;
-        isBatteryCritical = percent < 15f;
+        isBatteryCritical = percent < 25f;
 
         // MAJ immédiate
         batteryBar.value = current / max;

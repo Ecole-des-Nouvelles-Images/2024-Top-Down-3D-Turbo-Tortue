@@ -1,0 +1,307 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9620f8c34305754d8cc9a7e49e852d9, type: 3}
+  m_Name: Translate_fr
+  m_EditorClassIdentifier: 
+  m_LocaleId:
+    m_Code: fr
+  m_SharedData: {fileID: 11400000, guid: fcf2aab319f47e34e90dd701efe03def, type: 2}
+  m_Metadata:
+    m_Items: []
+  m_TableData:
+  - m_Id: 53080502272
+    m_Localized: Jouer
+    m_Metadata:
+      m_Items: []
+  - m_Id: 436486025216
+    m_Localized: Options
+    m_Metadata:
+      m_Items: []
+  - m_Id: 818884915200
+    m_Localized: "R\xE8gles"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 1690650030080
+    m_Localized: "Cr\xE9dits"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 5172840902656
+    m_Localized: Quitter
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17132840038400
+    m_Localized: "Volume G\xE9n\xE9ral"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17270543233024
+    m_Localized: Volume de la Musique
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17372850696192
+    m_Localized: Volume des Effets Sonores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17559920848896
+    m_Localized: Vibration Manette
+    m_Metadata:
+      m_Items: []
+  - m_Id: 17655722946560
+    m_Localized: Langue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50649728823296
+    m_Localized: "Game Designers & D\xE9veloppeurs"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50815689043968
+    m_Localized: Musiques
+    m_Metadata:
+      m_Items: []
+  - m_Id: 50967090835456
+    m_Localized: Effets Sonores
+    m_Metadata:
+      m_Items: []
+  - m_Id: 51943411560448
+    m_Localized: "R\xE8gles du jeu"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52166720499712
+    m_Localized: Commandes
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52224941633536
+    m_Localized: "Capacit\xE9s des Fleurs"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 52377073233920
+    m_Localized: "Capacit\xE9s de Turbo Tortue"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70555631366144
+    m_Localized: "se cacher, survivre \net \xE9puiser la tortue"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 70715996385280
+    m_Localized: "\xE9liminer les fleurs avant que la batterie ne se vide"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71383066882048
+    m_Localized: retour
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71684834471936
+    m_Localized: "\xC9nergie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 71950996615168
+    m_Localized: "R\xE9animation"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8515446984433664
+    m_Localized: "Ramener une Fleur \xE0 la vie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8513540824260608
+    m_Localized: "Turbo Tortue perd de la batterie avec le temps et en utilisant
+      ses pouvoirs. Les Soleils ramass\xE9s lui permettent de rester en vie et de
+      ne pas tomber HS !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 73353655758848
+    m_Localized: "lorsqu\u2019un joueur poss\xE8de 3 soleils, il peut r\xE9animer
+      une fleur \xE9limin\xE9e en s\u2019approchant et en maintenant l\u2019action
+      de r\xE9animation.\nles 3 soleils sont consomm\xE9s."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75096028360704
+    m_Localized: Fleurs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75140752224256
+    m_Localized: Turbo
+    m_Metadata:
+      m_Items: []
+  - m_Id: 75882380668928
+    m_Localized: "activer sa capacit\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76195443519488
+    m_Localized: se cacher sous terre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76557936242688
+    m_Localized: "maintenir pour r\xE9animer un alli\xE9"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76675859099648
+    m_Localized: "charge (maintenir puis l\xE2cher)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 76929119563776
+    m_Localized: morsure
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77163023314944
+    m_Localized: turbo (maintenir)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 77746409058304
+    m_Localized: "pi\xE8ge"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 89166299279360
+    m_Localized: "turbotortue \xE9tant son cou pour croquer\nles fleurs adverses.
+      \n"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 402636848771072
+    m_Localized: "se d\xE9placer"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 411050282856448
+    m_Localized: morsure
+    m_Metadata:
+      m_Items: []
+  - m_Id: 413542014005248
+    m_Localized: charge
+    m_Metadata:
+      m_Items: []
+  - m_Id: 413586914029568
+    m_Localized: "pi\xE8ge"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 414699897761792
+    m_Localized: Charge rotative
+    m_Metadata:
+      m_Items: []
+  - m_Id: 414978265329664
+    m_Localized: Attaque tranchante
+    m_Metadata:
+      m_Items: []
+  - m_Id: 415292838129664
+    m_Localized: "acc\xE9l\xE9rateur co\xFBteux"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 415614163759104
+    m_Localized: "scan r\xE9v\xE9lateur"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 416222107152384
+    m_Localized: "pi\xE8ge \xE9lectrique"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 417629656854528
+    m_Localized: "turbotortue rentre dans sa carapace et tourne sur elle m\xEAme,
+      elle fonce vers l'avant quand le bouton est relach\xE9.\n\n-niveau 1 : charge
+      de 1s\n-niveau 2 : charge de 1.5s  \n(permet de casser certains obstacle et
+      d'\xE9tourdir les fleurs)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 417752331857920
+    m_Localized: "les r\xE9acteurs de turbotortue surchauffent, octroie une vitesse
+      accrue."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 418191228022784
+    m_Localized: "turbotortue active un scan d'une port\xE9e limit\xE9e qui detecte
+      les fleurs \xE0 travers les obstacles."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 418911813644288
+    m_Localized: "turbotortue pose une mine au sol, qui \xE9tourdit les fleurs \xE0
+      son contact (5 mines actives maximum)."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428248883802112
+    m_Localized: cocquelicot
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428426927812608
+    m_Localized: Pissenlit
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428524407631872
+    m_Localized: Lys
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428762589573120
+    m_Localized: bleuet
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428814393421824
+    m_Localized: "Tr\xE8fle"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 428924829446144
+    m_Localized: Rose
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8495364757544960
+    m_Localized: Artiste 2D & 3D
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8496045115596800
+    m_Localized: Animatrice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8498721811357696
+    m_Localized: Objectifs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8499963035934720
+    m_Localized: Objectif des Fleurs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8500286030897152
+    m_Localized: Objectif de Turbo Tortue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8500909644210176
+    m_Localized: "Les Fleurs doivent courir, se cacher et utiliser leur pouvoirs
+      afin que Turbo Tortue soit \xE0 court de batterie !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8501869036724224
+    m_Localized: "Turbo Tortue doit \xE9liminer toutes les Fleurs avant que sa batterie
+      ne tombe \xE0 0 !"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8503203353878528
+    m_Localized: "\xC9nergie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8504687399297024
+    m_Localized: "R\xE9animation"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8506246514368512
+    m_Localized: Fleurs
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8506458846814208
+    m_Localized: Turbo Tortue
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8508129450680320
+    m_Localized: "Les Soleils ramass\xE9s par les Fleurs leur permettent d'utiliser
+      des pouvoirs uniques ! Leurs capacit\xE9s co\xFBtent entre 1 et 3 d'\xE9nergie-Soleil."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 8516727576748032
+    m_Localized: "Avec 3 Soleils, il est possible de r\xE9animer une Fleur \xE9limin\xE9e
+      en s\u2019en approchant et en maintenant <sprite index=35>, ce qui d\xE9pensera
+      toute l'\xE9nergie-Soleil."
+    m_Metadata:
+      m_Items: []
+  references:
+    version: 2
+    RefIds: []
