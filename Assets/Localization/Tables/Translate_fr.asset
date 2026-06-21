@@ -16,7 +16,8 @@ MonoBehaviour:
     m_Code: fr
   m_SharedData: {fileID: 11400000, guid: fcf2aab319f47e34e90dd701efe03def, type: 2}
   m_Metadata:
-    m_Items: []
+    m_Items:
+    - rid: 7983081613838778447
   m_TableData:
   - m_Id: 53080502272
     m_Localized: Jouer
@@ -95,7 +96,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 71383066882048
-    m_Localized: retour
+    m_Localized: Retour
     m_Metadata:
       m_Items: []
   - m_Id: 71684834471936
@@ -117,9 +118,9 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 73353655758848
-    m_Localized: "lorsqu\u2019un joueur poss\xE8de 3 soleils, il peut r\xE9animer
-      une fleur \xE9limin\xE9e en s\u2019approchant et en maintenant l\u2019action
-      de r\xE9animation.\nles 3 soleils sont consomm\xE9s."
+    m_Localized: "Lorsqu'un joueur poss\xE8de 3 soleils, il peut r\xE9animer une
+      fleur \xE9limin\xE9e en s'approchant et en maintenant l'action de r\xE9animation.\nLes
+      3 soleils sont consomm\xE9s."
     m_Metadata:
       m_Items: []
   - m_Id: 75096028360704
@@ -155,12 +156,12 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 77746409058304
-    m_Localized: "pi\xE8ge"
+    m_Localized: mine
     m_Metadata:
       m_Items: []
   - m_Id: 89166299279360
-    m_Localized: "turbotortue \xE9tant son cou pour croquer\nles fleurs adverses.
-      \n"
+    m_Localized: "Turbo Tortue \xE9tire son cou pour croquer les fleurs adverses.
+      \nConsomme un peu de batterie\n(<sprite index=34>)"
     m_Metadata:
       m_Items: []
   - m_Id: 402636848771072
@@ -176,7 +177,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 413586914029568
-    m_Localized: "pi\xE8ge"
+    m_Localized: mine
     m_Metadata:
       m_Items: []
   - m_Id: 414699897761792
@@ -184,7 +185,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 414978265329664
-    m_Localized: Attaque tranchante
+    m_Localized: Morsure
     m_Metadata:
       m_Items: []
   - m_Id: 415292838129664
@@ -196,33 +197,35 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 416222107152384
-    m_Localized: "pi\xE8ge \xE9lectrique"
+    m_Localized: "Mine \xE9lectrique"
     m_Metadata:
       m_Items: []
   - m_Id: 417629656854528
-    m_Localized: "turbotortue rentre dans sa carapace et tourne sur elle m\xEAme,
-      elle fonce vers l'avant quand le bouton est relach\xE9.\n\n-niveau 1 : charge
-      de 1s\n-niveau 2 : charge de 1.5s  \n(permet de casser certains obstacle et
-      d'\xE9tourdir les fleurs)"
+    m_Localized: "Turbo Tortue rentre dans sa carapace et tourne sur elle-m\xEAme,
+      elle fonce vers l'avant quand le bouton est rel\xE2ch\xE9.\nNiveau 1 : charge
+      de 1s\nNiveau 2 : charge de 1.5s (permet de casser certains obstacles et d'\xE9tourdir
+      les fleurs touch\xE9es).\n(maintenir <sprite index=33> + <sprite index=15>
+      pour orienter puis l\xE2cher)"
     m_Metadata:
       m_Items: []
   - m_Id: 417752331857920
-    m_Localized: "les r\xE9acteurs de turbotortue surchauffent, octroie une vitesse
-      accrue."
+    m_Localized: "Les r\xE9acteurs de Turbo Tortue surchauffent, octroyant une vitesse
+      accrue mais consommant beaucoup de batterie.\n(maintenir <sprite index=123>
+      ou <sprite index=124>)"
     m_Metadata:
       m_Items: []
   - m_Id: 418191228022784
-    m_Localized: "turbotortue active un scan d'une port\xE9e limit\xE9e qui detecte
-      les fleurs \xE0 travers les obstacles."
+    m_Localized: "Turbo Tortue active un scan d'une port\xE9e limit\xE9e qui d\xE9tecte
+      les fleurs \xE0 travers les obstacles.\n(<sprite index=36>)"
     m_Metadata:
       m_Items: []
   - m_Id: 418911813644288
-    m_Localized: "turbotortue pose une mine au sol, qui \xE9tourdit les fleurs \xE0
-      son contact (5 mines actives maximum)."
+    m_Localized: "Turbo Tortue pose une mine au sol, qui \xE9tourdit les fleurs \xE0
+      son contact (5 mines actives maximum).\n(<sprite index=35>)"
     m_Metadata:
       m_Items: []
   - m_Id: 428248883802112
-    m_Localized: cocquelicot
+    m_Localized: Coquelicot
     m_Metadata:
       m_Items: []
   - m_Id: 428426927812608
@@ -230,11 +233,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 428524407631872
-    m_Localized: Lys
+    m_Localized: Lys Blanc
     m_Metadata:
       m_Items: []
   - m_Id: 428762589573120
-    m_Localized: bleuet
+    m_Localized: Bleuet
     m_Metadata:
       m_Items: []
   - m_Id: 428814393421824
@@ -258,11 +261,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8499963035934720
-    m_Localized: Objectif des Fleurs
+    m_Localized: "C\xF4t\xE9 Fleurs"
     m_Metadata:
       m_Items: []
   - m_Id: 8500286030897152
-    m_Localized: Objectif de Turbo Tortue
+    m_Localized: "C\xF4t\xE9 Turbo Tortue"
     m_Metadata:
       m_Items: []
   - m_Id: 8500909644210176
@@ -284,11 +287,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8506246514368512
-    m_Localized: Fleurs
+    m_Localized: "C\xF4t\xE9 Fleurs"
     m_Metadata:
       m_Items: []
   - m_Id: 8506458846814208
-    m_Localized: Turbo Tortue
+    m_Localized: "C\xF4t\xE9 Turbo Tortue"
     m_Metadata:
       m_Items: []
   - m_Id: 8508129450680320
@@ -298,10 +301,304 @@ MonoBehaviour:
       m_Items: []
   - m_Id: 8516727576748032
     m_Localized: "Avec 3 Soleils, il est possible de r\xE9animer une Fleur \xE9limin\xE9e
-      en s\u2019en approchant et en maintenant <sprite index=35>, ce qui d\xE9pensera
+      en s'en approchant et en maintenant  <sprite index=35>, ce qui d\xE9pensera
       toute l'\xE9nergie-Soleil."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83184034177114112
+    m_Localized: "<color=#E4C824>Capacit\xE9 - D\xE9mat\xE9rialisation : <color=\"Black>3
+      soleils (<sprite index=33>)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83182293087969280
+    m_Localized: "<color=#FF4C00>Capacit\xE9 - Grappin : <color=\"Black> 1 soleil
+      (<sprite index=33>)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83182508167684096
+    m_Localized: "<color=#FF4C00>Coquelicot <color=#433F3F>lance un <color=#FF4C00>grappin
+      <color=#433F3F>dans la direction o\xF9 elle regarde. Si le grappin entre en
+      <color=#FF4C00>collision avec un \xE9l\xE9ment du d\xE9cor<color=#433F3F>,
+      <color=#FF4C00>Coquelicot<color=#433F3F> sera <color=#FF4C00>projet\xE9e <color=#433F3F>vers
+      ce dernier tant que le grappin n'est pas rel\xE2ch\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83182761520422912
+    m_Localized: "Passif - Adr\xE9naline"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83183508106534912
+    m_Localized: Lorsque <color=#FF4C00>Coquelicot<color=#433F3F> est la <color=#FF4C00>seule<color=#433F3F>
+      fleur encore en vie, <color=#FF4C00>sa vitesse est accrue.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83183900311707648
+    m_Localized: Agile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83184493281435648
+    m_Localized: "<color=#E4C824>Pissenlit<color=#433F3F> se <color=#E4C824>d\xE9mat\xE9rialise<color=#433F3F>,
+      la rendant <color=#E4C824>intouchable et plus rapide <color=#433F3F>pendant
+      quelques secondes."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83184530199699456
+    m_Localized: "<color=#E4C824>Passif - L\xE9ger comme l'air"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83185993609142272
+    m_Localized: "Tant que <color=#E4C824>Pissenlit<color=#433F3F> est <color=#E4C824>plant\xE9e<color=#433F3F>,
+      elle <color=#E4C824>n'appara\xEEt pas sur le scan de Turbo Tortue<color=#433F3F>,
+      le bruit de d\xE9tection est quand m\xEAme d\xE9clench\xE9."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83186216142135296
+    m_Localized: Insaisissable
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83186412213264384
+    m_Localized: "Capacit\xE9 - Don d'\xE9nergie <color=\"Black>(<sprite index=33>)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187175215882240
+    m_Localized: "<color=#95BC5B>Lys Blanc<color=#433F3F> sacrifie tous les <color=#95BC5B>soleils
+      en sa possession<color=#433F3F> (de 1 \xE0 3) \r\npour <color=#95BC5B>donner
+      la m\xEAme quantit\xE9<color=#433F3F> \xE0 chacune des autres fleurs."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187240990957568
+    m_Localized: Passif - Lueur d'Espoir
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187363619823616
+    m_Localized: "<color=#95BC5B>Lys Blanc<color=#433F3F> n'a besoin <color=#95BC5B>d'aucun
+      soleil pour r\xE9animer<color=#433F3F> les fleurs alli\xE9es. Chaque fois qu'il
+      r\xE9anime une fleur, il gagne un <color=#95BC5B>bonus de vitesse temporaire<color=#433F3F>."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187554406129664
+    m_Localized: Supportrice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187853938155520
+    m_Localized: "<color=#459FFF>Capacit\xE9 - Champ de Force : <color=\"Black>2
+      soleils (<sprite index=33>)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83189501028753408
+    m_Localized: "<color=#459FFF>Bleuet<color=#433F3F> cr\xE9e un <color=#459FFF>champ
+      de force temporaire<color=#433F3F>, la <color=#459FFF>prot\xE9geant de toute
+      attaque ext\xE9rieure<color=#433F3F> tant qu'il est actif."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83190282679246848
+    m_Localized: "<color=#459FFF>Passif - Solidarit\xE9 imprenable"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83190341907013632
+    m_Localized: "Si une <color=#459FFF>autre fleur<color=#433F3F> se trouve dans
+      le champ de force, elle est <color=#459FFF>\xE9galement prot\xE9g\xE9e<color=#433F3F>.
+      Le champ de force <color=#459FFF>repousse violemment Turbo Tortue<color=#433F3F>
+      en cas de contact."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83190435276414976
+    m_Localized: Protectrice
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83190512128647168
+    m_Localized: "<color=#AF5E89>Capacit\xE9 - Transplantation : <color=\"Black>3
+      soleils (<sprite index=33>)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191296773873664
+    m_Localized: "Si <color=#AF5E89>Tr\xE8fle<color=#433F3F> est <color=#AF5E89>plant\xE9e<color=#433F3F>
+      dans le sol, elle peut <color=#AF5E89>\xE9changer de position<color=#433F3F>
+      \r\navec une fleur <color=#AF5E89>al\xE9atoire<color=#433F3F> du d\xE9cor."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191330777096192
+    m_Localized: Passif - Coup du Destin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191370237108224
+    m_Localized: "Quand <color=#AF5E89>Tr\xE8fle<color=#433F3F> ramasse un soleil,
+      elle a <color=#AF5E89>1 chance sur 4 \r\nd'en obtenir 3<color=#433F3F>."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191407256035328
+    m_Localized: Opportuniste
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191576022245376
+    m_Localized: "<color=#6A4B89>Capacit\xE9 - Glyphe de R\xE9animation : <color=\"Black>3
+      soleils (<sprite index=33>)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83192263548362752
+    m_Localized: "<color=#6A4B89>Rose<color=#433F3F> plante une <color=#6A4B89>graine<color=#433F3F>
+      dans le sol. Si <color=#6A4B89>Rose meurt<color=#433F3F>, elle est<color=#6A4B89>
+      automatiquement r\xE9anim\xE9e \xE0 la position de la graine<color=#433F3F>,
+      sacrifiant cette derni\xE8re (peut \xEAtre d\xE9truite par Turbo Tortue)."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83192471648755712
+    m_Localized: "Passif - Dure \xE0 cuire"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83192494444797952
+    m_Localized: "<color=#6A4B89>Rose<color=#433F3F> ne subit pas <color=#6A4B89>d'\xE9tourdissement
+      au contact d'une mine<color=#433F3F> de Turbo Tortue."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83197293127032836
+    m_Localized: FLEURS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83197293131227141
+    m_Localized: TURBO TORTUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711499141120
+    m_Localized: CHOIX DES PERSONNAGES (TORTUE OBLIGATOIRE)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711520112640
+    m_Localized: J1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711520112641
+    m_Localized: Multifonction
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711520112642
+    m_Localized: TURBO TORTUE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711520112643
+    m_Localized: VS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83207311025004544
+    m_Localized: Robuste
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302634618880
+    m_Localized: MORSURE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302659784704
+    m_Localized: CHARGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302659784705
+    m_Localized: MINE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302659784706
+    m_Localized: NITRO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302659784707
+    m_Localized: SCAN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83231166376468480
+    m_Localized: "Se d\xE9placer (<sprite index=15>)\nActiver sa capacit\xE9 (<sprite
+      index=33>)\nSe cacher sous terre (<sprite index=34>)\nR\xE9animer un alli\xE9
+      (maintenir <sprite index=35>)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83231166397440000
+    m_Localized: "Se d\xE9placer (<sprite index=15>)\nCharge (maintenir <sprite index=33>
+      + <sprite index=15> pour orienter puis l\xE2cher)\nMorsure (<sprite index=34>)\nMine
+      (<sprite index=35>)\nScan (<sprite index=36>)\nTurbo (maintenir <sprite index=123>
+      ou <sprite index=124>)"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240063061483520
+    m_Localized: MAINTENIR
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585856
+    m_Localized: CHOIX TERRAIN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585857
+    m_Localized: PROCHAINEMENT
+    m_Metadata:
+      m_Items:
+      - rid: 7983081613838778447
+  - m_Id: 83240963406585858
+    m_Localized: POTAGER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585859
+    m_Localized: LABORATOIRE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585860
+    m_Localized: LANCER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585861
+    m_Localized: OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585862
+    m_Localized: CHOIX DE TERRAIN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83241499392499712
+    m_Localized: POUR COMMENCER
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83243337063882752
+    m_Localized: "manette connect\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83243595533672448
+    m_Localized: "manette d\xE9connect\xE9e"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83244090323132416
+    m_Localized: Rejoindre
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83244431697534976
+    m_Localized: Grappin
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83245023702573056
+    m_Localized: "D\xE9mat\xE9rialisation"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83245335939145728
+    m_Localized: "Don d'\xE9nergie"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83245692207521792
+    m_Localized: Champ de Force
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83246383642730496
+    m_Localized: Transplantation
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83246955359920128
+    m_Localized: "R\xE9animation"
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83248585014796288
+    m_Localized: "pr\xEAt"
     m_Metadata:
       m_Items: []
   references:
     version: 2
-    RefIds: []
+    RefIds:
+    - rid: 7983081613838778447
+      type: {class: SmartFormatTag, ns: UnityEngine.Localization.Metadata, asm: Unity.Localization}
+      data:
+        m_Entries: 
+        m_SharedEntries:
+        - id: 83240963406585857

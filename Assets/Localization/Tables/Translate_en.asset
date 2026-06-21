@@ -79,11 +79,11 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 52224941633536
-    m_Localized: Flowers' Abilities
+    m_Localized: Flower Abilities
     m_Metadata:
       m_Items: []
   - m_Id: 52377073233920
-    m_Localized: Turbo Turtle's Abilities
+    m_Localized: Turbo Turtle Abilities
     m_Metadata:
       m_Items: []
   - m_Id: 70555631366144
@@ -95,7 +95,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 71383066882048
-    m_Localized: return
+    m_Localized: Return
     m_Metadata:
       m_Items: []
   - m_Id: 71684834471936
@@ -107,16 +107,16 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8515446984433664
-    m_Localized: Bring a Flower back to life
+    m_Localized: Bringing a Flower Back to Life
     m_Metadata:
       m_Items: []
   - m_Id: 8513540824260608
     m_Localized: Turbo Turtle loses battery over time and when using its powers.
-      Collecting Suns lets it stay alive and avoid running out!
+      Suns collected let it stay alive and avoid running out of power!
     m_Metadata:
       m_Items: []
   - m_Id: 73353655758848
-    m_Localized: "With 3 suns, a player can bring back a defeated flower \nby getting
+    m_Localized: "With 3 Suns, a player can bring back a defeated flower \nby getting
       close and holding the revive button."
     m_Metadata:
       m_Items: []
@@ -153,11 +153,16 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 77746409058304
-    m_Localized: Trap
+    m_Localized: Mine
     m_Metadata:
       m_Items: []
   - m_Id: 89166299279360
-    m_Localized: Turbo Turtle extends its neck to munch on enemy flowers
+    m_Localized: 'Turbo Turtle stretches its neck to bite enemy Flowers.
+
+      Uses
+      a bit of battery
+
+      (<sprite index=34>)'
     m_Metadata:
       m_Items: []
   - m_Id: 402636848771072
@@ -173,7 +178,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 413586914029568
-    m_Localized: trap
+    m_Localized: mine
     m_Metadata:
       m_Items: []
   - m_Id: 414699897761792
@@ -181,7 +186,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 414978265329664
-    m_Localized: Chomp attack
+    m_Localized: Bite
     m_Metadata:
       m_Items: []
   - m_Id: 415292838129664
@@ -193,34 +198,41 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 416222107152384
-    m_Localized: Electric trap
+    m_Localized: Electric Mine
     m_Metadata:
       m_Items: []
   - m_Id: 417629656854528
-    m_Localized: 'Turbo Turtle curls into its shell and spins, then bursts forward
-      when the button is released.
-
+    m_Localized: 'Turbo Turtle curls into its shell and spins in place, then bursts
+      forward when the button is released.
 
       Level 1: 1s charge
 
-      Level 2: 1.5s
-      charge
+      Level
+      2: 1.5s charge (can break some obstacles and stun the Flowers it hits).
 
-      (can break some obstacles and stuns flowers)'
+      (hold
+      <sprite index=33> + <sprite index=15> to aim, then release)'
     m_Metadata:
       m_Items: []
   - m_Id: 417752331857920
-    m_Localized: "Turbo Turtle\u2019s reactors are overheating, boosting speed."
+    m_Localized: 'Turbo Turtle''s reactors overheat, granting increased speed but
+      draining a lot of battery.
+
+      (hold <sprite index=123> or <sprite index=124>)'
     m_Metadata:
       m_Items: []
   - m_Id: 418191228022784
-    m_Localized: Turbo Turtle activates a limited range scan to spot flowers through
-      obstacles.
+    m_Localized: 'Turbo Turtle activates a limited-range scan that detects Flowers
+      through obstacles.
+
+      (<sprite index=36>)'
     m_Metadata:
       m_Items: []
   - m_Id: 418911813644288
-    m_Localized: Turbo Turtle drops a mine that stuns flowers on impact (up to 5
-      active mines).
+    m_Localized: 'Turbo Turtle drops a mine on the ground, which stuns Flowers on
+      contact (up to 5 active mines).
+
+      (<sprite index=35>)'
     m_Metadata:
       m_Items: []
   - m_Id: 428248883802112
@@ -232,7 +244,7 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 428524407631872
-    m_Localized: Lily
+    m_Localized: White Lily
     m_Metadata:
       m_Items: []
   - m_Id: 428762589573120
@@ -260,21 +272,21 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8499963035934720
-    m_Localized: Flowers' Aim
+    m_Localized: As a Flower
     m_Metadata:
       m_Items: []
   - m_Id: 8500286030897152
-    m_Localized: Turbo Turtle's Aim
+    m_Localized: As Turbo Turtle
     m_Metadata:
       m_Items: []
   - m_Id: 8500909644210176
-    m_Localized: Flowers have to run, hide and use their powers to drain Turbo Turtle's
-      battery!
+    m_Localized: The Flowers must run, hide, and use their powers to make Turbo Turtle
+      run out of battery!
     m_Metadata:
       m_Items: []
   - m_Id: 8501869036724224
-    m_Localized: Turbo Turtle has to eliminate all the Flowers before its battery
-      drains to zero!
+    m_Localized: Turbo Turtle must eliminate all the Flowers before its battery drops
+      to 0!
     m_Metadata:
       m_Items: []
   - m_Id: 8503203353878528
@@ -282,25 +294,324 @@ MonoBehaviour:
     m_Metadata:
       m_Items: []
   - m_Id: 8504687399297024
-    m_Localized: Reviving
+    m_Localized: Revival
     m_Metadata:
       m_Items: []
   - m_Id: 8506246514368512
-    m_Localized: Flowers
+    m_Localized: As a Flower
     m_Metadata:
       m_Items: []
   - m_Id: 8506458846814208
-    m_Localized: Turbo Turtle
+    m_Localized: As Turbo Turtle
     m_Metadata:
       m_Items: []
   - m_Id: 8508129450680320
-    m_Localized: The Suns you pick up grant the Flowers unique abilities! Their powers
-      cost between 1 and 3 Sun-Energy.
+    m_Localized: Suns collected by the Flowers let them use unique powers! Their
+      abilities cost between 1 and 3 Sun-energy.
     m_Metadata:
       m_Items: []
   - m_Id: 8516727576748032
-    m_Localized: With 3 Suns, it is possible to revive an eliminated Flower by approaching
-      it and holding <sprite index=35>, which will consume all the Sun-Energy.
+    m_Localized: With 3 Suns, you can revive an eliminated Flower by approaching
+      it and holding <sprite index=35>, which will spend all your Sun-energy.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83184034177114112
+    m_Localized: '<color=#E4C824>Ability - Dematerialize: <color="Black>3 Suns (<sprite
+      index=33>)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83182293087969280
+    m_Localized: '<color=#FF4C00>Ability - Grappling Hook: <color="Black> 1 Sun (<sprite
+      index=33>)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83182508167684096
+    m_Localized: <color=#FF4C00>Poppy <color=#433F3F>throws a <color=#FF4C00>grappling
+      hook <color=#433F3F>in the direction it's facing. If the hook <color=#FF4C00>hits
+      an element of the environment<color=#433F3F>, <color=#FF4C00>Poppy<color=#433F3F>
+      is <color=#FF4C00>pulled<color=#433F3F> toward it until the hook is released.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83182761520422912
+    m_Localized: Passive - Adrenaline
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83183508106534912
+    m_Localized: When <color=#FF4C00>Poppy<color=#433F3F> is the <color=#FF4C00>last<color=#433F3F>
+      Flower alive, <color=#FF4C00>its speed increases.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83183900311707648
+    m_Localized: Agile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83184493281435648
+    m_Localized: <color=#E4C824>Dandelion<color=#433F3F> <color=#E4C824>dematerializes<color=#433F3F>,
+      becoming <color=#E4C824>untouchable and faster <color=#433F3F>for a few seconds.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83184530199699456
+    m_Localized: <color=#E4C824>Passive - Light as Air
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83185993609142272
+    m_Localized: While <color=#E4C824>Dandelion<color=#433F3F> is <color=#E4C824>planted<color=#433F3F>,
+      it <color=#E4C824>doesn't appear on Turbo Turtle's scan<color=#433F3F>, but
+      the detection sound still triggers.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83186216142135296
+    m_Localized: Elusive
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83186412213264384
+    m_Localized: Ability - Energy Gift <color="Black>(<sprite index=33>)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187175215882240
+    m_Localized: "<color=#95BC5B>White Lily<color=#433F3F> sacrifices all the <color=#95BC5B>Suns
+      it holds<color=#433F3F> (1 to 3) \r\nto <color=#95BC5B>give the same amount<color=#433F3F>
+      to each of the other Flowers."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187240990957568
+    m_Localized: Passive - Glimmer of Hope
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187363619823616
+    m_Localized: <color=#95BC5B>White Lily<color=#433F3F> doesn't need <color=#95BC5B>any
+      Suns to revive<color=#433F3F> allied Flowers. Each time it revives a Flower,
+      it gains a <color=#95BC5B>temporary speed boost<color=#433F3F>.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187554406129664
+    m_Localized: Support
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83187853938155520
+    m_Localized: '<color=#459FFF>Ability - Force Field: <color="Black>2 Suns (<sprite
+      index=33>)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83189501028753408
+    m_Localized: <color=#459FFF>Cornflower<color=#433F3F> creates a <color=#459FFF>temporary
+      force field<color=#433F3F>, <color=#459FFF>protecting it from any outside attack<color=#433F3F>
+      while active.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83190282679246848
+    m_Localized: <color=#459FFF>Passive - Unbreakable Solidarity
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83190341907013632
+    m_Localized: If <color=#459FFF>another Flower<color=#433F3F> is inside the force
+      field, it is <color=#459FFF>also protected<color=#433F3F>. The force field
+      <color=#459FFF>violently repels Turbo Turtle<color=#433F3F> on contact.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83190435276414976
+    m_Localized: Protector
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83190512128647168
+    m_Localized: '<color=#AF5E89>Ability - Transplant: <color="Black>3 Suns (<sprite
+      index=33>)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191296773873664
+    m_Localized: "Si <color=#AF5E89>Tr\xE8fle<color=#433F3F> est <color=#AF5E89>plant\xE9e<color=#433F3F>
+      dans le sol, elle peut <color=#AF5E89>\xE9changer de position<color=#433F3F>
+      \r\navec une fleur <color=#AF5E89>al\xE9atoire<color=#433F3F> du d\xE9cor."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191330777096192
+    m_Localized: Passive - Stroke of Luck
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191370237108224
+    m_Localized: "When <color=#AF5E89>Clover<color=#433F3F> picks up a Sun, it has
+      a <color=#AF5E89>1 in 4 chance \r\nof getting 3 instead<color=#433F3F>."
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191407256035328
+    m_Localized: Opportunist
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83191576022245376
+    m_Localized: '<color=#6A4B89>Ability - Revival Glyph: <color="Black>3 Suns (<sprite
+      index=33>)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83192263548362752
+    m_Localized: <color=#6A4B89>Rose<color=#433F3F> plants a <color=#6A4B89>seed<color=#433F3F>
+      in the ground. If <color=#6A4B89>Rose dies<color=#433F3F>, it is<color=#6A4B89>
+      automatically revived at the seed's location<color=#433F3F>, consuming the
+      seed in the process (can be destroyed by Turbo Turtle).
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83192471648755712
+    m_Localized: Passive - Tough as Nails
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83192494444797952
+    m_Localized: <color=#6A4B89>Rose<color=#433F3F> isn't <color=#6A4B89>stunned
+      by contact with a mine<color=#433F3F> from Turbo Turtle.
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83197293127032836
+    m_Localized: FLOWERS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83197293131227141
+    m_Localized: TURBO TURTLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711499141120
+    m_Localized: CHARACTER SELECT (TURTLE REQUIRED)
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711520112640
+    m_Localized: P1
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711520112641
+    m_Localized: Versatile
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711520112642
+    m_Localized: TURBO TURTLE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83201711520112643
+    m_Localized: VS
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83207311025004544
+    m_Localized: Tough
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302634618880
+    m_Localized: BITE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302659784704
+    m_Localized: CHARGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302659784705
+    m_Localized: MINE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302659784706
+    m_Localized: NITRO
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83225302659784707
+    m_Localized: SCAN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83231166376468480
+    m_Localized: 'Move (<sprite index=15>)
+
+      Activate ability (<sprite index=33>)
+
+      Hide
+      underground (<sprite index=34>)
+
+      Revive an ally (hold <sprite index=35>)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83231166397440000
+    m_Localized: 'Move (<sprite index=15>)
+
+      Charge (hold <sprite index=33>
+      + <sprite index=15> to aim, then release)
+
+      Bite (<sprite index=34>)
+
+      Mine
+      (<sprite index=35>)
+
+      Scan (<sprite index=36>)
+
+      Turbo (hold <sprite
+      index=123> or <sprite index=124>)'
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240063061483520
+    m_Localized: HOLD
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83241499392499712
+    m_Localized: TO START
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585856
+    m_Localized: SELECT STAGE
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585857
+    m_Localized: COMING SOON
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585858
+    m_Localized: GARDEN
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585859
+    m_Localized: LABORATORY
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585860
+    m_Localized: LAUNCH
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585861
+    m_Localized: OK
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83240963406585862
+    m_Localized: STAGE SELECT
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83243337063882752
+    m_Localized: controller connected
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83243595533672448
+    m_Localized: controller disconnected
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83244090323132416
+    m_Localized: Join
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83244431697534976
+    m_Localized: Grappling Hook
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83245023702573056
+    m_Localized: Dematerialize
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83245335939145728
+    m_Localized: Energy Gift
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83245692207521792
+    m_Localized: Force Shield
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83246383642730496
+    m_Localized: Transplant
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83246955359920128
+    m_Localized: Revival Glyph
+    m_Metadata:
+      m_Items: []
+  - m_Id: 83248585014796288
+    m_Localized: ready
     m_Metadata:
       m_Items: []
   references:
