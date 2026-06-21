@@ -2,6 +2,7 @@ using DG.Tweening;
 using Michael.Scripts.Manager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 
 namespace Intégration.V1.Scripts.UI
 {
@@ -13,7 +14,8 @@ namespace Intégration.V1.Scripts.UI
         [SerializeField] private float delayBetweenNumbers = 1f;
         [SerializeField] private float delayBeforeCountdown = 2f;
         [SerializeField] private int number = 4;
-        [SerializeField] private string StartMessage;
+        [SerializeField] private string StartMessageFr;
+        [SerializeField] private string StartMessageEn;
 
         private void Start()
         {
@@ -35,7 +37,12 @@ namespace Intégration.V1.Scripts.UI
             {
                 if (number == 4)
                 {
-                    countdownText.text = StartMessage;
+                    countdownText.text = LocalizationSettings.SelectedLocale.Identifier.Code switch
+                    {
+                        "fr" => StartMessageFr,
+                        "en" => StartMessageEn,
+                        _ => countdownText.text
+                    };
                 }
                 else
                 {

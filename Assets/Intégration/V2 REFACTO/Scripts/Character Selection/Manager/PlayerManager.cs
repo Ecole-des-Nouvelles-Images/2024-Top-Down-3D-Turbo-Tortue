@@ -31,6 +31,8 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private GameObject _choseMapPanel;
     private Tween fillTween;
     
+    
+    
     private bool _characterSelectionCanceled;
     private bool isStartingGame = false;
 
@@ -129,7 +131,13 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
-        if (_playersReadyCount < _minPlayers || !_turtleIsSelected) return; //si tous les joueurs sont prêts
+        if (_playersReadyCount < _minPlayers || !_turtleIsSelected)
+        {
+            return; //si tous les joueurs sont prêts
+        }
+
+      
+        
         _choseCharacterPopUp.SetActive(false);
         _startgamePopUp.SetActive(true);
         AllPlayersReady = true;

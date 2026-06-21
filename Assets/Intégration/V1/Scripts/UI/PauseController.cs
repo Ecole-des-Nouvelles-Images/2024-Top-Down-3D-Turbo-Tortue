@@ -6,6 +6,7 @@ using UnityEngine.Audio;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace Intégration.V1.Scripts.UI
 {
@@ -23,6 +24,11 @@ namespace Intégration.V1.Scripts.UI
         [Header("Pause logic")]
         [SerializeField] private MultiplayerEventSystem _eventSystem;
         [SerializeField] private GameObject _playButton;
+        [SerializeField] float InitialButtonPanelPositionX;
+        [SerializeField] float ShowedButtonPanelPositionX;
+        [SerializeField] Volume PostProcessVolume;
+        private DepthOfField _depthOfField;
+        
         private Sequence _openPauseSeq;
         private Sequence _closePauseSeq;
 
@@ -30,19 +36,27 @@ namespace Intégration.V1.Scripts.UI
         {
             IsPaused = false;
             Time.timeScale = 1;
+            if (PostProcessVolume.profile.TryGet<DepthOfField>(out _depthOfField))
+            {
+                Debug.Log("Depth Of Field trouvé");
+            }
         }
 
         private void OnEnable()
         {
             OnGamePaused += OpenPausePanel;
+           
+            
         }
         private void OnDisable()
         {
             OnGamePaused -= OpenPausePanel;
+           
         }
 
         private void OpenPausePanel()
         {
+            _depthOfField.active = true;
             if (!(Time.timeScale > 0) || !GameManager.Instance.GameisStarted) return;
             
             Debug.Log("GAME PAUSEDDDD ?");
@@ -51,8 +65,8 @@ namespace Intégration.V1.Scripts.UI
             //RumbleManager.Instance.StopAllVibrations();
 
             _openPauseSeq.Append(_pausePanelCG.DOFade(1, _pauseIntroDuration));
-           _openPauseSeq.Join(_buttonsBackground.DOAnchorPosX(0,_pauseIntroDuration)).SetEase(Ease.OutBack);
-           _openPauseSeq.Join(_gameTitle.DOAnchorPosX(-350,_pauseIntroDuration)).SetEase(Ease.OutBack);
+           _openPauseSeq.Join(_buttonsBackground.DOAnchorPosX(ShowedButtonPanelPositionX,_pauseIntroDuration)).SetEase(Ease.OutBack);
+           //_openPauseSeq.Join(_gameTitle.DOAnchorPosX(-350,_pauseIntroDuration)).SetEase(Ease.OutBack);
            _openPauseSeq.OnComplete(() =>
            {
                Time.timeScale = 0;
@@ -70,6 +84,7 @@ namespace Intégration.V1.Scripts.UI
 
         public void ClosePausePanel()
         {
+            
             if (!(Time.timeScale <= 0) || !GameManager.Instance.GameisStarted) return;
             
             _eventSystem.SetSelectedGameObject(null);
@@ -77,13 +92,14 @@ namespace Intégration.V1.Scripts.UI
             _closePauseSeq.SetUpdate(true);
 
             _closePauseSeq.Append(_pausePanelCG.DOFade(0, _pauseIntroDuration));
-            _closePauseSeq.Join(_buttonsBackground.DOAnchorPosX(-350,_pauseIntroDuration)).SetEase(Ease.OutBack);
-            _closePauseSeq.Join(_gameTitle.DOAnchorPosX(0,_pauseIntroDuration)).SetEase(Ease.OutBack);
+            _closePauseSeq.Join(_buttonsBackground.DOAnchorPosX(InitialButtonPanelPositionX,_pauseIntroDuration)).SetEase(Ease.OutBack);
+            //_closePauseSeq.Join(_gameTitle.DOAnchorPosX(0,_pauseIntroDuration)).SetEase(Ease.OutBack);
             _closePauseSeq.OnComplete(() =>
             {
                 Time.timeScale = 1;
                 IsPaused = false;
                 AudioManager.Instance.SetLowpassFrequency(4000f);
+                _depthOfField.active = false;
             });
             
             

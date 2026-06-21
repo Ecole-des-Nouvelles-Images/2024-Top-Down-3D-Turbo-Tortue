@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 namespace Michael.Scripts.Manager
@@ -48,7 +49,30 @@ namespace Michael.Scripts.Manager
 
         public void ShowWinnerPanel()
         {
-            _winnerTitle.text = GameManager.Instance.FlowersIsDead ? "Victoire de\nTurbo Tortue" : "Victoire\ndes fleurs";
+            if (GameManager.Instance.FlowersIsDead)
+            {
+                if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
+                {
+                    _winnerTitle.text = "Victoire de\nTurbo Tortue !";
+                }
+                else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
+                {
+                    _winnerTitle.text = "Turbo Tortue \nWins !";
+                }
+               
+            }
+            else
+            {
+                if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
+                {
+                    _winnerTitle.text =   "Victoire\ndes fleurs !";
+                }
+                else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
+                {
+                    _winnerTitle.text =   "The flowers \n win ! ";
+                }
+            }
+            
             
             if (GameManager.Instance.FlowersIsDead)
             {

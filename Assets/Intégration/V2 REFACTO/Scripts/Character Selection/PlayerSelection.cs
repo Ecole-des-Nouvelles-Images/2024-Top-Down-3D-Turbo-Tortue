@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.Localization.Settings;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -70,8 +71,18 @@ namespace Intégration.V2_REFACTO.Scripts
             InputDevice = _playerInput.user.pairedDevices[0];
 
             _playerIndexText = _playerIndexImage.GetComponentInChildren<TextMeshProUGUI>();
-            _playerIndexText.text = "J" +(_userIndex + 1).ToString() ;
-            _CursorUi.GetComponentInChildren<TextMeshProUGUI>().text = "J" +(_userIndex + 1).ToString() ;
+
+            if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
+            {
+                _playerIndexText.text = "J" + (_userIndex + 1).ToString();
+                _CursorUi.GetComponentInChildren<TextMeshProUGUI>().text = "J" +(_userIndex + 1).ToString() ;
+            }
+            else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
+            {
+                _playerIndexText.text = "P" + (_userIndex + 1).ToString();
+                _CursorUi.GetComponentInChildren<TextMeshProUGUI>().text = "P" +(_userIndex + 1).ToString() ;
+            }
+            
             _eventSystem = GetComponentInChildren<EventSystem>();
         }
         

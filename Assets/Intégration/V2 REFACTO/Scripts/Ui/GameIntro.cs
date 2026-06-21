@@ -5,6 +5,7 @@ using Michael.Scripts.Manager;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem.UI;
+using UnityEngine.Localization.Settings;
 
 public class GameIntro : MonoBehaviour
 {
@@ -32,7 +33,10 @@ public class GameIntro : MonoBehaviour
         //_test.maxVisibleCharacters = 0; 
         _scientistSubtitleText.text = "";
         _turtleSubtitleText.text = "";
+        
+        
         Invoke(nameof(GameIntroDialogue), 1.5f);
+        
     }
 
     private void GameIntroDialogue()
@@ -50,8 +54,19 @@ public class GameIntro : MonoBehaviour
         _dialogueSeq.Append(_scientistImage.DOAnchorPosX(350, slideDuration).SetEase(Ease.OutBack));
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIPopPanel));
         _dialogueSeq.Append(_scientistDialogueBox.DOScale(1, 0.3f).SetEase(Ease.OutBack));
-        _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "Je compte sur toi, turbo tortue"));
-        _dialogueSeq.AppendInterval("Je compte sur toi, turbo tortue".Length * typeDelay + pauseBetween);
+        
+        
+        if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
+        {
+            _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "Je compte sur toi, turbo tortue"));
+            _dialogueSeq.AppendInterval("Je compte sur toi, turbo tortue".Length * typeDelay + pauseBetween);
+        }
+        else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
+        {
+            _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "I'm counting on you, turbo tortue"));
+            _dialogueSeq.AppendInterval("I'm counting on you, turbo tortue".Length * typeDelay + pauseBetween);
+        }
+     
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.ScientistDialogue));
         _dialogueSeq.Append(_scientistDialogueBox.DOScale(0, 0.3f));
         

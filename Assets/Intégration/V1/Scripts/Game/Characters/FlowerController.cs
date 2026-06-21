@@ -9,6 +9,7 @@ using TMPro;
 using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Localization.Settings;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 using UnityEngine.VFX;
@@ -108,7 +109,13 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         private void ShowPlayerIndex()
         {
-            _playerIndexText.text = "J" + (PlayerIndex+1);
+            _playerIndexText.text = LocalizationSettings.SelectedLocale.Identifier.Code switch
+            {
+                "fr" => "J" + (PlayerIndex + 1),
+                "en" => "P" + (PlayerIndex + 1),
+                _ => _playerIndexText.text
+            };
+
             _playerIndexSequence =  DOTween.Sequence();
             PlayerIndexBackground.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.7f, 1f);
            

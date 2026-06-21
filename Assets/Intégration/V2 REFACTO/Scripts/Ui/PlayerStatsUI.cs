@@ -3,6 +3,7 @@ using DG.Tweening;
 using Michael.Scripts.Manager;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 public class PlayerStatsUI : MonoBehaviour
@@ -26,7 +27,19 @@ public class PlayerStatsUI : MonoBehaviour
 
     public void Setup(PlayerStats stats)
     {
-        _playerNumberText.text = "J" + (stats.playerIndex+1);
+        if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
+        {
+            _playerNumberText.text = "J" + (stats.playerIndex+1);
+        }
+        else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
+        {
+            _playerNumberText.text = "P" + (stats.playerIndex+1);
+        }
+        
+        
+        
+        
+       
         _statTitleText.text = stats.GetTrophyTitle();
         _statTitleImage.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.7f, 1f);
         
@@ -35,17 +48,36 @@ public class PlayerStatsUI : MonoBehaviour
         {
             _characterIcon.sprite = GameManager.Instance.FlowersIsDead ? _turtleSprite : _deadTurtleSprite;
            
-            _stat01Text.text = "fleurs detectees : " + stats.flowersScanned;
-            _stat02Text.text = "pieges places : " + stats.trapsPlaced;
-            _stat03Text.text = "soleil recuperes : " + stats.sunsCollected;
+            if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
+            {
+                _stat01Text.text = "fleurs detectees : " + stats.flowersScanned;
+                _stat02Text.text = "pieges places : " + stats.trapsPlaced;
+                _stat03Text.text = "soleil recuperes : " + stats.sunsCollected;
+            }
+            else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
+            {
+                _stat01Text.text = "flowers detected : " + stats.flowersScanned;
+                _stat02Text.text = "mines placed : " + stats.trapsPlaced;
+                _stat03Text.text = "suns collected : " + stats.sunsCollected;
+            }
         }
         else
         {
             _characterIcon.sprite = GameManager.Instance.FlowersIsDead ? _DeadFlowerSprites[stats.characterIndex] : _FlowersSprites[stats.characterIndex];
          
-            _stat01Text.text = "fleurs reanimees : " + stats.flowersRevived;
-            _stat02Text.text = "temps cache : " + Mathf.RoundToInt( stats.timeSpentHidden)+ "s";
-            _stat03Text.text = "soleil recuperes : " + stats.sunsCollected;
+            if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
+            {
+                _stat01Text.text = "fleurs reanimees : " + stats.flowersRevived;
+                _stat02Text.text = "temps cache : " + Mathf.RoundToInt( stats.timeSpentHidden)+ "s";
+                _stat03Text.text = "soleil recuperes : " + stats.sunsCollected;
+            }
+            else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
+            {
+                _stat01Text.text = "flowers revived : " + stats.flowersRevived;
+                _stat02Text.text = "time hidden : " + Mathf.RoundToInt( stats.timeSpentHidden)+ "s";
+                _stat03Text.text = "suns collected : " + stats.sunsCollected;
+            }
+           
         }
     }
 

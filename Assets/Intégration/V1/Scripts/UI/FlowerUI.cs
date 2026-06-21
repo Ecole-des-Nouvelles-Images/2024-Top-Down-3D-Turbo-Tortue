@@ -3,6 +3,7 @@ using DG.Tweening;
 using Intégration.V1.Scripts.Game.Characters;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 namespace Intégration.V1.Scripts.UI
@@ -45,7 +46,13 @@ namespace Intégration.V1.Scripts.UI
             if (FlowerPlayer == null) return;
             
             capacityIcon.sprite = CapacityIcons[FlowerPlayer.characterIndex];
-            _playerIndexText.text = "J" + (FlowerPlayer.PlayerIndex+1);
+            
+            _playerIndexText.text = LocalizationSettings.SelectedLocale.Identifier.Code switch
+            {
+                "fr" => "J" + (FlowerPlayer.PlayerIndex + 1),
+                "en" => "P" + (FlowerPlayer.PlayerIndex + 1),
+                _ => _playerIndexText.text
+            };
             
             HandleSunChange(FlowerPlayer.Sun);
             HandleDeathChange(FlowerPlayer.isDead);
