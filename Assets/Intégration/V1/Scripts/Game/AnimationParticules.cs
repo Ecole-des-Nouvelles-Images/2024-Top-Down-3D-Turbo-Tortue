@@ -36,7 +36,7 @@ namespace Intégration.V1.Scripts.Game
             if (_runParticules)
             {
                 _runParticules.Play();
-                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.FlowersRun);
+                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersRun);
             }
         }
 

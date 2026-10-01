@@ -151,7 +151,7 @@ namespace Michael.Scripts.Manager
             _currentQTeImage.SetActive(false);
             _turtlePlayerInput.currentActionMap = _turtlePlayerInput.actions.FindActionMap("Character");
             GetComponent<Rigidbody>().isKinematic = false;
-            
+            GameManager.Instance?.firstCamera.SetActive(false);
             _electricParticleSystem.Play();
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.QTESuccess);
         }

@@ -34,6 +34,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 
                 CanRespawn = true;
                 _isRespawning = true;
+                Rb.isKinematic = false;
                 Invoke(nameof(Respawn),respawnDelay);
             }
             else
@@ -72,10 +73,10 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (CanRespawn)
             {
                 Rb.MovePosition(_currentTrap.transform.position);
-                Destroy(_currentTrap);
                 GetRevive();
                 CanRespawn = false;
                 _isRespawning = false;
+                Destroy(_currentTrap);
             }
             else
             {

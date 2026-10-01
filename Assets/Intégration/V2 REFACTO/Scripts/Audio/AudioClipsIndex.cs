@@ -24,7 +24,7 @@ public class AudioClipsIndex
     // Flowers
     [field: SerializeField] public List<AudioClip> FlowersVoices { get; private set; }
     [field: SerializeField] public AudioClip FlowersRevive { get; private set; }
-    [field: SerializeField] public AudioClip FlowersRun { get; private set; }
+    [field: SerializeField] public List<AudioClip> FlowersRun { get; private set; }
     [field: SerializeField] public  List<AudioClip> FlowersPlanted { get; private set; }
     [field: SerializeField] public  List<AudioClip> FlowersDeath { get; private set; }
     [field: SerializeField] public AudioClip RoseTrapDestroy { get; private set; }

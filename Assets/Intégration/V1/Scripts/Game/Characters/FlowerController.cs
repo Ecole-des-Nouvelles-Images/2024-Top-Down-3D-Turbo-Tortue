@@ -330,7 +330,7 @@ namespace Intégration.V1.Scripts.Game.Characters
         protected override void ThirdCapacity() // revive ally 
         {
             _playerStats.flowersRevived++;
-            Debug.Log("revive"); 
+          //  Debug.Log("revive"); 
             Sun = 0;
             deadFlowerController.GetRevive();
             canReanimate = false;
@@ -445,7 +445,7 @@ namespace Intégration.V1.Scripts.Game.Characters
         {
             if (isInvincible || isUnhittable || GameManager.Instance.GameFinished || isDead) return;
             
-            Debug.Log("FLOWERS HIT");
+           // Debug.Log("FLOWERS HIT");
             AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersDeath);
 
             if (Gamepad != null)
@@ -486,6 +486,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             Invoke(nameof(RespawnProtection),2f);
             aliveModelCollider.enabled = true;
             IsPlanted = false;
+            Rb.isKinematic = false;
             GetComponent<PlayerInput>().SwitchCurrentActionMap("Character");
             isDead = false;
             OnDeathChanged?.Invoke(isDead);

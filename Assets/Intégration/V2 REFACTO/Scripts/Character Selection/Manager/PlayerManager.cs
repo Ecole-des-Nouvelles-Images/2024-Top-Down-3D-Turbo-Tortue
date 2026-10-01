@@ -66,7 +66,8 @@ public class PlayerManager : MonoBehaviour
         {
             if (device is Gamepad)
             {
-                CheckCurrentGamepads(device); Debug.Log("manettes check");
+                CheckCurrentGamepads(device); 
+                //Debug.Log("manettes check");
             }
         }
 
@@ -80,10 +81,10 @@ public class PlayerManager : MonoBehaviour
     {
         //MenuManager.Instance.CircleTransition(circularTransition,15,1.5f);
         
-        foreach (var user in InputUser.all)
+       /* foreach (var user in InputUser.all)
         {
-            Debug.Log("user dispo : " +user + "numero : " + user.index);
-        }
+           Debug.Log("user dispo : " +user + "numero : " + user.index);
+        }*/
     }
 
     private void OnDisable()
@@ -160,7 +161,7 @@ public class PlayerManager : MonoBehaviour
           
             //if (!PlayersSelectionConfirmed) return;
             ReturnSelectionPanel();
-            Debug.Log("Disconnected !!!!!!!!!!");
+           // Debug.Log("Disconnected !!!!!!!!!!");
         }
     }
 
@@ -170,7 +171,7 @@ public class PlayerManager : MonoBehaviour
         // Verifie si la manette a deja été connectée
         if (deviceToPlayerInput.ContainsKey(device) || _playerInputManager.playerCount >= _playerInputManager.maxPlayerCount) return;
         
-        Debug.Log($"Manette {device.displayName} branchée !");
+        //Debug.Log($"Manette {device.displayName} branchée !");
         _playerInputManager.JoinPlayer(-1, -1, null, device);
     }
 
@@ -183,13 +184,13 @@ public class PlayerManager : MonoBehaviour
         
         if (deviceToPlayerInput.ContainsKey(device))
         {
-            Debug.Log(" check failed");
-            Debug.Log($"Manette {device.displayName} reconnue !");
+           // Debug.Log(" check failed");
+         //   Debug.Log($"Manette {device.displayName} reconnue !");
             //Destroy(playerInput.gameObject);
             return;
         }
         
-        Debug.Log($"Nouvelle manette {device.displayName} !");
+       // Debug.Log($"Nouvelle manette {device.displayName} !");
         deviceToPlayerInput[device] = playerInput;
         playerInputsList.Add(playerInput);
         RegisterPlayer(playerInput);
@@ -235,7 +236,7 @@ public class PlayerManager : MonoBehaviour
                     break;
             }
     
-            Debug.Log("start game");
+          //  Debug.Log("start game");
             isStartingGame = true;
         }
     }
@@ -294,7 +295,7 @@ public class PlayerManager : MonoBehaviour
 
     private void OnCancelSelection()
     {
-        Debug.Log("cancel ma gueule");
+       // Debug.Log("cancel ma gueule");
         if (PlayersSelectionConfirmed)
         {
             ReturnSelectionPanel();
@@ -310,7 +311,7 @@ public class PlayerManager : MonoBehaviour
                     return;
                 }
             }
-            Debug.Log("cancel Selection");
+           // Debug.Log("cancel Selection");
             PlayersSelectionConfirmed = false;
 
             if (!_characterSelectionCanceled)

@@ -47,6 +47,7 @@ namespace Michael.Scripts.Manager
         [Header("Effects")]
         [SerializeField] private GameObject MeteorVfx;
         [SerializeField] private GameObject CrashVfx;
+        [SerializeField] private Collider CrashCollider; 
        // [SerializeField] private ParticleSystem _dandelionDeathVfx;
         
         [Header("Transition references")]
@@ -146,12 +147,21 @@ namespace Michael.Scripts.Manager
             CrashVfx.SetActive(true);
             CameraShake(1, 1f, 10);
             
-            firstCamera.SetActive(false);
+            // firstCamera.SetActive(false);
             PlayersUi.SetActive(true);
             PlayersUi.transform.DOShakePosition(0.5f, 0.2f, 10);
             GameisStarted = true;
+
+            if (CrashCollider)
+            {
+                Invoke(nameof(DisableCrashCollider),0.1f);
+            }
         }
 
+        private void DisableCrashCollider()
+        {
+            CrashCollider.enabled = false;
+        }
 
         public void CameraShake(float duration, float strength, int vibrato)
         {
