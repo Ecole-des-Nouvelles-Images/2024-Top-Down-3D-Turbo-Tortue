@@ -24,32 +24,31 @@ namespace Michael.Scripts.Manager
         public bool GameFinished = false;
         public bool GameisStarted = false;
 
-        [Header("Players References")] 
+        [Header("Players References")]
         public GameObject Turtle;
         public List<GameObject> FlowersAlive;
         public List<GameObject> Players;
         public List<GameObject> TurtleTrap;
-        
-        [Header("Sun System references")] 
+
+        [Header("Sun System references")]
         public Dictionary<GameObject, Transform> _sunOccupiedSpawns = new Dictionary<GameObject, Transform>();
         [SerializeField] private Transform[] _sunSpawnPoints;
         [SerializeField] private GameObject _sunPrefabs;
         [SerializeField] private GameObject SunSpawnsParent;
-        
+
         [Header("Ui References")]
         [SerializeField] private GameObject PlayersUi;
         [SerializeField] private EndGameUiManager endGameUiManager;
-        
+
         [Header("Cameras")]
         public GameObject firstCamera;
         [SerializeField] private CinemachineTargetGroup _targetGroup;
-        
+
         [Header("Effects")]
         [SerializeField] private GameObject MeteorVfx;
         [SerializeField] private GameObject CrashVfx;
-        [SerializeField] private Collider CrashCollider; 
-       // [SerializeField] private ParticleSystem _dandelionDeathVfx;
-        
+        [SerializeField] private Collider CrashCollider;
+
         [Header("Transition references")]
         [SerializeField] private GameObject circularTransition;
 
@@ -60,35 +59,25 @@ namespace Michael.Scripts.Manager
             MenuManager.Instance.CircleTransition(circularTransition,15,1.5f);
         }
 
-       
-        
         public void StartGame()
         {
             MeteorVfx.SetActive(true);
             InvokeRepeating(nameof(SpawnSun), 2, 8);
             Invoke("TurtleEntrance", 1.45f);
-            
         }
-        
+
         private void FinishGame()
         {
             foreach (GameObject player in Players)
             {
                 player.GetComponent<PlayerInput>().enabled = false;
             }
-            
+
             PlayersUi.SetActive(false);
             GameFinished = true;
             endGameUiManager.ShowWinnerPanel();
-            ChangeCameraWeight(Turtle,10);// zoomer sur la tortu
-
+            ChangeCameraWeight(Turtle,10);
         }
-
-        /*public void DandelionDeath()
-        {
-            _dandelionDeathVfx.Play();
-        }*/
-
 
         public void WinVerification()
         {
@@ -98,31 +87,15 @@ namespace Michael.Scripts.Manager
                 FinishGame();
             }
             else if (TurtleIsDead && !GameFinished) {
-               
                 OnFlowersWin.Invoke();
                 FinishGame();
             }
         }
-      
 
-        /*public void ShowRulesPanels()
-        {
-            Time.timeScale = 0;
-            eventSystem.GetComponent<EventSystem>().SetSelectedGameObject(okButton);
-
-        }
-        
-        public void closeRulesPanels()
-        {
-            Time.timeScale = 1;
-            GameisStarted = true; 
-        }*/
-        
-        
         private void SpawnSun()
         {
             if (_sunSpawnPoints.Length <= 0) return;
-            
+
             int sunTospawn = Random.Range(3, 5);
 
             for (int i = 0; i < sunTospawn; i++)
@@ -130,14 +103,13 @@ namespace Michael.Scripts.Manager
                 Transform randomSpawnPoint = _sunSpawnPoints[Random.Range(0, _sunSpawnPoints.Length)];
                 if (!_sunOccupiedSpawns.ContainsValue(randomSpawnPoint))
                 {
-
                     GameObject Sun = Instantiate(_sunPrefabs, randomSpawnPoint.position, randomSpawnPoint.rotation,
                         SunSpawnsParent.transform);
                     _sunOccupiedSpawns.Add(Sun, randomSpawnPoint);
                 }
             }
         }
-       
+
         private void TurtleEntrance()
         {
             RumbleManager.Instance.RumbleAllGamepad();
@@ -146,8 +118,7 @@ namespace Michael.Scripts.Manager
             _qteManager.StartQTE();
             CrashVfx.SetActive(true);
             CameraShake(1, 1f, 10);
-            
-            // firstCamera.SetActive(false);
+
             PlayersUi.SetActive(true);
             PlayersUi.transform.DOShakePosition(0.5f, 0.2f, 10);
             GameisStarted = true;
@@ -167,7 +138,7 @@ namespace Michael.Scripts.Manager
         {
             firstCamera.transform.DOShakePosition(duration, strength, vibrato);
         }
-        
+
         private void ChangeCameraWeight(GameObject target,float weight)
         {
             for (int i = 0; i < _targetGroup.m_Targets.Length; i++)
@@ -179,6 +150,5 @@ namespace Michael.Scripts.Manager
                 }
             }
         }
-        
     }
 }

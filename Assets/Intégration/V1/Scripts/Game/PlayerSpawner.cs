@@ -19,22 +19,17 @@ namespace Intégration.V1.Scripts.Game
         [SerializeField] private CinemachineTargetGroup _targetGroup;
         [SerializeField] private List<FlowerUI> FlowerUis;
         private int flowerUiIndex = 0;
-        
 
         private void Start()
         {
-            
             foreach (var kvp in DataManager.Instance.PlayerChoice)
             {
                 int playerIndex = kvp.Key;
                 var playerInfo = kvp.Value;
 
-                
-                // Sélection du prefab
                 int prefabIndex = playerInfo.prefabIndex;
                 if (prefabIndex >= characterPrefabs.Count)
                 {
-                    Debug.LogWarning($"Prefab index {prefabIndex} invalide pour le joueur {playerIndex}");
                     continue;
                 }
 
@@ -42,28 +37,20 @@ namespace Intégration.V1.Scripts.Game
                 Transform spawnPoint = spawnPoints[prefabIndex];
 
                 GameObject character = Instantiate(prefab, spawnPoint.position, Quaternion.identity, transform);
-                Debug.Log($"[Spawner] Joueur {playerIndex} instancié au point {spawnPoint.position} avec prefab '{prefab.name}'");
+
                 GameManager.Instance.Players.Add(character);
 
-                // ⚙️ Gérer PlayerInput et InputDevice
                 var playerInput = character.GetComponent<PlayerInput>();
                 if (playerInput != null && playerInfo.device != null)
                 {
                     var userManager = playerInput.GetComponent<InputUserManager>();
-                    
+
                     if (userManager != null)
                     {
                         userManager.Initialize(playerInfo.device,  character.GetComponent<CharacterController>());
                     }
-                    Debug.Log($"[Spawner] InputUser associé à {playerInfo.device} pour le joueur {playerIndex}");
+                }
 
-                }
-                else
-                {
-                    Debug.LogWarning($"[Spawner] PlayerInput ou device manquant pour joueur {playerIndex}");
-                }
-                
-                
                 if (character.CompareTag("Flower"))
                 {   var flowerController = character.GetComponent<FlowerController>();
                     flowerController.characterIndex = prefabIndex;
@@ -78,10 +65,8 @@ namespace Intégration.V1.Scripts.Game
 
                     GameManager.Instance.FlowersAlive.Add(character);
                     _targetGroup.AddMember(character.transform, 1, 2);
-                    Debug.Log("Flower ajouté");
                 }
 
-                // 🐢 Cas spécifique : Turtle
                 else if (character.CompareTag("Turtle"))
                 {
                     GameManager.Instance.Turtle = character;
@@ -89,11 +74,48 @@ namespace Intégration.V1.Scripts.Game
                     turtleController.PlayerIndex = playerIndex;
                     SeeTroughWall._turtle = character;
                     _targetGroup.AddMember(character.transform, 1.1f, 2.5f);
-                    Debug.Log("Turtle ajouté");
                 }
             }
-            // Optionnel : reset des données si plus utiles
-            //DataManager.Instance.PlayerChoice.Clear(
+
+            if (GameManager.Instance.Turtle == null && GameManager.Instance.FlowersAlive.Count > 0)
+            {
+                SpawnAITurtle();
+            }
+        }
+
+        private void SpawnAITurtle()
+        {
+            int turtleIndex = characterPrefabs.FindIndex(p => p != null && p.CompareTag("Turtle"));
+            if (turtleIndex < 0 || turtleIndex >= spawnPoints.Count)
+            {
+                return;
+            }
+
+            GameObject inactiveHolder = new GameObject("AI Turtle Holder");
+            inactiveHolder.SetActive(false);
+
+            Transform spawnPoint = spawnPoints[turtleIndex];
+            GameObject turtle = Instantiate(characterPrefabs[turtleIndex], spawnPoint.position, Quaternion.identity, inactiveHolder.transform);
+            turtle.name = "Turtle (IA)";
+
+            var playerInput = turtle.GetComponent<PlayerInput>();
+            if (playerInput != null) playerInput.enabled = false;
+
+            var qteManager = turtle.GetComponent<QteManager>();
+            if (qteManager != null) qteManager.IsAIControlled = true;
+
+            var turtleController = turtle.GetComponent<TurtleController>();
+            turtleController.PlayerIndex = -1;
+            turtleController.IsAIControlled = true;
+            turtle.AddComponent<TurtleAI>();
+
+            turtle.transform.SetParent(transform, true);
+            Destroy(inactiveHolder);
+
+            GameManager.Instance.Turtle = turtle;
+            GameManager.Instance.Players.Add(turtle);
+            SeeTroughWall._turtle = turtle;
+            _targetGroup.AddMember(turtle.transform, 1.1f, 2.5f);
         }
     }
 }

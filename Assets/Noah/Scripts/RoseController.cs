@@ -9,12 +9,12 @@ namespace Noah.Scripts
         [SerializeField] private float respawnDelay = 5f;
 
         private GameObject _currentTrap;
-        
+
         protected override void PassiveCapacity()
         {
             throw new System.NotImplementedException();
         }
-        
+
         protected override void Update()
         {
             PassiveCapacity();
@@ -35,8 +35,6 @@ namespace Noah.Scripts
                 _currentTrap.transform.position = transform.position;
             }
         }
-        
-        
 
         private void Respawn()
         {

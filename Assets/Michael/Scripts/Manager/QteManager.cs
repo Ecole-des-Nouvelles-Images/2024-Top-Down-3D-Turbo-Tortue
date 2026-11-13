@@ -12,7 +12,14 @@ namespace Michael.Scripts.Manager
     public class QteManager : MonoBehaviourSingleton<QteManager>
     {
         public Action OnQteFinished;
-        
+
+        [Tooltip("Tortue jouée par l'IA : elle fait le QTE elle-même, à un rythme humain.")]
+        public bool IsAIControlled;
+        [SerializeField] private Vector2 _aiReactionTime = new Vector2(0.35f, 0.75f);
+        [Tooltip("Chance qu'elle réagisse trop tard sur une touche (= QTE raté, elle recommence).")]
+        [SerializeField, Range(0f, 1f)] private float _aiMistakeChance = 0.05f;
+        private float _aiNextPressTime;
+
         [SerializeField] private float qteTimePerButton = 1f;
         [SerializeField] private PlayerInput _turtlePlayerInput;
         [SerializeField] private InputAction[] _qteActions;
@@ -22,13 +29,13 @@ namespace Michael.Scripts.Manager
         [SerializeField] private List<Sprite> qteImages;
         [SerializeField] private int TouchQteCount;
         [SerializeField] private ParticleSystem _electricParticleSystem;
-        
+
         private bool qteActive;
         private float qteTimer;
         private int currentButtonIndex =0;
         private CanvasGroup failImageCG;
         private Sequence _failQteSequence;
-        
+
         private void Start()
         {
             failImageCG = _FailQTeImage.GetComponent<CanvasGroup>();
@@ -40,22 +47,18 @@ namespace Michael.Scripts.Manager
             _qteActions[3] = _turtlePlayerInput.actions["LeftArrow"];
             _qteActions[4] = _turtlePlayerInput.actions["LeftShoulder"];
             _qteActions[5] = _turtlePlayerInput.actions["RightShoulder"];
-            
-            //StartQTE();
         }
 
         void UpdteQTEUi()
         {
-           
             if (currentButtonIndex < TouchQteCount)
             {
                 InputAction currentAction = qteSequence[currentButtonIndex];
                 int index = System.Array.IndexOf(_qteActions, currentAction);
                 _currentQTeImage.GetComponent<Image>().sprite = qteImages[index];
 
-                // Réinitialiser le temps restant pour le bouton actuel
                 qteTimer = qteTimePerButton;
-                
+
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.QTEKey);
             }
         }
@@ -83,12 +86,13 @@ namespace Michael.Scripts.Manager
             {
                 failImageCG.alpha = 0;
                 _FailQTeImage.rectTransform.DOAnchorPosY(0, 0f);
-                
+
                 qteActive = true;
                 GenerateQTESequence();
                 currentButtonIndex = 0;
                 _currentQTeImage.SetActive(true);
                 UpdteQTEUi();
+                if (IsAIControlled) ScheduleAIPress();
             }
         }
 
@@ -96,18 +100,16 @@ namespace Michael.Scripts.Manager
         {
             if (qteActive)
             {
-                // Mettre à jour le temps restant pour le bouton actuel
                 qteTimer -= Time.deltaTime;
 
                 if (qteTimer <= 0f)
                 {
-                    // Le temps est écoulé, échec de la séquence QTE
                     QTEFailure();
                 }
                 else
                 {
-                    // Vérifier l'entrée du joueur pour le bouton actuel
-                    CheckQTEInput();
+                    if (IsAIControlled) UpdateAIQte();
+                    else CheckQTEInput();
                 }
             }
         }
@@ -115,33 +117,50 @@ namespace Michael.Scripts.Manager
         void CheckQTEInput()
         {
             if (PauseControlller.IsPaused) return;
-            
+
             foreach (var action in _qteActions)
             {
                 if (action.WasPressedThisFrame() && action == qteSequence[currentButtonIndex])
                 {
-                    // Le joueur a appuyé sur le bon bouton, passer au bouton suivant
                     currentButtonIndex++;
                     UpdteQTEUi();
 
                     if (currentButtonIndex >= TouchQteCount)
                     {
-                        // Tous les boutons ont été pressés avec succès, fin de la séquence QTE
                         OnQteFinished.Invoke();
-                        
                     }
 
                     break;
                 }
                 else if (action.WasPressedThisFrame())
                 {
-                    // Le joueur a appuyé sur le mauvais bouton, échec de la séquence QTE
                     QTEFailure();
-                    
 
                     break;
                 }
             }
+        }
+
+        private void ScheduleAIPress()
+        {
+            bool tooSlow = Random.value < _aiMistakeChance;
+            float delay = tooSlow
+                ? qteTimePerButton + 0.2f
+                : Mathf.Min(Random.Range(_aiReactionTime.x, _aiReactionTime.y), qteTimePerButton * 0.85f);
+            _aiNextPressTime = Time.time + delay;
+        }
+
+        private void UpdateAIQte()
+        {
+            if (PauseControlller.IsPaused || Time.time < _aiNextPressTime) return;
+
+            currentButtonIndex++;
+            UpdteQTEUi();
+
+            if (currentButtonIndex >= TouchQteCount)
+                OnQteFinished.Invoke();
+            else
+                ScheduleAIPress();
         }
 
         void QTESuccess()
@@ -149,7 +168,10 @@ namespace Michael.Scripts.Manager
             qteActive = false;
             qteSequence.Clear();
             _currentQTeImage.SetActive(false);
-            _turtlePlayerInput.currentActionMap = _turtlePlayerInput.actions.FindActionMap("Character");
+            if (_turtlePlayerInput != null && _turtlePlayerInput.enabled)
+            {
+                _turtlePlayerInput.currentActionMap = _turtlePlayerInput.actions.FindActionMap("Character");
+            }
             GetComponent<Rigidbody>().isKinematic = false;
             GameManager.Instance?.firstCamera.SetActive(false);
             _electricParticleSystem.Play();
@@ -161,14 +183,13 @@ namespace Michael.Scripts.Manager
             qteActive = false;
             qteSequence.Clear();
             _currentQTeImage.SetActive(false);
-         
-           
+
            _failQteSequence =  DOTween.Sequence();
-           
+
            _failQteSequence.Append(failImageCG.DOFade(1,0f));
            _failQteSequence.Join(_FailQTeImage.rectTransform.DOAnchorPosY(1, 0.5f));
            _failQteSequence.Append(failImageCG.DOFade(0,0.5f));
-            
+
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.QTEFailed);
             Invoke("StartQTE", 1f);
         }

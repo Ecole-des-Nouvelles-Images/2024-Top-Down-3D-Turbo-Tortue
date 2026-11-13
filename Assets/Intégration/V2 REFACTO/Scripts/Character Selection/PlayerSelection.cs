@@ -22,13 +22,11 @@ namespace Intégration.V2_REFACTO.Scripts
     }
     public class PlayerSelection : MonoBehaviour
     {
-      
-    
         public event Action<GameObject> OnCursorMoved;
         public Action<RadialGridLayoutGroup, GameObject> OnPlayerReady;
         public PlayerState CurrentState = PlayerState.NotJoined;
         public bool TurtleIsSelected;
-        
+
         [Header("Player UI References")]
         [SerializeField] private GameObject _playerUi;
         [SerializeField] private Image _playerIndexImage;
@@ -37,7 +35,7 @@ namespace Intégration.V2_REFACTO.Scripts
         [SerializeField] private Image _characterIcon;
         [SerializeField] private Image _capacityImage;
         [SerializeField] private GameObject _CursorUi;
-       // [SerializeField] private GameObject _readyPopup;
+
         [SerializeField] private GameObject _disconnectedPopup;
         [SerializeField] private GameObject _reconnectedPopup;
         [SerializeField] private GameObject _readyConfirmPopUp;
@@ -45,10 +43,10 @@ namespace Intégration.V2_REFACTO.Scripts
         [SerializeField] private List<Sprite> _capacitiesSprites;
         [SerializeField] private List<GameObject> _FlowersDescriptions;
         [SerializeField] private GameObject _descriptionPanel;
-    
+
         [Header("Grid UI References")]
         public Button[] CharacterButtons;
-    
+
         private Button _selectedCharacterButton;
         private TextMeshProUGUI _playerIndexText;
         [SerializeField]private PlayerInput _playerInput;
@@ -57,7 +55,7 @@ namespace Intégration.V2_REFACTO.Scripts
         private EventSystem _eventSystem;
         private GameObject _lastGameObjectSelected;
         private Button _characterSelected;
-        private PlayerManager _playerManager; 
+        private PlayerManager _playerManager;
         private InputDevice InputDevice;
 
         private void Awake()
@@ -66,32 +64,33 @@ namespace Intégration.V2_REFACTO.Scripts
             _globalPanel = GameObject.Find("GlobalPanel").GetComponent<RectTransform>();
             _playerUi = transform.parent.gameObject;
             _playerInput = transform.parent.GetComponentInChildren<PlayerInput>();
-            
-            _userIndex = _playerInput.user.index;
+
+            _userIndex = _playerInput.playerIndex;
             InputDevice = _playerInput.user.pairedDevices[0];
 
             _playerIndexText = _playerIndexImage.GetComponentInChildren<TextMeshProUGUI>();
 
-            if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
-            {
-                _playerIndexText.text = "J" + (_userIndex + 1).ToString();
-                _CursorUi.GetComponentInChildren<TextMeshProUGUI>().text = "J" +(_userIndex + 1).ToString() ;
-            }
-            else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
-            {
-                _playerIndexText.text = "P" + (_userIndex + 1).ToString();
-                _CursorUi.GetComponentInChildren<TextMeshProUGUI>().text = "P" +(_userIndex + 1).ToString() ;
-            }
-            
+            LocalizedPlayerLabel.Apply(_playerIndexText, _userIndex);
+            LocalizedPlayerLabel.Apply(_CursorUi.GetComponentInChildren<TextMeshProUGUI>(true), _userIndex);
+
             _eventSystem = GetComponentInChildren<EventSystem>();
         }
-        
+
+        private bool _isInitialized;
+        private bool _pendingSubmit;
 
         private void Start()
         {
             _playerInput.gameObject.transform.SetParent(_playerInput.transform.parent.parent);
             CharacterButtons = transform.parent.parent.parent.GetComponentsInChildren<Button>();
             GamepadConnectionFeedback();
+            _isInitialized = true;
+
+            if (_pendingSubmit)
+            {
+                _pendingSubmit = false;
+                OnSubmit();
+            }
         }
 
         private void UpdateCursor()
@@ -104,17 +103,30 @@ namespace Intégration.V2_REFACTO.Scripts
             UpdateIconCharacter();
         }
 
+        public void ShowAsAITurtleCard(Color indexColor)
+        {
+            _joinVisuals.SetActive(false);
+            _flowerVisuals.SetActive(true);
+            _playerIndexImage.gameObject.SetActive(true);
+            _playerIndexImage.color = indexColor;
+            LocalizedPlayerLabel.Apply(_playerIndexImage.GetComponentInChildren<TextMeshProUGUI>(true), -1);
+            _characterIcon.sprite = _characterSprites[^1];
+            _capacityImage.gameObject.SetActive(false);
+            _descriptionPanel.SetActive(false);
+            _readyConfirmPopUp.SetActive(true);
+        }
+
         public void UpdateIconCharacter()
         {
             _characterSelected = _eventSystem.currentSelectedGameObject?.GetComponent<Button>();
             _characterIcon.sprite = _characterSprites[Array.IndexOf(CharacterButtons, _characterSelected)];
             ActivateFlowersDescriptions(Array.IndexOf(CharacterButtons, _characterSelected));
-            
+
             switch (_characterSelected?.tag)
             {
                 case "Turtle":
                     _capacityImage.gameObject.SetActive(false);
-                    
+
                     break;
                 case "Flower":
                     _capacityImage.gameObject.SetActive(true);
@@ -122,66 +134,61 @@ namespace Intégration.V2_REFACTO.Scripts
                     break;
             }
         }
-        
-        
+
         private void ActivateFlowersDescriptions(int index)
         {
             _descriptionPanel.SetActive(true);
             if (index < 0 || index >= _FlowersDescriptions.Count) return;
-            
+
             for (int i = 0; i < _FlowersDescriptions.Count; i++)
             {
                 _FlowersDescriptions[i].SetActive(i == index);
             }
         }
-        
-    
+
         private void PlayerJoined()
         {
-            Debug.Log("JOINING");
             SetPlayerState(PlayerState.Joined);
             _flowerVisuals.SetActive(true);
             _joinVisuals.SetActive(false);
             _CursorUi.SetActive(true);
             _playerIndexImage.gameObject.SetActive(true);
-            //_readyPopup.SetActive(true);
+
             UpdateCursor();
         }
 
         private void PlayerReady()
         {
             _characterSelected = _eventSystem.currentSelectedGameObject?.GetComponent<Button>();
-            Debug.Log("Ready");
+
             _characterSelected.GetComponent<CanvasGroup>().alpha = 0.5f;
-            //_readyPopup.SetActive(false);
+
             _readyConfirmPopUp.SetActive(true);
             _descriptionPanel.SetActive(false);
             _characterSelected.enabled = false;
             CheckOtherCursor();
-       
+
             switch (_characterSelected.tag)
             {
                 case "Turtle":
-                   // SoundManager.PlaySound(SoundType.TurtleMoveStart,0.3f); 
+
                    AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleVoice);
                     _characterIcon.sprite = _characterSprites[^1];
                     TurtleIsSelected = true;
                     break;
                 case "Flower":
-                   // SoundManager.PlaySound(SoundType.FlowerVoices,0.3f);
+
                    AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                     break;
             }
             SetPlayerState(PlayerState.Ready);
             ConfirmChoice(_userIndex, Array.IndexOf(CharacterButtons, _characterSelected), InputDevice  );
-           
-            // player choices
         }
 
         private void CheckOtherCursor()
         {
             RadialGridLayoutGroup radialLayout = _characterSelected.GetComponentInChildren<RadialGridLayoutGroup>();
-            if (radialLayout.transform.childCount < 2) return; 
+            if (radialLayout.transform.childCount < 2) return;
             OnPlayerReady.Invoke(radialLayout, _CursorUi);
         }
 
@@ -190,20 +197,7 @@ namespace Intégration.V2_REFACTO.Scripts
             CurrentState = state;
             PlayerManager.OnPlayerStateChanged.Invoke();
         }
-        
-      /*  public void ConfirmChoice(int playerIndex, int characterIndex)
-        {
-            if (!DataManager.Instance.PlayerChoice.ContainsKey(_userIndex))
-            {
-                DataManager.Instance.PlayerChoice[playerIndex] = characterIndex;
-            }
-        }
 
-        public void RemoveChoice(int playerIndex)
-        {
-            DataManager.Instance.PlayerChoice.Remove(playerIndex);
-        }*/
-      
       public void ConfirmChoice(int playerIndex, int characterIndex, InputDevice device)
       {
           if (!DataManager.Instance.PlayerChoice.ContainsKey(playerIndex))
@@ -216,7 +210,6 @@ namespace Intégration.V2_REFACTO.Scripts
           }
           else
           {
-              // Met à jour si déjà existant
               DataManager.Instance.PlayerChoice[playerIndex].prefabIndex = characterIndex;
               DataManager.Instance.PlayerChoice[playerIndex].device = device;
           }
@@ -229,22 +222,16 @@ namespace Intégration.V2_REFACTO.Scripts
               DataManager.Instance.PlayerChoice.Remove(playerIndex);
           }
       }
-      
-      
-      
-      
-      
-      
 
         #region GamePad Input Actions
 
         public void OnNavigate()
         {
+            if (!_isInitialized) return;
             if (_playerManager.PlayersSelectionConfirmed)return;
 
             if (CurrentState == PlayerState.NotJoined)
             {
-               // SoundManager.PlaySound(SoundType.Navigated,0.3f); 
                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonNavigate);
                 UiBounceEffect(_playerUi, 1.05f, 1, 0.2f);
             }
@@ -253,13 +240,17 @@ namespace Intégration.V2_REFACTO.Scripts
                Invoke(nameof(UpdateCursor), 0f);
             }
         }
-    
+
         public void OnSubmit()
         {
-            Debug.Log("la selection des personnages est elle confirmée ? : " + _playerManager.PlayersSelectionConfirmed);
+            if (!_isInitialized)
+            {
+                _pendingSubmit = true;
+                return;
+            }
+
             if (_playerManager.PlayersSelectionConfirmed)return;
 
-         
             if (CurrentState == PlayerState.NotJoined)
             {
                 PlayerJoined();
@@ -272,7 +263,7 @@ namespace Intégration.V2_REFACTO.Scripts
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
                 CameraShakeEffect();
                 RumbleGamepad();
-          
+
                UiBounceEffect(_playerUi,1.2f,_playerUi.transform.localScale.x,0.5f);
                 UiRotateEffect(_playerIndexImage.gameObject,0.5f);
             }
@@ -280,13 +271,13 @@ namespace Intégration.V2_REFACTO.Scripts
 
         public void OnCancel()
         {
-            //if (PlayerManager.PlayersSelectionConfirmed) return;
+            if (!_isInitialized) return;
+
             PlayerManager.OnPlayersCanceledSelection.Invoke();
             if (CurrentState == PlayerState.Joined)
             {
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonCanceled);
-                Debug.Log("CANCEL");
-                //Cancel Join 
+
                 SetPlayerState(PlayerState.NotJoined);
                 _flowerVisuals.SetActive(false);
                 _joinVisuals.SetActive(true);
@@ -294,15 +285,13 @@ namespace Intégration.V2_REFACTO.Scripts
                 _CursorUi.SetActive(false);
                 _eventSystem.SetSelectedGameObject(null);
                 _playerIndexImage.gameObject.SetActive(false);
-                //_readyPopup.SetActive(false);
             }
             else if (CurrentState == PlayerState.Ready)
             {
                 RemoveChoice(_userIndex);
-                
+
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonCanceled);
-                Debug.Log("CANCEL");
-                //Cancel ready 
+
                 if (TurtleIsSelected)
                 {
                     TurtleIsSelected = false;
@@ -310,18 +299,15 @@ namespace Intégration.V2_REFACTO.Scripts
                 SetPlayerState(PlayerState.Joined);
                 _characterSelected.enabled = true;
                 _characterSelected.GetComponent<CanvasGroup>().alpha = 1f;
-                //_readyPopup.SetActive(true);
+
                 _readyConfirmPopUp.SetActive(false);
                 _descriptionPanel.SetActive(true);
                 UpdateIconCharacter();
-                //cancel player choice
             }
-            
         }
-    
+
         public void OnDeviceLost()
         {
-            Debug.Log("OnDeviceLost");
             OnCancel();
             OnCancel();
             _playerUi.SetActive(false);
@@ -334,15 +320,13 @@ namespace Intégration.V2_REFACTO.Scripts
             });;
 
             RumbleManager.Instance.StopRumbleLoop(_playerInput.user.pairedDevices.OfType<Gamepad>().FirstOrDefault());
-            
         }
 
         public void OnDeviceRegained()
         {
-            Debug.Log("OndeviceRegained");
             GamepadConnectionFeedback();
-            _playerUi.SetActive(true); 
-            
+            _playerUi.SetActive(true);
+
             GameObject reconnectPanel = Instantiate(_reconnectedPopup,_globalPanel);
             reconnectPanel.GetComponent<CanvasGroup>().DOFade(0f, 2f).SetDelay(0.5f).OnComplete(() =>
             {
@@ -351,17 +335,16 @@ namespace Intégration.V2_REFACTO.Scripts
         }
 
         #endregion
-        
+
         #region FeedBack Effects
 
         private void CameraShakeEffect()
-        { 
+        {
             _globalPanel.DOShakePosition(0.2f, 5f, 10, 0,true, true)
                 .OnComplete(() =>
                 {
                     _globalPanel.anchoredPosition = Vector2.zero;
                     _globalPanel.sizeDelta = Vector2.zero;
-               
                 });
         }
 
@@ -372,13 +355,13 @@ namespace Intégration.V2_REFACTO.Scripts
                 ui.transform.DOScale(1f, duration/2);
             });
         }
-    
+
         private void UiRotateEffect(GameObject ui, float duration)
         {
             ui.transform.DORotate(new Vector3(0, 0, 360), duration, RotateMode.FastBeyond360)
-                .SetEase(Ease.OutQuad); // Effet fluide
+                .SetEase(Ease.OutQuad);
         }
-    
+
         private void GamepadConnectionFeedback()
         {
             _playerUi.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);;
@@ -392,6 +375,5 @@ namespace Intégration.V2_REFACTO.Scripts
         }
 
         #endregion
-   
     }
 }

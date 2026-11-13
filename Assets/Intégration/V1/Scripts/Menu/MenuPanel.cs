@@ -11,7 +11,7 @@ namespace Intégration.V1.Scripts.Menu
         [SerializeField] private MultiplayerEventSystem _multiplayerEventSystem;
         [SerializeField] private GameObject _previousPanel;
         [SerializeField] private GameObject _previousSelected;
-        
+
         private void OnEnable()
         {
             InputManager.OnBackPressed += HandleBack;
@@ -22,12 +22,11 @@ namespace Intégration.V1.Scripts.Menu
             InputManager.OnBackPressed -= HandleBack;
         }
 
-
         private void HandleBack()
         {
             if (!gameObject.activeInHierarchy) return;
             if (!_previousPanel && !_multiplayerEventSystem) return;
-           
+
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonCanceled);
             _previousPanel.SetActive(true);
             _multiplayerEventSystem.SetSelectedGameObject(_previousSelected);

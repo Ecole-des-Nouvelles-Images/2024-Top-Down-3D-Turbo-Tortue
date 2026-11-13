@@ -10,7 +10,7 @@ namespace Noah.Scripts
     public class PoppyController : FlowerController
     {
         public MeshTrail MeshTrail;
-        
+
         [Header("Grappling - References")] [SerializeField]
         private Transform Gun;
 
@@ -29,7 +29,6 @@ namespace Noah.Scripts
 
         private float _grapplingCdTimer;
 
-
         private float _grappleHoldTimer;
         private Vector3 grapplePoint;
         private bool _isgrappling;
@@ -44,16 +43,12 @@ namespace Noah.Scripts
             impactGrappleParticules = Instantiate(impactGrappleParticules, Vector3.zero, Quaternion.identity);
         }
 
-
         protected override void PassiveCapacity()
         {
             if (!isBoosted && GameManager.Instance.FlowersAlive.Count == 1)
             {
-                Debug.Log("boost vitesse dernier en vie");
                 moveSpeed += 20;
                 isBoosted = true;
-                
-                
             }
 
             if (GameManager.Instance.FlowersAlive.Count > 1)
@@ -68,7 +63,6 @@ namespace Noah.Scripts
             PassiveCapacity();
             base.Update();
             GrapplingUpdate();
-            
         }
 
         private void GrapplingUpdate()

@@ -8,12 +8,11 @@ using UnityEngine.UI;
 namespace Intégration.V1.Scripts.Game.FeedBack
 {
     public class UISelectionFeedBack : MonoBehaviour, ISelectHandler, IDeselectHandler
-    { 
+    {
         public Color OutlineColor;
         [SerializeField] private bool _isInGridCharacters;
         [SerializeField] private GameObject _outlineSelector;
         [SerializeField] private float _scaleMotion;
-       
 
        private void Start()
        {
@@ -24,7 +23,7 @@ namespace Intégration.V1.Scripts.Game.FeedBack
         {
             _outlineSelector.SetActive(true);
             transform.DOScale(_scaleMotion, 0.5f);
-           // SoundManager.PlaySound(SoundType.Selected,0.3f);
+
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonSelected);
         }
 
@@ -36,7 +35,6 @@ namespace Intégration.V1.Scripts.Game.FeedBack
             }
             _outlineSelector.SetActive(false);
             transform.DOScale(1.0f, 0.5f);
-        
         }
     }
 }

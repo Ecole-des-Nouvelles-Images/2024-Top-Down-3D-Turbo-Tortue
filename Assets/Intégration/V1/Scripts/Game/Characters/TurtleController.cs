@@ -7,7 +7,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using CharacterController = Intégration.V1.Scripts.Game.Characters.CharacterController;
 
-
 namespace Michael.Scripts.Controller
 {
         [System.Serializable]
@@ -67,12 +66,11 @@ namespace Michael.Scripts.Controller
         [SerializeField] private List<GameObject> TrapPrefab;
         [SerializeField] private Transform TrapSpawn;
         [SerializeField] private float _maxTrapCount = 2 ;
-        
-        
+
         private float _chargeTime;
         private int _currentDashLevel = -1;
         private Vector3 _lastDashDirection;
-        
+
         private ScannerArea _scannerArea;
 
         protected override void Awake()
@@ -109,7 +107,6 @@ namespace Michael.Scripts.Controller
             GameManager.Instance.OnTurtleDead -= SetDeadState;
         }
 
-       
         private void ClearAllInput()
         {
             StopBoost();
@@ -135,9 +132,9 @@ namespace Michael.Scripts.Controller
         protected override void Update()
         {
             if(CurrentState == TurtleState.Dead) return;
-            
+
             UpdateState();
-            
+
             if (CurrentState != TurtleState.Charging)
             {
                 UpdateNitroVisuals(CurrentState == TurtleState.Boosting);
@@ -147,7 +144,6 @@ namespace Michael.Scripts.Controller
 
         private void UpdateState()
         {
-
             switch (CurrentState)
             {
                 case TurtleState.Dead:
@@ -167,25 +163,22 @@ namespace Michael.Scripts.Controller
                     break;
                 case TurtleState.Boosting:
                     break;
-              
             }
         }
 
         private void TurtleDefaultState()
         {
             if (PauseControlller.IsPaused || !GameManager.Instance.GameisStarted) return;
-          
+
             _animator.SetBool("IsDashing",false);
-           // AudioManager.Instance.PlayLoopSfx(AudioManager.Instance.ClipsIndex.TurtleReactor,0.2f);
         }
 
         private void SetDeadState()
         {
             _animator.SetBool("IsDead", true);
-            _playerInput.enabled = false;
+            if (_playerInput != null) _playerInput.enabled = false;
             materialToUpdate.SetColor("_EmissionColor", Color.black);
             StopAllActions();
-            
         }
 
         private void StopAllActions()
@@ -219,17 +212,12 @@ namespace Michael.Scripts.Controller
 
         private void StartBoost()
         {
-            /*if (move.magnitude <= 0.1f)
-                _lastDashDirection = (_lastDashDirection != Vector3.zero) ? _lastDashDirection : transform.forward;
-            else
-                _lastDashDirection = new Vector3(move.x, 0f, move.y).normalized;*/
-            
             moveSpeed *= boosterMultiplier;
             RumbleManager.Instance.StopRumbleLoop(Gamepad);
             RumbleManager.Instance.RumbleLoop(Gamepad, 0.2f, 0.2f);
             AudioManager.Instance.StopLoopingSfx();
             AudioManager.Instance.PlayLoopSfx(AudioManager.Instance.ClipsIndex.TurtleReactorNitro, 0.5f);
-          
+
             CurrentState = TurtleState.Boosting;
         }
 
@@ -357,7 +345,7 @@ namespace Michael.Scripts.Controller
             {
                 _animator.SetBool("IsDashing", false);
                 _lastDashDirection = Vector3.zero;
-                //destructionMode = false;
+
                 CurrentState = TurtleState.Default;
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleDash, 0.5f);
                 AudioManager.Instance.StopLoopingSfx();
@@ -372,13 +360,11 @@ namespace Michael.Scripts.Controller
 
             if (move.magnitude > 0.1f)
             {
-                // Joystick actif → on suit le joystick
                 direction = new Vector3(move.x, 0f, move.y).normalized;
-                _lastDashDirection = direction; // Met à jour la direction utilisée en boost
+                _lastDashDirection = direction;
             }
             else if (CurrentState == TurtleState.Boosting && _lastDashDirection != Vector3.zero)
             {
-                // Pas de joystick, mais boost actif → avancer dans la dernière direction connue
                 direction = _lastDashDirection;
             }
             else if (CurrentState == TurtleState.Boosting)
@@ -388,7 +374,6 @@ namespace Michael.Scripts.Controller
 
             else
             {
-                // Aucun mouvement
                 return;
             }
 
@@ -401,7 +386,6 @@ namespace Michael.Scripts.Controller
             }
 
             Rb.AddForce(movement * Time.deltaTime, ForceMode.Force);
-        
         }
 
         protected override void SecondaryCapacity()
@@ -424,7 +408,7 @@ namespace Michael.Scripts.Controller
             {
                 _playerStats.trapsPlaced++;
                 AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleSpawnTrap, 0.5f);
-                
+
                 GameObject trap = Instantiate(TrapPrefab[Random.Range(0,TrapPrefab.Count)], TrapSpawn.position, TrapSpawn.rotation);
                 GameManager.Instance.TurtleTrap.Add(trap);
                 BatteryManager.OnBatteryDecrease.Invoke(_trapCost);
@@ -443,6 +427,91 @@ namespace Michael.Scripts.Controller
             CurrentState = TurtleState.Scanning;
         }
 
+        #region AI
+
+        public bool IsAIControlled { get; set; }
+        public bool IsDead => CurrentState == TurtleState.Dead;
+        public float ChargeTime => _chargeTime;
+        public float ScanRange => scanRange;
+        public int DashLevelCount => dashLevels.Count;
+        public float GetDashThreshold(int level) => dashLevels[Mathf.Clamp(level, 0, dashLevels.Count - 1)].timeThreshold;
+        public bool CanPlaceTrap => GameManager.Instance.TurtleTrap.Count <= _maxTrapCount;
+        public bool IsScanning => CurrentState == TurtleState.Scanning;
+        public Vector3 ScanCenter => scanSphereArea.transform.position;
+
+        public float CurrentScanRadius
+        {
+            get
+            {
+                var sphere = scanSphereArea.GetComponent<SphereCollider>();
+                Vector3 s = scanSphereArea.transform.lossyScale;
+                float baseRadius = sphere != null ? sphere.radius : 0.5f;
+                return baseRadius * Mathf.Max(s.x, s.z);
+            }
+        }
+
+        public float MaxScanRadius
+        {
+            get
+            {
+                var sphere = scanSphereArea.GetComponent<SphereCollider>();
+                float baseRadius = sphere != null ? sphere.radius : 0.5f;
+                Vector3 parentScale = scanSphereArea.transform.parent != null ? scanSphereArea.transform.parent.lossyScale : Vector3.one;
+                return baseRadius * scanRange * Mathf.Max(parentScale.x, parentScale.z);
+            }
+        }
+
+        public void AISetMove(Vector2 input)
+        {
+            move = PauseControlller.IsPaused || IsDead ? Vector2.zero : Vector2.ClampMagnitude(input, 1f);
+        }
+
+        public bool AIStartCharge()
+        {
+            if (!CanStartCharging()) return false;
+            StartCharging();
+            return true;
+        }
+
+        public void AIReleaseCharge()
+        {
+            if (CurrentState != TurtleState.Charging) return;
+            StopCharging();
+            MainCapacity();
+        }
+
+        public bool AIStartBoost()
+        {
+            if (!CanBoost()) return false;
+            StartBoost();
+            return true;
+        }
+
+        public void AIStopBoost()
+        {
+            if (CurrentState == TurtleState.Boosting) StopBoost();
+        }
+
+        public void AIBite()
+        {
+            if (PauseControlller.IsPaused || IsDead) return;
+            SecondaryCapacity();
+        }
+
+        public void AIPlaceTrap()
+        {
+            if (PauseControlller.IsPaused || IsDead) return;
+            ThirdCapacity();
+        }
+
+        public void AIScan()
+        {
+            if (PauseControlller.IsPaused || IsDead) return;
+            FourthCapacity();
+        }
+
+        #endregion
+
         private void UpdateScanning()
         {
             scanTime += Time.deltaTime;
@@ -455,6 +524,4 @@ namespace Michael.Scripts.Controller
             }
         }
     }
-
 }
-

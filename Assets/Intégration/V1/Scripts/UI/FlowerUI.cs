@@ -1,9 +1,9 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using Intégration.V1.Scripts.Game.Characters;
+using Intégration.V2_REFACTO.Scripts;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
 
 namespace Intégration.V1.Scripts.UI
@@ -20,7 +20,6 @@ namespace Intégration.V1.Scripts.UI
         [SerializeField] private Sprite emptySun;
         [SerializeField] private Image characterIcon;
         [SerializeField] private Image capacityIcon;
-
 
         private void OnEnable()
         {
@@ -39,31 +38,21 @@ namespace Intégration.V1.Scripts.UI
                 FlowerPlayer.OnDeathChanged -= HandleDeathChange;
             }
         }
-        
-        
+
         private void Start()
         {
             if (FlowerPlayer == null) return;
-            
+
             capacityIcon.sprite = CapacityIcons[FlowerPlayer.characterIndex];
-            
-            _playerIndexText.text = LocalizationSettings.SelectedLocale.Identifier.Code switch
-            {
-                "fr" => "J" + (FlowerPlayer.PlayerIndex + 1),
-                "en" => "P" + (FlowerPlayer.PlayerIndex + 1),
-                _ => _playerIndexText.text
-            };
-            
+
+            LocalizedPlayerLabel.Apply(_playerIndexText, FlowerPlayer.PlayerIndex);
+
             HandleSunChange(FlowerPlayer.Sun);
             HandleDeathChange(FlowerPlayer.isDead);
-
         }
 
-       
-        
         private void HandleSunChange(int sun)
         {
-            // Update sun visuals
             for (int i = 0; i < sunImage.Count; i++)
             {
                 if (i < sun)
@@ -78,7 +67,6 @@ namespace Intégration.V1.Scripts.UI
                 }
             }
 
-            // Update capacity icon appearance
             if (sun >= FlowerPlayer.CapacityCost)
             {
                 capacityIcon.color = Color.white;
@@ -88,18 +76,15 @@ namespace Intégration.V1.Scripts.UI
             else
             {
                 capacityIcon.color = Color.grey;
-                capacityIcon.rectTransform.DOKill(); // kill the loop if it's active
+                capacityIcon.rectTransform.DOKill();
                 capacityIcon.rectTransform.DOScale(1f, 0.2f);
             }
         }
-        
+
         private void HandleDeathChange(bool isDead)
         {
             int index = FlowerPlayer.characterIndex;
             characterIcon.sprite = isDead ? playerDeadCharacterImages[index] : playerCharacterImages[index];
         }
-        
-        
-        
     }
 }

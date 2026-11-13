@@ -8,7 +8,6 @@ namespace Intégration.V1.Scripts.UI
 
         [SerializeField] private GameObject canvas;
 
-        //[SerializeField] private Image imagetoFollow;
         void Start()
         {
             camera = Camera.main;

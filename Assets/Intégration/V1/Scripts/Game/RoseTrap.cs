@@ -13,8 +13,6 @@ public class RoseTrap : MonoBehaviour
             Instantiate(dirt, transform.position, new Quaternion(-90,0,0,0));
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.RoseTrapDestroy);
             Destroy(this.gameObject);
-           
         }
-        
     }
 }

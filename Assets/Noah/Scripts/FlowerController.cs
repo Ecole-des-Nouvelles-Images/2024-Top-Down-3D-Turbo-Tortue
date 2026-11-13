@@ -46,8 +46,7 @@ namespace Noah.Scripts
         protected override void Update()
         {
             _animator.SetFloat("Velocity", Rb.linearVelocity.magnitude);
-            
-            
+
             if (sun < 0)
             {
                 sun = 0;
@@ -149,7 +148,6 @@ namespace Noah.Scripts
 
         protected override void ThirdCapacity()
         {
-            Debug.Log("revive");
             sun -= maxSun;
             deadFlowerController.GetRevive();
             canReanimate = false;
@@ -163,7 +161,6 @@ namespace Noah.Scripts
             {
                 TakeHit();
             }
-            
 
             if (other.CompareTag("TurtleTrap"))
             {
@@ -189,7 +186,7 @@ namespace Noah.Scripts
                     GetStunned();
                 }
             }
-            
+
             if (other.CompareTag("Shield"))
             {
                 isInvincible = true;
@@ -205,7 +202,7 @@ namespace Noah.Scripts
                 reanimateTimer = 0;
                 deadFlowerController = null;
             }
-            
+
             if (other.CompareTag("Shield"))
             {
                 isInvincible = false;
@@ -220,7 +217,7 @@ namespace Noah.Scripts
                 GetUnplanted();
                 stunParticleSystem.gameObject.SetActive(true);
                 _animator.SetBool("IsDizzy", true);
-                IsStunned = true; 
+                IsStunned = true;
             }
         }
 

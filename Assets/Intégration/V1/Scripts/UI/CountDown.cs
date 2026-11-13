@@ -24,11 +24,6 @@ namespace Intégration.V1.Scripts.UI
 
         private void Update()
         {
-           /* if (GameManager.Instance.GameisStarted)
-            {
-                Countdown();
-                GameManager.Instance.GameisStarted = false;
-            }*/
         }
 
         private void Countdown()
@@ -62,7 +57,7 @@ namespace Intégration.V1.Scripts.UI
                     Invoke("Countdown", delayBetweenNumbers);
                     number--;
                 }
-                
+
                 if (number == 1)
                 {
                     AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleExplosion);
@@ -71,12 +66,10 @@ namespace Intégration.V1.Scripts.UI
             else
             {
                 countdownText.gameObject.SetActive(false);
-                //countdownText.text = "GO!";
+
                 GameManager.Instance.StartGame();
-               
             }
         }
-
 
         private void StartCountDown()
         {

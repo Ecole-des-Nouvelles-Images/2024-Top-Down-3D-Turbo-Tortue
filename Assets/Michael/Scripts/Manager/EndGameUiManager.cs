@@ -22,7 +22,6 @@ namespace Michael.Scripts.Manager
         [SerializeField] private Button _restartButton;
         [SerializeField] private RectTransform _buttonsTransform;
 
-
         [SerializeField] private MultiplayerEventSystem eventSystem;
         [SerializeField] private TextMeshProUGUI _winnerTitle;
         [SerializeField] private Image _happyScientistImage;
@@ -59,7 +58,6 @@ namespace Michael.Scripts.Manager
                 {
                     _winnerTitle.text = "Turbo Tortue \nWins !";
                 }
-               
             }
             else
             {
@@ -72,8 +70,7 @@ namespace Michael.Scripts.Manager
                     _winnerTitle.text =   "The flowers \n win ! ";
                 }
             }
-            
-            
+
             if (GameManager.Instance.FlowersIsDead)
             {
                 _happyScientistImage.gameObject.SetActive(true);
@@ -82,7 +79,6 @@ namespace Michael.Scripts.Manager
             {
                 _angryScientistImage.gameObject.SetActive(true);
             }
-
 
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIWinner);
             _winnerTitleSeq = DOTween.Sequence();
@@ -95,8 +91,6 @@ namespace Michael.Scripts.Manager
                 {
                     eventSystem.SetSelectedGameObject(_confirmButon.gameObject);
                 });
-
-
         }
 
         private void EnableRestartButtons()
@@ -134,6 +128,5 @@ namespace Michael.Scripts.Manager
                 delay += 1f;
             }
         }
-        
     }
-}  
+}

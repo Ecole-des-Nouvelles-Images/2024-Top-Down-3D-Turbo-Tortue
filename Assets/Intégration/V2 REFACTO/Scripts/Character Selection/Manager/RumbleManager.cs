@@ -11,10 +11,10 @@ using CharacterController = Intégration.V1.Scripts.Game.Characters.CharacterCon
 public class RumbleManager : MonoBehaviourSingleton<RumbleManager>
 {
     private Coroutine _stopRumbleCoroutine;
-    
+
     public void RumblePulse(Gamepad gamepad, float lowFrequency = 0.6f, float highFrequency = 0.6f, float duration = 0.1f)
     {
-        if (!DataManager.Instance.CanVibrate) return;
+        if (gamepad == null || !DataManager.Instance.CanVibrate) return;
         gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
         _stopRumbleCoroutine = StartCoroutine(StopRumblePulse(duration, gamepad));
     }
@@ -27,37 +27,21 @@ public class RumbleManager : MonoBehaviourSingleton<RumbleManager>
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        gamepad.SetMotorSpeeds(0f, 0f);
+        if (gamepad != null) gamepad.SetMotorSpeeds(0f, 0f);
     }
 
-    
     public void RumbleLoop(Gamepad gamepad, float lowFrequency = 1, float highFrequency = 1)
     {
-        if (!DataManager.Instance.CanVibrate) return;
+        if (gamepad == null || !DataManager.Instance.CanVibrate) return;
         gamepad.SetMotorSpeeds(lowFrequency, highFrequency);
     }
-    
+
     public void StopRumbleLoop(Gamepad gamepad)
     {
+        if (gamepad == null) return;
         gamepad.SetMotorSpeeds(0f, 0f);
     }
 
-    /*public void StopAllVibrations()
-    {
-        // Stop toutes les manettes vibrantes
-        foreach (var pad in Gamepad.all)
-        {
-            pad.SetMotorSpeeds(0f, 0f);
-        }
-        
-        // Si une coroutine est en cours, l'arrêter
-        if (_stopRumbleCoroutine != null)
-        {
-            StopAllCoroutines(); // Coupe toutes les coroutines
-            _stopRumbleCoroutine = null;
-        }
-    }*/
-    
     public void RumbleAllGamepad(float lowFrequency = 1f, float highFrequency = 1f, float duration = 0.1f)
     {
         if (!DataManager.Instance.CanVibrate) return;
@@ -67,6 +51,4 @@ public class RumbleManager : MonoBehaviourSingleton<RumbleManager>
             RumblePulse(pad,lowFrequency,highFrequency,duration);
         }
     }
-    
-   
 }

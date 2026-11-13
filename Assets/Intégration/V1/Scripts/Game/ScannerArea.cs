@@ -6,7 +6,6 @@ namespace Intégration.V1.Scripts.Game
 {
     public class ScannerArea : MonoBehaviour
     {
-
         public event Action OnFlowerDetected;
 
         private void ChangeLayerOfScannedObjects(GameObject scannedObject, string targetLayerName)
@@ -14,11 +13,9 @@ namespace Intégration.V1.Scripts.Game
             int targetLayer = LayerMask.NameToLayer(targetLayerName);
             if (targetLayer == -1)
             {
-                Debug.LogWarning("Layer not found: " + targetLayerName);
                 return;
             }
 
-            // Change uniquement les MeshRenderer, pas les UI ou autres
             Renderer[] renderers = scannedObject.GetComponentsInChildren<Renderer>(true);
 
             foreach (var renderer in renderers)
@@ -32,7 +29,7 @@ namespace Intégration.V1.Scripts.Game
             if (other.CompareTag("Flower"))
             {
                 if (other.GetComponent<FlowerController>().isDead) return;
-                
+
                 DandelionController dandelionController = other.GetComponent<DandelionController>();
                 OnFlowerDetected?.Invoke();
 
@@ -40,7 +37,6 @@ namespace Intégration.V1.Scripts.Game
                 {
                     ChangeLayerOfScannedObjects(other.gameObject, "Flower");
                 }
-
             }
             else if ( (other.CompareTag("FlowerTrap")))
             {

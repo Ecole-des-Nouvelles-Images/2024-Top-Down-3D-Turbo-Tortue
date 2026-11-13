@@ -23,7 +23,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         protected PlayerInput _playerInput;
         protected float moveSpeed;
 
-        
         protected virtual void Awake()
         {
             Rb = GetComponent<Rigidbody>();
@@ -34,14 +33,13 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected virtual void Start()
         {
-            
         }
 
         public void DeviceDeconnected()
         {
             RumbleManager.Instance.StopRumbleLoop(Gamepad);
         }
-        
+
         public virtual void OnPause(InputAction.CallbackContext context)
         {
             if (context.performed && !PauseControlller.IsPaused && GameManager.Instance.GameisStarted && !GameManager.Instance.GameFinished)
@@ -49,10 +47,9 @@ namespace Intégration.V1.Scripts.Game.Characters
                 Pause();
             }
         }
-        
+
         protected virtual void Pause()
         {
-            Debug.Log("JAI APPUY2C USR PAUESE ??");
             PauseControlller.OnGamePaused.Invoke();
         }
 
@@ -84,9 +81,7 @@ namespace Intégration.V1.Scripts.Game.Characters
                 Rb.rotation = Quaternion.Slerp(Rb.rotation, newRotation, 0.15f);
             }
 
-            // Rb.MovePosition(transform.position + new Vector3(movement.x, 2, movement.z) * Time.deltaTime);
             Rb.AddForce(movement * Time.deltaTime, ForceMode.Force);
-            // Rb.velocity = new Vector3(movement.x, Rb.velocity.y, movement.z);
         }
 
         #endregion
@@ -112,7 +107,6 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (context.performed && !PauseControlller.IsPaused)
             {
                 SecondaryCapacity();
-                //RumbleManager.Instance.RumblePulse(0.25f, 1f, 0.25f);
             }
         }
 
@@ -135,7 +129,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         }
 
         #endregion
-
 
         #region Fourth Capacity
 

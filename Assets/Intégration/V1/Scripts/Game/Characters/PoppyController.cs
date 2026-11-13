@@ -44,7 +44,6 @@ namespace Intégration.V1.Scripts.Game.Characters
             impactGrappleParticules = Instantiate(impactGrappleParticules, Vector3.zero, Quaternion.identity);
         }
 
-
         protected override void PassiveCapacity()
         {
             if (!isBoosted && GameManager.Instance.FlowersAlive!.Count == 1)

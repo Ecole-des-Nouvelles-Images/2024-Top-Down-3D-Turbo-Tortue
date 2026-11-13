@@ -19,7 +19,6 @@ public class PlayerStats : MonoBehaviour
     public float timeSpentHidden = 0;
     public int deathNumber = 0;
 
-
     public string GetTrophyTitle()
     {
         if (IsTurtle)
@@ -71,6 +70,4 @@ public class PlayerStats : MonoBehaviour
 
         return null;
     }
-
-
 }

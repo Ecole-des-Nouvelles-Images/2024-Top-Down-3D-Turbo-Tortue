@@ -21,14 +21,14 @@ public class RadialGridLayoutGroup : GridLayoutGroup
     [SerializeField] protected float m_RotateZ = 0;
     [SerializeField] protected float m_CircularOffsetX = 0;
     [SerializeField] protected float m_CircularOffsetY = 0;
-    
+
     [SerializeField] protected bool m_IgnoreCellsize;
     [SerializeField] protected float m_fDistance;
     [SerializeField] protected RadialShape m_RadialShape = RadialShape.Circular;
     [SerializeField] protected ChildAlignmentOrder m_ChildAlignmentOrder = ChildAlignmentOrder.Left_Right;
     [Range(0, 100)]
     [SerializeField] protected float m_CirclelRadiusMultiplier = 1f;
-    
+
     [Range(0f, 360f)]
     [SerializeField] protected float m_MinAngle, m_MaxAngle, m_StartAngle;
 
@@ -115,12 +115,11 @@ public class RadialGridLayoutGroup : GridLayoutGroup
             var constraintCount = constrainType == Constraint.Flexible ? m_ElementCount : this.constraintCount;
             constraintCount = Mathf.Clamp(constraintCount, 1, constraintCount);
 
-            // Calculate total size of the Element's cell including spacing and padding
             Vector2 cellSizeWithSpacing = m_IgnoreCellsize ? (Vector2.one * m_fDistance) : cellSize;
             Vector2 totalSize = new Vector2(
                 (cellSizeWithSpacing.x * constraintCount) + (constraintCount - 1),
                 (cellSizeWithSpacing.y * constraintCount) + (constraintCount - 1));
-            
+
             float startAngle = m_StartAngle;
             startAngle = Mathf.Clamp(startAngle, m_MinAngle, m_MaxAngle);
             float anglePerChild;
@@ -149,7 +148,7 @@ public class RadialGridLayoutGroup : GridLayoutGroup
                     anglePerChild = (m_MaxAngle - m_MinAngle) / denominatorRow;
                     break;
                 default:
-                    // Flexible constraint type, use default angle calculation
+
                     rowCount    = 1;
                     columnCount = m_ElementCount;
                     int denominatorFlexible = columnCount;
@@ -168,7 +167,7 @@ public class RadialGridLayoutGroup : GridLayoutGroup
             }
 
             float fAngle = startAngle;
-            // Iterate through each child and position them accordingly
+
             switch(constrainType)
             {
                 case Constraint.FixedColumnCount:
@@ -179,7 +178,6 @@ public class RadialGridLayoutGroup : GridLayoutGroup
                     AlignChildPositionFixedRowCount(totalSize, anglePerChild, rowCount, columnCount, ref fAngle, ref childIndex);
                     break;
             }
-            
         }
         catch{}
     }
@@ -200,7 +198,7 @@ public class RadialGridLayoutGroup : GridLayoutGroup
                     {
                         child.sizeDelta = new Vector2(cellSize.x, cellSize.y);
                     }
-                    
+
                     float totalCircumference = CalculateCircumferenceWithShape(totalSize, row, col);
                     float radius  = totalCircumference / (2 * Mathf.PI);
 
@@ -209,17 +207,15 @@ public class RadialGridLayoutGroup : GridLayoutGroup
                         new Vector3(Mathf.Sin((fAngle + m_RotateZ) * Mathf.Deg2Rad) + m_CircularOffsetY, Mathf.Cos((fAngle + m_RotateY) * Mathf.Deg2Rad) + m_CircularOffsetX, 0);
                     Vector3 vPos = vAxis * radius;
                     child.localPosition = vPos;
-                    // Apply child alignment adjustments
+
                     Vector2 pivotOffset = Vector2.zero;
                     ApplyChildAlignment(ref pivotOffset);
                     child.pivot = pivotOffset;
                     child.anchorMin = child.anchorMax = pivotOffset;
                     childIndex++;
                 }
-
             }
             fAngle += anglePerChild;
-            
         }
     }
 
@@ -243,7 +239,6 @@ public class RadialGridLayoutGroup : GridLayoutGroup
                         child.sizeDelta = new Vector2(cellSize.x, cellSize.y);
                     }
 
-                    
                     float totalCircumference = CalculateCircumferenceWithShape(totalSize, row, col);
                     float radius  = totalCircumference / (2 * Mathf.PI);
 
@@ -253,24 +248,21 @@ public class RadialGridLayoutGroup : GridLayoutGroup
 
                     Vector3 vPos = vAxis * radius;
                     child.localPosition = vPos;
-                    // Apply child alignment adjustments
+
                     Vector2 pivotOffset = Vector2.zero;
                     ApplyChildAlignment(ref pivotOffset);
                     child.pivot = pivotOffset;
                     child.anchorMin = child.anchorMax = pivotOffset;
 
                     fAngle += anglePerChild;
-                    
 
                     childIndex++;
                 }
             }
-            //Reset the start angle on next Row
+
             fAngle = startAngle;
         }
 
-        //Distribute the mod elements
-        //Reset the fAngle
         fAngle = startAngle;
         for (int col = 0; col < columnCount; col++)
         {
@@ -280,16 +272,16 @@ public class RadialGridLayoutGroup : GridLayoutGroup
                     break;
 
                 RectTransform child = activeChildTransforms[childIndex];
-                
+
                 if (child != null && child.gameObject.activeSelf)
                 {
                     if (!m_IgnoreCellsize)
                     {
                         child.sizeDelta = new Vector2(cellSize.x, cellSize.y);
                     }
-                    
+
                     float totalCircumference = CalculateCircumferenceWithShape(totalSize, currentRow, col);
-                    float radius  = totalCircumference / (2 * Mathf.PI);//r = c/2pi
+                    float radius  = totalCircumference / (2 * Mathf.PI);
 
                     Vector3 vAxis = startAxis == Axis.Horizontal ?
                         new Vector3(Mathf.Cos((fAngle + m_RotateY) * Mathf.Deg2Rad) + m_CircularOffsetX, Mathf.Sin((fAngle + m_RotateZ) * Mathf.Deg2Rad) + m_CircularOffsetY, 0):
@@ -297,7 +289,7 @@ public class RadialGridLayoutGroup : GridLayoutGroup
 
                     Vector3 vPos = vAxis * radius;
                     child.localPosition = vPos;
-                    // Apply child alignment adjustments
+
                     Vector2 pivotOffset = Vector2.zero;
                     ApplyChildAlignment(ref pivotOffset);
                     child.pivot = pivotOffset;
@@ -305,10 +297,8 @@ public class RadialGridLayoutGroup : GridLayoutGroup
 
                     childIndex++;
                 }
-
             }
             fAngle += anglePerChild;
-            
         }
     }
     private float CalculateCircumferenceWithShape(Vector2 totalSize, int currentRow, int currentCol)
@@ -393,7 +383,6 @@ public class RadialGridLayoutGroup : GridLayoutGroup
 #if UNITY_EDITOR
     protected virtual void OnDrawGizmos()
     {
-        // Draw the original radial grid based on Min/Max Angle
         Color GMcolor1 = Color.green;
         Gizmos.color = GMcolor1;
         Vector3 center = transform.position;
@@ -403,44 +392,38 @@ public class RadialGridLayoutGroup : GridLayoutGroup
 
         float radius = m_fDistance;
 
-        // Calculate the angle step based on the constraint count and clamp it to avoid division by zero
         float angleStep = constraintCount > 1 ? (m_MaxAngle - m_MinAngle) / (constraintCount - 1) : 0;
-        // This Helps Prevent freezing
+
         if (angleStep == 0)
         {
-            Gizmos.DrawLine(center, center); // Draw a single point to avoid freezing
+            Gizmos.DrawLine(center, center);
             return;
         }
 
-        // Draw the radial lines
         for (float angle = m_MinAngle; angle <= m_MaxAngle; angle += angleStep)
         {
-            float adjustedAngle = angle; // Adjusted angle
+            float adjustedAngle = angle;
 
-            // Calculate the position of the point on the circle
             float x = center.x + Mathf.Cos(adjustedAngle * Mathf.Deg2Rad) * radius;
             float y = center.y + Mathf.Sin(adjustedAngle * Mathf.Deg2Rad) * radius;
             Vector3 point = new Vector3(x, y, center.z);
 
-            // Draw a line from the center to the point on the circle
             Gizmos.DrawLine(center, point);
         }
 
-        // Draw another the radial grid based on Start Angle
         Color GMcolor2 = Color.yellow;
         Gizmos.color = GMcolor2;
-        // This Helps Prevent freezing
+
         if (angleStep == 0)
         {
-            Gizmos.DrawLine(center, center); // Draw a single point to avoid freezing
+            Gizmos.DrawLine(center, center);
             return;
         }
 
-        // Adjust for the start angle
         float startAngleRad = m_StartAngle * Mathf.Deg2Rad;
         for (float angle = m_MinAngle; angle <= m_MaxAngle; angle += angleStep)
         {
-            float adjustedAngle = angle + m_StartAngle; // Adjusted angle
+            float adjustedAngle = angle + m_StartAngle;
             var startAxisPosX = startAxis == Axis.Horizontal ?
                                 Mathf.Cos(adjustedAngle * Mathf.Deg2Rad) :
                                 Mathf.Sin(adjustedAngle * Mathf.Deg2Rad);

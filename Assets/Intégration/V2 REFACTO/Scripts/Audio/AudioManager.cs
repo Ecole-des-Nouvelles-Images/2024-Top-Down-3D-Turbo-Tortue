@@ -10,7 +10,7 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
 {
     [Space]
     [SerializeField] private AudioMixer _mixerSystem;
-   
+
     [Space]
     public AudioClipsIndex ClipsIndex;
 
@@ -18,7 +18,6 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
     [SerializeField] [Range(0, 1)] private float _initialMasterVolume = 0.5f;
     [SerializeField] [Range(0, 1)] private float _initialAmbientVolume = 1f;
     [SerializeField] [Range(0, 1)] private float _initialSFXVolume = 1f;
-   
 
     [Header("Mixer Groups")]
     [field:SerializeField] public AudioMixerGroup MasterMixerModule;
@@ -44,7 +43,6 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
             UpdateVolume(MasterVolumeParameter, value);
         }
     }
-    
 
     private float _ambientVolume;
     public float AmbientVolume {
@@ -73,25 +71,22 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
         SFXVolume = _initialSFXVolume;
     }
 
-  
     private void UpdateVolume(string mixerParameter, float value)
     {
         _mixerSystem.SetFloat(mixerParameter, Mathf.Log10(value) * 20);
     }
-    
-    
+
     public void SetLowpassFrequency(float frequency)
     {
         _mixerSystem.SetFloat(LowpassParameter,frequency);
     }
-    
-    
+
     public void ChangeMusic(AudioClip musicClip)
     {
         _musicAudioSource.clip = musicClip;
         _musicAudioSource.Play();
     }
-    
+
     public void ReplayMusic()
     {
         _musicAudioSource.Play();
@@ -101,17 +96,17 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
     {
         _sfxAudioSource.PlayOneShot(clip,volume);
     }
-    
+
     public bool IsLoopingSfxPlaying()
     {
         return _loopSfxAudioSource.isPlaying;
     }
-    
+
     public void PlayRandomSound(List<AudioClip> clips, float volume = 1f)
     {
         _sfxAudioSource.PlayOneShot(clips[Random.Range(0,clips.Count)],volume);
     }
-    
+
     public void PlayLoopSfx(AudioClip clip, float volume = 1f)
     {
         if (_loopSfxAudioSource.isPlaying && _loopSfxAudioSource.clip == clip) return;
@@ -121,12 +116,10 @@ public class AudioManager : MonoBehaviourSingleton<AudioManager>
         _loopSfxAudioSource.volume = volume;
         _loopSfxAudioSource.Play();
     }
-    
+
     public void StopLoopingSfx()
     {
        _loopSfxAudioSource.Stop();
         _loopSfxAudioSource.clip = null;
     }
-    
 }
-

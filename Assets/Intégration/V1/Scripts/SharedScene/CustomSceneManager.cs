@@ -24,68 +24,39 @@ namespace Intégration.V1.Scripts.SharedScene
             _isShared = true;
         }
 
-
-        /**
-     * Reload the active scene
-     */
         public void ReloadActiveScene()
         {
             Scene activeScene = SceneManager.GetActiveScene();
             LoadScene(activeScene.name,true);
-
         }
 
-        /**
-     * Load a new scene as active scene and unload active scene
-     */
         public void LoadScene(string sceneName, bool showLoading = false)
         {
             DOTween.KillAll();
             _activeScene = SceneManager.GetActiveScene();
             SceneManager.UnloadSceneAsync(_activeScene);
-            
-            /*if (_firstTimeLoad)
-            {
-                _firstTimeLoad = false;
-                _activeScene = SceneManager.GetActiveScene();
-                StartCoroutine(LoadSceneAndSetActive(sceneName, false));
-                return;
-            }*/
-          
-            
+
             if (showLoading)
             {
                 DataManager.Instance.loadingScreen.SetActive(true);
                 StartCoroutine(LoadSceneAndSetActive(sceneName, true));
-                
             }
             else
             {
                 StartCoroutine(LoadSceneAndSetActive(sceneName, false));
             }
-
         }
-
 
         private IEnumerator LoadSceneAndSetActive(string sceneName, bool showLoading)
         {
-          
-            // Faux chargement
             if (showLoading) { yield return new WaitForSeconds(3f);}
-          
+
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
             yield return new WaitUntil(() => asyncLoad.isDone);
 
-            
             Scene loadedScene = SceneManager.GetSceneByName(sceneName);
             SceneManager.SetActiveScene(loadedScene);
             DataManager.Instance.loadingScreen.SetActive(false);
-           
         }
-
-
-
     }
-
-
 }

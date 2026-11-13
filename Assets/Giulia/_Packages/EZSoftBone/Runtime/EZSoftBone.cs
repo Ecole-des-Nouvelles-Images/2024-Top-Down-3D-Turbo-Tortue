@@ -140,6 +140,7 @@ namespace EZhex1991.EZSoftBone
 
             public void RevertTransforms(int startDepth)
             {
+                if (transform == null) return;
                 if (depth > startDepth)
                 {
                     transform.localPosition = localPosition;

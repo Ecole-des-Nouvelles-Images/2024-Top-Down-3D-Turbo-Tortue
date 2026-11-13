@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using Intégration.V2_REFACTO.Scripts;
 using Michael.Scripts.Manager;
 using TMPro;
 using UnityEngine;
@@ -9,7 +10,7 @@ using UnityEngine.UI;
 public class PlayerStatsUI : MonoBehaviour
 {
     [Header("UI Elements")]
-    
+
     [SerializeField] private Image _characterIcon;
     [SerializeField] private TextMeshProUGUI _playerNumberText;
     [SerializeField] private TextMeshProUGUI _stat01Text;
@@ -17,37 +18,23 @@ public class PlayerStatsUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _stat03Text;
     [SerializeField] private Image _statTitleImage;
     [SerializeField] private TextMeshProUGUI _statTitleText;
-    
+
     [SerializeField] private List<Sprite> _FlowersSprites;
     [SerializeField] private List<Sprite> _DeadFlowerSprites;
     [SerializeField] private Sprite _turtleSprite;
     [SerializeField] private Sprite _deadTurtleSprite;
 
-
-
     public void Setup(PlayerStats stats)
     {
-        if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
-        {
-            _playerNumberText.text = "J" + (stats.playerIndex+1);
-        }
-        else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
-        {
-            _playerNumberText.text = "P" + (stats.playerIndex+1);
-        }
-        
-        
-        
-        
-       
+        LocalizedPlayerLabel.Apply(_playerNumberText, stats.playerIndex);
+
         _statTitleText.text = stats.GetTrophyTitle();
         _statTitleImage.color = Random.ColorHSV(0f, 1f, 0.7f, 1f, 0.7f, 1f);
-        
-        
+
         if (stats.IsTurtle)
         {
             _characterIcon.sprite = GameManager.Instance.FlowersIsDead ? _turtleSprite : _deadTurtleSprite;
-           
+
             if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
             {
                 _stat01Text.text = "fleurs detectees : " + stats.flowersScanned;
@@ -64,7 +51,7 @@ public class PlayerStatsUI : MonoBehaviour
         else
         {
             _characterIcon.sprite = GameManager.Instance.FlowersIsDead ? _DeadFlowerSprites[stats.characterIndex] : _FlowersSprites[stats.characterIndex];
-         
+
             if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
             {
                 _stat01Text.text = "fleurs reanimees : " + stats.flowersRevived;
@@ -77,8 +64,6 @@ public class PlayerStatsUI : MonoBehaviour
                 _stat02Text.text = "time hidden : " + Mathf.RoundToInt( stats.timeSpentHidden)+ "s";
                 _stat03Text.text = "suns collected : " + stats.sunsCollected;
             }
-           
         }
     }
-
 }

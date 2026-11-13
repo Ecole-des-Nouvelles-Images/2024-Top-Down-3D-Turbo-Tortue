@@ -7,7 +7,6 @@ namespace Intégration.V1.Scripts.Game
         [SerializeField] private Camera mainCamera;
         [SerializeField] private Camera overlayCamera;
 
-
         private void Update()
         {
             overlayCamera.fieldOfView = mainCamera.fieldOfView;

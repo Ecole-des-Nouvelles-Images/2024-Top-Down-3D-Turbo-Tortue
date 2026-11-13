@@ -11,11 +11,10 @@ namespace Noah.Scripts
     public class TurtleController : CharacterController
     {
         [SerializeField] private float boosterMultiplier = 1.2f;
-        
+
         [Header("General References")] [SerializeField]
         private Collider _attackCollider;
 
-        // [SerializeField] private TrailRenderer dashTrail;
         [SerializeField] private Material dashMaterial;
 
         [Header("Charging & Dashing")] [SerializeField]
@@ -34,7 +33,7 @@ namespace Noah.Scripts
         private Vector3 _lastDashDirection;
         private float _normalSpeed;
         private bool _isAttacking;
-        
+
         [Header("Scanning")] [SerializeField] private float scanTime, scanRange, scanDuration;
         [SerializeField] private GameObject scanSphereArea;
         private bool _isScanning;
@@ -90,7 +89,6 @@ namespace Noah.Scripts
         {
             if (context.performed)
             {
-                Debug.Log("turbo");
                 moveSpeed *= boosterMultiplier;
             }
             else
@@ -98,20 +96,17 @@ namespace Noah.Scripts
                 moveSpeed = _normalSpeed;
             }
         }
-        
+
         protected override void Move()
-        { 
+        {
             Vector3 movement = new Vector3(move.x, 0f, move.y) * moveSpeed;
             if (movement != Vector3.zero)
             {
                 Quaternion newRotation = Quaternion.LookRotation(movement, Vector3.up);
                 Rb.rotation = Quaternion.Slerp(Rb.rotation, newRotation, 0.15f);
             }
-            
-            // Rb.MovePosition(transform.position + new Vector3(movement.x, 2, movement.z) * Time.deltaTime);
+
             Rb.AddForce(movement * Time.deltaTime, ForceMode.Force);
-            // Rb.velocity = new Vector3(movement.x, Rb.velocity.y, movement.z);
-            
         }
 
         #region Main Capacity
@@ -154,17 +149,11 @@ namespace Noah.Scripts
                          _chargeTime < thirdDashLevelTime)
                 {
                     currentDashForce = secondDashLevelPower * secondDashLevelTime;
-                    //BatteryManager.Instance.BatteryCost(10);
                 }
                 else if (_chargeTime > firstDashLevelTime && _chargeTime > secondDashLevelTime &&
                          _chargeTime > thirdDashLevelTime)
                 {
                     currentDashForce = thirdDashLevelPower * thirdDashLevelTime;
-                   // BatteryManager.Instance.BatteryCost(20);
-                }
-                else
-                {
-                    Debug.Log("No Force");
                 }
 
                 _animator.SetBool("IsDashing", true);
@@ -184,7 +173,7 @@ namespace Noah.Scripts
             {
                 _isDashing = false;
                 _animator.SetBool("IsDashing", false);
-                //dashTrail.enabled = false;
+
                 chargingSmokeParticules.SetActive(false);
                 _lastDashDirection = Vector3.zero;
                 chargingParticules.SetActive(false);
@@ -201,7 +190,6 @@ namespace Noah.Scripts
                     _lastDashDirection = new Vector3(move.x, 0f, move.y);
                 }
 
-                // change light of turtle when charging 
                 if (_chargeTime > firstDashLevelTime && _chargeTime < secondDashLevelTime)
                 {
                     materialToUpdate.SetColor("_EmissionColor", colorsDashLevel[0]);
@@ -212,7 +200,7 @@ namespace Noah.Scripts
                 {
                     materialToUpdate.SetColor("_EmissionColor", colorsDashLevel[1]);
                     dashMaterial.SetColor("_EmissionColor", colorsDashLevel[1]);
-                    //dashTrail.enabled = true;
+
                     chargingSmokeParticules.SetActive(true);
                     chargingParticules.SetActive(true);
                 }
@@ -249,22 +237,9 @@ namespace Noah.Scripts
         {
             if (!_isDashing)
             {
-                /*
-                RaycastHit hit;
-                float raycastDistance = 6.0f;
-                if (Physics.Raycast(transform.position, TransformWall.forward, out hit, raycastDistance))
-                {
-                    if (hit.collider.CompareTag("Wall"))
-                    {
-                        Debug.Log("Wall detected, attack cancelled.");
-                        return;
-                    }
-                }
-                */
                 EnableAttackCollider();
                 Invoke(nameof(DisableAttackCollider), 0.7f);
                 _animator.SetTrigger("Attack");
-              // BatteryManager.Instance.BatteryCost(10);
             }
         }
 
@@ -291,7 +266,6 @@ namespace Noah.Scripts
         {
             _attackCollider.enabled = true;
             _isAttacking = true;
-
         }
 
         private void DisableAttackCollider()
@@ -310,11 +284,6 @@ namespace Noah.Scripts
             {
                 GameObject trap = Instantiate(TrapPrefab, TrapSpawn.position, TrapSpawn.rotation);
                 GameManager.Instance.TurtleTrap.Add(trap);
-               // BatteryManager.Instance.BatteryCost(10);
-            }
-            else
-            {
-                Debug.Log("2 trap maximum");
             }
         }
 
@@ -324,13 +293,10 @@ namespace Noah.Scripts
 
         protected override void FourthCapacity()
         {
-            //SCANNER LES FLEURS
-
             if (!_isScanning)
             {
                 scanSphereArea.transform.DOScale(scanRange, 3f);
                 _isScanning = true;
-               // BatteryManager.Instance.BatteryCost(20);
             }
         }
 
@@ -349,6 +315,5 @@ namespace Noah.Scripts
         }
 
         #endregion
-        
     }
 }

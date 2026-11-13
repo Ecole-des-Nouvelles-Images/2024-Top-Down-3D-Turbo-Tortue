@@ -14,7 +14,7 @@ namespace Intégration.V1.Scripts.UI
     {
         public static Action OnGamePaused;
         public static bool IsPaused;
-        
+
         [Header("Animation References")]
         [SerializeField] private CanvasGroup _pausePanelCG;
         [SerializeField] private RectTransform _gameTitle;
@@ -28,7 +28,7 @@ namespace Intégration.V1.Scripts.UI
         [SerializeField] float ShowedButtonPanelPositionX;
         [SerializeField] Volume PostProcessVolume;
         private DepthOfField _depthOfField;
-        
+
         private Sequence _openPauseSeq;
         private Sequence _closePauseSeq;
 
@@ -36,37 +36,29 @@ namespace Intégration.V1.Scripts.UI
         {
             IsPaused = false;
             Time.timeScale = 1;
-            if (PostProcessVolume.profile.TryGet<DepthOfField>(out _depthOfField))
-            {
-                Debug.Log("Depth Of Field trouvé");
-            }
+            PostProcessVolume.profile.TryGet<DepthOfField>(out _depthOfField);
         }
 
         private void OnEnable()
         {
             OnGamePaused += OpenPausePanel;
-           
-            
         }
         private void OnDisable()
         {
             OnGamePaused -= OpenPausePanel;
-           
         }
 
         private void OpenPausePanel()
         {
             _depthOfField.active = true;
             if (!(Time.timeScale > 0) || !GameManager.Instance.GameisStarted) return;
-            
-            Debug.Log("GAME PAUSEDDDD ?");
+
             _openPauseSeq = DOTween.Sequence();
             _openPauseSeq.SetUpdate(true);
-            //RumbleManager.Instance.StopAllVibrations();
 
             _openPauseSeq.Append(_pausePanelCG.DOFade(1, _pauseIntroDuration));
            _openPauseSeq.Join(_buttonsBackground.DOAnchorPosX(ShowedButtonPanelPositionX,_pauseIntroDuration)).SetEase(Ease.OutBack);
-           //_openPauseSeq.Join(_gameTitle.DOAnchorPosX(-350,_pauseIntroDuration)).SetEase(Ease.OutBack);
+
            _openPauseSeq.OnComplete(() =>
            {
                Time.timeScale = 0;
@@ -74,26 +66,24 @@ namespace Intégration.V1.Scripts.UI
                _eventSystem.SetSelectedGameObject(_playButton);
                AudioManager.Instance.SetLowpassFrequency(500f);
            });
-            
+
             if (AudioManager.Instance.IsLoopingSfxPlaying())
             {
                 AudioManager.Instance.StopLoopingSfx();
             }
         }
 
-
         public void ClosePausePanel()
         {
-            
             if (!(Time.timeScale <= 0) || !GameManager.Instance.GameisStarted) return;
-            
+
             _eventSystem.SetSelectedGameObject(null);
             _closePauseSeq = DOTween.Sequence();
             _closePauseSeq.SetUpdate(true);
 
             _closePauseSeq.Append(_pausePanelCG.DOFade(0, _pauseIntroDuration));
             _closePauseSeq.Join(_buttonsBackground.DOAnchorPosX(InitialButtonPanelPositionX,_pauseIntroDuration)).SetEase(Ease.OutBack);
-            //_closePauseSeq.Join(_gameTitle.DOAnchorPosX(0,_pauseIntroDuration)).SetEase(Ease.OutBack);
+
             _closePauseSeq.OnComplete(() =>
             {
                 Time.timeScale = 1;
@@ -101,9 +91,6 @@ namespace Intégration.V1.Scripts.UI
                 AudioManager.Instance.SetLowpassFrequency(4000f);
                 _depthOfField.active = false;
             });
-            
-            
-            
         }
     }
 }

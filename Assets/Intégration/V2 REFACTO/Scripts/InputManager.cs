@@ -26,4 +26,3 @@ public class InputManager : MonoBehaviour
         _playerUI.UI.Disable();
     }
 }
-

@@ -30,20 +30,6 @@ namespace Intégration.V1.Scripts.Game
 
         void Update()
         {
-           /* if (Input.GetMouseButtonDown(0))
-            {
-                Ray ray = Camera.main!.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
-                    HitShield(hit.point);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.F) && !_shieldOn && !_isAnimating)
-            {
-                OpenShield();
-            }
-            */
         }
 
         public void HitShield(Vector3 hitPos)
@@ -60,12 +46,12 @@ namespace Intégration.V1.Scripts.Game
                 _holderFlowerController.isInvincible = true;
                 _collider.enabled = true;
                 _shieldOn = true;
-                _isAnimating = true; 
+                _isAnimating = true;
                 if (_disolveCoroutine != null)
                 {
                     StopCoroutine(_disolveCoroutine);
                 }
-                _disolveCoroutine = StartCoroutine(Coroutine_DisolveAndAutoClose(0)); 
+                _disolveCoroutine = StartCoroutine(Coroutine_DisolveAndAutoClose(0));
             }
         }
 
@@ -92,14 +78,14 @@ namespace Intégration.V1.Scripts.Game
             }
             _renderer.material.SetFloat("_Disolve", target);
 
-            if (target == 0) 
+            if (target == 0)
             {
                 yield return new WaitForSeconds(_autoCloseDelay);
-                CloseShield(); 
+                CloseShield();
             }
             else
             {
-                _isAnimating = false; 
+                _isAnimating = false;
             }
         }
 
@@ -112,14 +98,13 @@ namespace Intégration.V1.Scripts.Game
             {
                 StopCoroutine(_disolveCoroutine);
             }
-            _disolveCoroutine = StartCoroutine(Coroutine_DisolveAndAutoClose(1)); 
-            
+            _disolveCoroutine = StartCoroutine(Coroutine_DisolveAndAutoClose(1));
+
             FlowerController[] allFlowers = FindObjectsOfType<FlowerController>();
             foreach (FlowerController flower in allFlowers)
             {
                 flower.isInvincible = false;
             }
         }
-        
     }
 }

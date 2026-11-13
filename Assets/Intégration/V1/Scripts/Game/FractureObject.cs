@@ -12,7 +12,7 @@ namespace Intégration.V1.Scripts.Game
         [SerializeField] private GameObject explosionVFX;
         [SerializeField] private bool _canRespawn;
         [SerializeField] private float _respawnDelay = 30f;
-        
+
         private TurtleController _turtleController;
         private Collider _collider;
 
@@ -45,7 +45,6 @@ namespace Intégration.V1.Scripts.Game
            {
                Invoke(nameof(RespawnObject),_respawnDelay);
            }
-           
         }
 
         private void RespawnObject()
@@ -54,7 +53,5 @@ namespace Intégration.V1.Scripts.Game
             originalObject.SetActive(true);
             explosionVFX.SetActive(false);
         }
-
-     
     }
 }

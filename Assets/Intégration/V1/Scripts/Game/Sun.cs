@@ -16,8 +16,8 @@ namespace Intégration.V1.Scripts.Game
                 if (!_collected && !GameManager.Instance.GameFinished)
                 {
                     FlowerController flowerController = other.GetComponent<FlowerController>();
-                    if (flowerController.isUnhittable) return; 
-                    
+                    if (flowerController.isUnhittable) return;
+
                     if (flowerController.Sun < flowerController.maxSun)
                     {
                         AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.SunCollected);
@@ -33,7 +33,6 @@ namespace Intégration.V1.Scripts.Game
                             else
                             {
                                 flowerController.AddSun(3);
-                                Debug.Log("chanceux");
                             }
 
                             _collected = true;
@@ -54,7 +53,6 @@ namespace Intégration.V1.Scripts.Game
             {
                 if (!_collected && !GameManager.Instance.GameFinished)
                 {
-                    
                     AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.SunCollected);
                     GameManager.Instance._sunOccupiedSpawns.Remove(gameObject);
                     BatteryManager.OnSunCollected.Invoke(35);

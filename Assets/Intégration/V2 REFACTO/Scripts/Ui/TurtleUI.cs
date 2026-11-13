@@ -23,14 +23,12 @@ public class TurtleUI : MonoBehaviour
     [SerializeField] private BatteryManager batteryManager;
     [SerializeField] private float easeSliderRate = 3f;
     [SerializeField] private float ColorBarRate = 3f;
-    
+
     private float delayedBatteryTime;
     private Color currentTargetColor;
     private Tween blinkTween;
     private bool isBatteryCritical;
-    
-    
-    
+
     private void Start()
     {
         delayedBatteryTime = batteryManager.CurrentBatteryTime;
@@ -41,22 +39,17 @@ public class TurtleUI : MonoBehaviour
         float current = batteryManager.CurrentBatteryTime;
         float max = batteryManager.MaxBatteryTime;
         float percent = current / max * 100f;
-        
+
         bool wasCritical = isBatteryCritical;
         isBatteryCritical = percent < 25f;
 
-        // MAJ immédiate
         batteryBar.value = current / max;
 
-        // MAJ retardée
         delayedBatteryTime = Mathf.Lerp(delayedBatteryTime, current, Time.deltaTime * easeSliderRate);
         easeBatteryBar.value = delayedBatteryTime / max;
 
-        //MAJ du text de pourcentage
         batteryText.text = Mathf.RoundToInt(percent) + "%";
-        
-        
-        // Déterminer la couleur cible
+
         if (percent <= 25)
         {
             turtleIcon.sprite = _turtlesIcons[2];
@@ -73,10 +66,8 @@ public class TurtleUI : MonoBehaviour
             currentTargetColor = _turtleStateColors[0];
         }
 
-        // Animation de la couleur
         AnimateUIColor(batteryFillImage,currentTargetColor,ColorBarRate);
 
-        // si la batterie est faible, l'icone clignote
         if (isBatteryCritical && !wasCritical && GameManager.Instance.GameisStarted && !GameManager.Instance.GameFinished)
         {
             StartBlinkingIcon();
@@ -91,7 +82,7 @@ public class TurtleUI : MonoBehaviour
     {
         targetImage.DOColor(toColor, duration).SetEase(Ease.InOutSine);
     }
-    
+
     private void StartBlinkingIcon()
     {
         AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleBatteryWarning);
@@ -108,10 +99,4 @@ public class TurtleUI : MonoBehaviour
         blinkTween?.Kill();
         turtleOutline.DOFade(1f, 0.2f);
     }
-    
-    
-    
-    
-    
-    
 }

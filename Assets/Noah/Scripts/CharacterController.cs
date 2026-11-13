@@ -25,7 +25,6 @@ namespace Noah.Scripts
 
         protected virtual void Update()
         {
-            
         }
 
         #region Move
@@ -36,18 +35,15 @@ namespace Noah.Scripts
         }
 
         protected virtual void Move()
-        { 
+        {
             Vector3 movement = new Vector3(move.x, 0f, move.y) * moveSpeed;
             if ( movement != Vector3.zero)
             {
                 Quaternion newRotation = Quaternion.LookRotation(movement, Vector3.up);
                 Rb.rotation = Quaternion.Slerp(Rb.rotation, newRotation, 0.15f);
             }
-            
-            // Rb.MovePosition(transform.position + new Vector3(movement.x, 2, movement.z) * Time.deltaTime);
+
             Rb.AddForce(movement * Time.deltaTime, ForceMode.Force);
-            // Rb.velocity = new Vector3(movement.x, Rb.velocity.y, movement.z);
-            
         }
 
         #endregion
@@ -65,7 +61,7 @@ namespace Noah.Scripts
         protected abstract void MainCapacity();
 
         #endregion
-        
+
         #region Secondary Capacity
 
         public virtual void OnSecondaryCapacity(InputAction.CallbackContext context)
@@ -74,13 +70,12 @@ namespace Noah.Scripts
             {
                 SecondaryCapacity();
             }
-           
         }
 
         protected abstract void SecondaryCapacity();
 
         #endregion
-        
+
         #region Third Capacity
 
         public virtual void OnThirdCapacity(InputAction.CallbackContext context)
@@ -89,16 +84,14 @@ namespace Noah.Scripts
             {
                 ThirdCapacity();
             }
-           
         }
 
         protected virtual void ThirdCapacity()
         {
-          
         }
 
         #endregion
-        
+
         #region Fourth Capacity
         public virtual void OnFourthCapacity(InputAction.CallbackContext context)
         {
@@ -106,14 +99,11 @@ namespace Noah.Scripts
             {
                FourthCapacity();
             }
-           
         }
 
         protected virtual void FourthCapacity()
         {
-            
         }
         #endregion
-        
     }
 }

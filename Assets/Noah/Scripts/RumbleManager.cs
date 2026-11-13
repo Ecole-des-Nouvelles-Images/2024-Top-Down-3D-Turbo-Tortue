@@ -44,9 +44,8 @@ namespace Noah.Scripts
                 elapsedTime += Time.deltaTime;
                 yield return null;
             }
-            
+
             pad.SetMotorSpeeds(0f, 0f);
         }
     }
-    
 }

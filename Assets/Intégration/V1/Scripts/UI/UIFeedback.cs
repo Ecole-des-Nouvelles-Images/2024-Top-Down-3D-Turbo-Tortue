@@ -17,20 +17,18 @@ namespace Intégration.V1.Scripts.UI
         [SerializeField] private GameObject optionsButton;
         [SerializeField] private float _bounceDuration  = 0.2f;
         [SerializeField] private GameObject _outlineImage;
-        
+
         private static Button _currentButton;
-        
+
         private Tween _bounceTween;
 
         private void Start()
         {
             _currentButton = null;
-            
         }
 
         public void OnSelect(BaseEventData eventData)
         {
-            //SoundManager.PlaySound(SoundType.Selected,0.3f);
             AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonSelected);
 
             if (_currentButton != null)
@@ -41,8 +39,7 @@ namespace Intégration.V1.Scripts.UI
             if (GetComponent<Button>())
             {
                 gameObject.GetComponent<Image>().color = _selectedbuttonColor;
-                //transform.DOScale(1.1f, _bounceDuration).SetUpdate(true).SetEase(Ease.OutBounce);
-                
+
                 _bounceTween.Kill();
                 transform.localScale = Vector3.one;
 
@@ -54,17 +51,13 @@ namespace Intégration.V1.Scripts.UI
                 else
                 {
                     _bounceTween = transform.DOScale(1.05f, _bounceDuration).SetUpdate(true).SetEase(Ease.InOutSine).SetLoops(-1, LoopType.Yoyo);;
-                  
                 }
                 buttonText.color = _selectedTextColor;
-                
-                
+
                 if (_outlineImage)
                 {
                     _outlineImage.SetActive(true);
                 }
-
-                
 
                 _currentButton = GetComponent<Button>();
             }
@@ -80,7 +73,6 @@ namespace Intégration.V1.Scripts.UI
 
                 if (GetComponent<Toggle>())
                 {
-                    // optionsButton.gameObject.GetComponent<Toggle>().colors. = _deselectedbuttonColor;
                     optionsButton.transform.DOScale(1.1f, _bounceDuration).SetUpdate(true).SetEase(Ease.OutBounce);
                     buttonText.color = _selectedbuttonColor;
                 }
@@ -106,7 +98,7 @@ namespace Intégration.V1.Scripts.UI
                 {
                     _outlineImage.SetActive(false);
                 }
-                
+
                 if (tutoPanel)
                 {
                     tutoPanel.SetActive(false);
@@ -126,11 +118,10 @@ namespace Intégration.V1.Scripts.UI
 
                 if (GetComponent<Toggle>())
                 {
-                    // optionsButton.gameObject.GetComponent<Toggle>().colors. = _deselectedbuttonColor;
                     optionsButton.transform.DOScale(1.0f, _bounceDuration).SetUpdate(true).SetEase(Ease.InBounce);
                     buttonText.color = _deselectedbuttonColor;
                 }
-                
+
                 if (GetComponent<TMP_Dropdown>())
                 {
                     optionsButton.transform.DOScale(1.0f, _bounceDuration).SetUpdate(true).SetEase(Ease.InOutSine);
@@ -138,12 +129,11 @@ namespace Intégration.V1.Scripts.UI
                 }
             }
         }
-        
 
         public void OnSubmit(BaseEventData eventData)
         {
             if (optionsButton || tutoPanel) return;
-            
+
             transform.localScale = Vector3.one;
             _bounceTween.Kill();
             transform.DOPunchScale(Vector3.one * 0.2f, _bounceDuration).SetUpdate(true).SetEase(Ease.Linear);

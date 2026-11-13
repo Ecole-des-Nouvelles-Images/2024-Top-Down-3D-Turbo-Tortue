@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using DG.Tweening;
+using Intégration.V1.Scripts.Game.FeedBack;
 using Intégration.V1.Scripts.Menu;
 using Intégration.V1.Scripts.SharedScene;
 using Intégration.V2_REFACTO.Scripts;
@@ -15,35 +16,35 @@ public class PlayerManager : MonoBehaviour
     public static Action OnPlayerStateChanged;
     public static Action OnPlayersCanceledSelection;
     public bool PlayersSelectionConfirmed;
-    
 
     [Header("Player manager")]
     PlayerInputManager _playerInputManager;
     [SerializeField] private Transform _playerUIParent;
     [SerializeField] private int _minPlayers;
-    private bool AllPlayersReady; 
-    
+    [Tooltip("Si aucun joueur ne prend la Tortue, elle est contrôlée par l'IA (permet de jouer seul en fleur).")]
+    [SerializeField] private bool _allowAITurtle = true;
+    private bool AllPlayersReady;
+    private bool _aiTurtleMode;
+    private GameObject _aiTurtleCard;
+
     [Header("Start Game Ui References")]
     [SerializeField] private GameObject _startgamePopUp;
     [SerializeField] private GameObject _choseCharacterPopUp;
-    [SerializeField] private Image holdFillImage;  // Image de remplissage (UI)
+    [SerializeField] private Image holdFillImage;
     [SerializeField] private float holdTime = 1.5f;
     [SerializeField] private GameObject _choseMapPanel;
     private Tween fillTween;
-    
-    
-    
+
     private bool _characterSelectionCanceled;
     private bool isStartingGame = false;
 
-    
     private Dictionary<InputDevice, PlayerInput> deviceToPlayerInput = new();
     private List<PlayerInput> playerInputsList = new() ;
     private List<GameObject> playersUiList = new();
     private bool _turtleIsSelected;
     private int _playersReadyCount;
-    private List<PlayerInput> holdingPlayers = new(); //Stocke les joueurs qui maintiennent "Start"
-    
+    private List<PlayerInput> holdingPlayers = new();
+
     [Header("HoldConfirm Actions")]
     private Dictionary<PlayerInput, InputAction> playerStartActions = new();
     private Dictionary<PlayerInput, Action<InputAction.CallbackContext>> startHandlers = new();
@@ -52,8 +53,6 @@ public class PlayerManager : MonoBehaviour
     [Header("Transition references")]
     [SerializeField] private GameObject circularTransition;
 
-    
-    
     private void Awake()
     {
         _playerInputManager = GetComponent<PlayerInputManager>();
@@ -61,30 +60,23 @@ public class PlayerManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //Détection des manettes déjà branchées au lancement
+        RemoveOrphanInputUsers();
+
         foreach (var device in InputSystem.devices)
         {
             if (device is Gamepad)
             {
-                CheckCurrentGamepads(device); 
-                //Debug.Log("manettes check");
+                CheckCurrentGamepads(device);
             }
         }
 
         InputSystem.onDeviceChange += OnDeviceChange;
         OnPlayerStateChanged += CheckPlayersReady;
         OnPlayersCanceledSelection += OnCancelSelection;
-
     }
 
     private void Start()
     {
-        //MenuManager.Instance.CircleTransition(circularTransition,15,1.5f);
-        
-       /* foreach (var user in InputUser.all)
-        {
-           Debug.Log("user dispo : " +user + "numero : " + user.index);
-        }*/
     }
 
     private void OnDisable()
@@ -92,8 +84,6 @@ public class PlayerManager : MonoBehaviour
         InputSystem.onDeviceChange -= OnDeviceChange;
         OnPlayerStateChanged -= CheckPlayersReady;
         OnPlayersCanceledSelection -= OnCancelSelection;
-        
-     
     }
 
     private void OnDestroy()
@@ -105,18 +95,36 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    private static void RemoveOrphanInputUsers()
+    {
+        foreach (var user in new List<InputUser>(InputUser.all))
+        {
+            bool owned = false;
+            foreach (var playerInput in PlayerInput.all)
+            {
+                if (playerInput.user == user)
+                {
+                    owned = true;
+                    break;
+                }
+            }
+            if (!owned) user.UnpairDevicesAndRemoveUser();
+        }
+    }
 
     private void CheckPlayersReady()
     {
         _playersReadyCount = 0;
         _turtleIsSelected = false;
-       
+
         foreach (var player in playerInputsList)
         {
             PlayerSelection playerSelection = player.GetComponent<PlayerSelection>();
 
-            if (playerSelection.CurrentState == PlayerState.Joined) //si un joueur n'est pas prêt
+            if (playerSelection.CurrentState == PlayerState.Joined)
             {
+                _aiTurtleMode = false;
+                HideAITurtleCard();
                 _startgamePopUp.SetActive(false);
                 _choseCharacterPopUp.SetActive(true);
                 AllPlayersReady = false;
@@ -132,19 +140,24 @@ public class PlayerManager : MonoBehaviour
                 }
             }
         }
-        if (_playersReadyCount < _minPlayers || !_turtleIsSelected)
+
+        bool canStartWithHumanTurtle = _turtleIsSelected && _playersReadyCount >= _minPlayers;
+        bool canStartWithAITurtle = _allowAITurtle && !_turtleIsSelected && _playersReadyCount >= 1;
+        _aiTurtleMode = canStartWithAITurtle && !canStartWithHumanTurtle;
+        if (!canStartWithHumanTurtle && !canStartWithAITurtle)
         {
-            return; //si tous les joueurs sont prêts
+            HideAITurtleCard();
+            return;
         }
 
-      
-        
         _choseCharacterPopUp.SetActive(false);
         _startgamePopUp.SetActive(true);
         AllPlayersReady = true;
+
+        if (_aiTurtleMode) ShowAITurtleCard();
+        else HideAITurtleCard();
     }
-        
-    
+
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
     {
         if (device is not Gamepad gamepad) return;
@@ -158,20 +171,14 @@ public class PlayerManager : MonoBehaviour
         }
         else if (change == InputDeviceChange.Disconnected)
         {
-          
-            //if (!PlayersSelectionConfirmed) return;
             ReturnSelectionPanel();
-           // Debug.Log("Disconnected !!!!!!!!!!");
         }
     }
 
-    
     private void CheckCurrentGamepads(InputDevice device)
     {
-        // Verifie si la manette a deja été connectée
         if (deviceToPlayerInput.ContainsKey(device) || _playerInputManager.playerCount >= _playerInputManager.maxPlayerCount) return;
-        
-        //Debug.Log($"Manette {device.displayName} branchée !");
+
         _playerInputManager.JoinPlayer(-1, -1, null, device);
     }
 
@@ -181,16 +188,12 @@ public class PlayerManager : MonoBehaviour
         GameObject playerUi = playerInput.transform.parent.gameObject;
         playersUiList.Add(playerUi);
         playerUi.transform.SetParent(_playerUIParent);
-        
+
         if (deviceToPlayerInput.ContainsKey(device))
         {
-           // Debug.Log(" check failed");
-         //   Debug.Log($"Manette {device.displayName} reconnue !");
-            //Destroy(playerInput.gameObject);
             return;
         }
-        
-       // Debug.Log($"Nouvelle manette {device.displayName} !");
+
         deviceToPlayerInput[device] = playerInput;
         playerInputsList.Add(playerInput);
         RegisterPlayer(playerInput);
@@ -200,21 +203,18 @@ public class PlayerManager : MonoBehaviour
     {
         if (mapindex == 1)
         {
-            DataManager.Instance.CurrentMap = DataManager.MapChoice.Garden; 
+            DataManager.Instance.CurrentMap = DataManager.MapChoice.Garden;
         }
         else if (mapindex == 2)
         {
-            DataManager.Instance.CurrentMap = DataManager.MapChoice.Laboratory; 
+            DataManager.Instance.CurrentMap = DataManager.MapChoice.Laboratory;
         }
         else
         {
-            DataManager.Instance.CurrentMap = DataManager.MapChoice.Garden; 
+            DataManager.Instance.CurrentMap = DataManager.MapChoice.Garden;
         }
-       
-      
     }
-    
-    
+
     public void LoadGameSene()
     {
         foreach (var player in playerInputsList)
@@ -224,7 +224,6 @@ public class PlayerManager : MonoBehaviour
         if (!isStartingGame)
         {
             AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.GameMusic);
-            //MenuManager.Instance.CircleTransition(circularTransition,1,1.5f);
 
             switch (DataManager.Instance.CurrentMap)
             {
@@ -235,12 +234,11 @@ public class PlayerManager : MonoBehaviour
                     CustomSceneManager.Instance.LoadScene("Game_Labo");
                     break;
             }
-    
-          //  Debug.Log("start game");
+
             isStartingGame = true;
         }
     }
-    
+
     #region Input Actions
     private void RegisterPlayer(PlayerInput player)
     {
@@ -255,7 +253,7 @@ public class PlayerManager : MonoBehaviour
         startHandlers[player] = startHandler;
         cancelHandlers[player] = cancelHandler;
     }
-    
+
     private void UnRegisterPlayer(PlayerInput player)
     {
         if (playerStartActions.TryGetValue(player, out var action))
@@ -274,19 +272,17 @@ public class PlayerManager : MonoBehaviour
             playerStartActions.Remove(player);
         }
     }
-    
 
     private void OnStartGame(PlayerInput player, InputAction.CallbackContext context)
     {
         if (!AllPlayersReady) return;
         if (PlayersSelectionConfirmed) return;
-        
-     
+
        AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
         holdingPlayers.Add(player);
         UpdateHoldProgress();
     }
-    
+
     private void OnCancelGame(PlayerInput player, InputAction.CallbackContext context)
     {
         holdingPlayers.Remove(player);
@@ -295,7 +291,6 @@ public class PlayerManager : MonoBehaviour
 
     private void OnCancelSelection()
     {
-       // Debug.Log("cancel ma gueule");
         if (PlayersSelectionConfirmed)
         {
             ReturnSelectionPanel();
@@ -311,7 +306,7 @@ public class PlayerManager : MonoBehaviour
                     return;
                 }
             }
-           // Debug.Log("cancel Selection");
+
             PlayersSelectionConfirmed = false;
 
             if (!_characterSelectionCanceled)
@@ -328,14 +323,56 @@ public class PlayerManager : MonoBehaviour
         _choseMapPanel.SetActive(false);
         OnPlayerStateChanged.Invoke();
     }
-    
-    
+
+    private void ShowAITurtleCard()
+    {
+        if (_aiTurtleCard == null)
+        {
+            GameObject holder = new GameObject("AI Turtle Card Holder");
+            holder.SetActive(false);
+
+            _aiTurtleCard = Instantiate(_playerInputManager.playerPrefab, holder.transform);
+            _aiTurtleCard.name = "AI Turtle Card";
+
+            PlayerSelection selection = _aiTurtleCard.GetComponentInChildren<PlayerSelection>(true);
+            selection.ShowAsAITurtleCard(GetTurtleColor());
+            DestroyImmediate(selection.gameObject);
+
+            _aiTurtleCard.SetActive(false);
+            _aiTurtleCard.transform.SetParent(_playerUIParent, false);
+            Destroy(holder);
+        }
+
+        if (_aiTurtleCard.activeSelf) return;
+
+        _aiTurtleCard.SetActive(true);
+        _aiTurtleCard.transform.SetAsLastSibling();
+        _aiTurtleCard.transform.localScale = Vector3.one * 0.5f;
+        _aiTurtleCard.transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
+        AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleVoice);
+    }
+
+    private void HideAITurtleCard()
+    {
+        if (_aiTurtleCard != null) _aiTurtleCard.SetActive(false);
+    }
+
+    private static Color GetTurtleColor()
+    {
+        foreach (Button button in FindObjectsByType<Button>(FindObjectsSortMode.None))
+        {
+            if (button.CompareTag("Turtle") && button.TryGetComponent(out UISelectionFeedBack feedback))
+                return feedback.OutlineColor;
+        }
+        return Color.white;
+    }
+
     private void UpdateHoldProgress()
     {
         if (holdingPlayers.Count > 0 && AllPlayersReady)
         {
             if (fillTween != null && fillTween.IsActive()) return;
-            
+
             holdFillImage.transform.parent.DOScale(1.1f, 0.5f);
             fillTween = holdFillImage.DOFillAmount(1f, holdTime)
                 .SetEase(Ease.Linear)
@@ -344,9 +381,6 @@ public class PlayerManager : MonoBehaviour
                     AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonPressed);
                     _choseMapPanel.SetActive(true);
                     PlayersSelectionConfirmed = true;
-                    
-                    
-                    
                 });
         }
         else
@@ -355,10 +389,8 @@ public class PlayerManager : MonoBehaviour
             holdFillImage.DOFillAmount(0f, 1f).SetEase(Ease.OutQuad);
             holdingPlayers?.Clear();
             fillTween?.Kill();
-           
         }
     }
 
     #endregion
- 
 }

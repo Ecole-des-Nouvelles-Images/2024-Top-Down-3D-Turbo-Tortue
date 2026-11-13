@@ -11,7 +11,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] private float respawnDelay = 5f;
         [SerializeField] private bool _isRespawning;
         private GameObject _currentTrap;
-        
 
         protected override void PassiveCapacity()
         {
@@ -23,7 +22,6 @@ namespace Intégration.V1.Scripts.Game.Characters
             base.Start();
             PassiveCapacity();
         }
-        
 
         protected override void Update()
         {
@@ -31,7 +29,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (_currentTrap)
             {
                 if (!isDead || _isRespawning) return;
-                
+
                 CanRespawn = true;
                 _isRespawning = true;
                 Rb.isKinematic = false;
@@ -43,7 +41,6 @@ namespace Intégration.V1.Scripts.Game.Characters
                 {
                     GameManager.Instance.FlowersAlive.Remove(gameObject);
                     GameManager.Instance.WinVerification();
-                    
                 }
                 CanRespawn = false;
                 _isRespawning = false;
@@ -82,7 +79,6 @@ namespace Intégration.V1.Scripts.Game.Characters
             {
                 GameManager.Instance.WinVerification();
             }
-         
         }
 
         protected override void TakeHit()
@@ -90,6 +86,5 @@ namespace Intégration.V1.Scripts.Game.Characters
             if (_isRespawning) return;
             base.TakeHit();
         }
-        
     }
 }

@@ -9,21 +9,17 @@ namespace Noah.Scripts
 
         public void SetMasterVolume(float level)
         {
-           // audioMixer.SetFloat("masterVolume", level);
            audioMixer.SetFloat("masterVolume", Mathf.Log10(level) * 20f);
         }
-        
+
         public void SetSoundFXVolume(float level)
         {
-           // audioMixer.SetFloat("soundFX", level);
            audioMixer.SetFloat("soundFX", Mathf.Log10(level) * 20f);
         }
-        
+
         public void SetMusicVolume(float level)
         {
-           //audioMixer.SetFloat("musicVolume", level);
            audioMixer.SetFloat("musicVolume", Mathf.Log10(level) * 20f);
-           
         }
     }
 }

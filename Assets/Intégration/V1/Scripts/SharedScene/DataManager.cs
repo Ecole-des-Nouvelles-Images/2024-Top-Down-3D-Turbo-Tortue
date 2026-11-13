@@ -13,24 +13,17 @@ namespace Intégration.V1.Scripts.SharedScene
            Garden,
            Laboratory,
         }
-        
-        
-        [System.Serializable] 
+
+        [System.Serializable]
         public class PlayerInfo
         {
             public int prefabIndex;
             public InputDevice device;
         }
-        public Dictionary<int, PlayerInfo> PlayerChoice = new(); // stock le choix de personnage et les manettes
-        
+        public Dictionary<int, PlayerInfo> PlayerChoice = new();
+
         public GameObject loadingScreen;
         public bool CanVibrate = true;
         public MapChoice CurrentMap = MapChoice.Garden;
-
-
-
-
-
-
     }
 }

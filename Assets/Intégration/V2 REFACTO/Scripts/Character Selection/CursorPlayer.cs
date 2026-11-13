@@ -12,9 +12,9 @@ public class CursorPlayer : MonoBehaviour
 {
     [Header("Grid UI References")]
     [SerializeField] private Button[] _characterButtons;
-    
+
     [SerializeField] private PlayerSelection _playerSelection;
-   
+
     private Image _cursorImage;
     private EventSystem _eventSystem;
     private GameObject _lastGameObjectSelected;
@@ -30,7 +30,6 @@ public class CursorPlayer : MonoBehaviour
 
     private void Start()
     {
-       
     }
 
     private void OnEnable()
@@ -48,7 +47,6 @@ public class CursorPlayer : MonoBehaviour
         _playerSelection.OnCursorMoved -= UpdateCursorPosition;
         _playerSelection.OnPlayerReady -= MoveOtherSelector;
     }
-
 
     private void MoveSelectorPosition()
     {
@@ -78,8 +76,7 @@ public class CursorPlayer : MonoBehaviour
         radialLayout.enabled = true;
         transform.localScale = Vector3.one;
     }
-    
-    
+
     private void MoveOtherSelector(RadialGridLayoutGroup characterSelected, GameObject cursorUi)
     {
         for (int i = 0; i < characterSelected.transform.childCount; i++)
@@ -87,11 +84,10 @@ public class CursorPlayer : MonoBehaviour
             Transform childTransform = characterSelected.transform.GetChild(i);
 
             if (childTransform != cursorUi.transform)
-            { 
+            {
                 childTransform.gameObject.GetComponent<CursorPlayer>().MoveSelectorPosition();
                 childTransform.gameObject.GetComponent<CursorPlayer>()._playerSelection.UpdateIconCharacter();
             }
         }
     }
-    
 }

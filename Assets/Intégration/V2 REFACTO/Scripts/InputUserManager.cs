@@ -16,8 +16,6 @@ public class InputUserManager : MonoBehaviour
         playerInput = GetComponent<PlayerInput>();
     }
 
-  
-
     public void Initialize(InputDevice device, CharacterController _characterController)
     {
         if (playerInput == null)
@@ -31,25 +29,10 @@ public class InputUserManager : MonoBehaviour
             user.AssociateActionsWithUser(playerInput.actions);
             userInitialized = true;
 
-
             if (_characterController != null)
             {
                 _characterController.Gamepad =  user.pairedDevices.OfType<Gamepad>().FirstOrDefault();
             }
-            else
-            {
-                Debug.Log("FFFFFFF" );
-            }
-
-            
-            if (_characterController.Gamepad == null)
-            {
-                Debug.LogWarning($"[Input] Aucun gamepad trouvé pour {user} !");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("[InputUserManager] Impossible d'initialiser l'utilisateur (device ou PlayerInput manquant).");
         }
     }
 
@@ -64,7 +47,4 @@ public class InputUserManager : MonoBehaviour
             }
         }
     }
-
-  
 }
-

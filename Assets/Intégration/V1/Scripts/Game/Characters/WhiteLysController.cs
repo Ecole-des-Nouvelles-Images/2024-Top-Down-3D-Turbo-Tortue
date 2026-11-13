@@ -17,7 +17,6 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void MainCapacity()
         {
-            //give his sun to other flowers
             if (Sun > 0)
             {
                 _shareEnergy.Play();
@@ -35,7 +34,6 @@ namespace Intégration.V1.Scripts.Game.Characters
 
                             floweralive.GetComponent<FlowerController>().AddSun(Sun);
                             RumbleManager.Instance.RumblePulse(Gamepad);
-                           
                         }
                     }
                 }
@@ -43,10 +41,9 @@ namespace Intégration.V1.Scripts.Game.Characters
             }
         }
 
-
         protected override void PassiveCapacity()
         {
-            throw new System.NotImplementedException(); // Revive cost 1. 
+            throw new System.NotImplementedException();
         }
 
         protected override void ThirdCapacity()
@@ -56,7 +53,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             canReanimate = false;
 
             if (_isBoosted) return;
-            
+
             moveSpeed += _speedBonus;
             _isBoosted = true;
             _boostParticules.Play();
@@ -85,7 +82,5 @@ namespace Intégration.V1.Scripts.Game.Characters
                 }
             }
         }
-        
-
     }
 }

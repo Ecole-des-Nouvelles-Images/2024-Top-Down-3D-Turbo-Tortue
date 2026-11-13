@@ -20,7 +20,6 @@ namespace Intégration.V1.Scripts.SharedScene
         {
             fixedDeltaTime = Time.fixedDeltaTime * timeScale;
 
-            // Plug physics fixed delta time simulation on time manager
             if (Physics2D.simulationMode != SimulationMode2D.Script) return;
             Physics2D.Simulate(fixedDeltaTime);
         }

@@ -19,16 +19,6 @@ namespace Intégration.V1.Scripts.Game.Characters
             _unhittableTimer = 0;
         }
 
-        /*protected override void TakeHit()
-        {
-            base.TakeHit();
-            if (!isInvincible && !isUnhittable && !GameManager.Instance.GameFinished)
-            {
-               GameManager.Instance.DandelionDeath();
-
-            }
-        }*/
-
         protected override void Update()
         {
             base.Update();
@@ -59,21 +49,18 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected override void PassiveCapacity()
         {
-            // Implement passive capacity logic here if needed
         }
 
         private void ActivateBoost()
         {
-            // Changer le layer mask en CanMoveThroughWalls
             gameObject.layer = LayerMask.NameToLayer("Dandelion");
 
             pollenVfx.Play();
-            //   aliveModel.SetActive(false);
+
             moveSpeed += 250;
-            dandelionCollider.enabled = false;// desactive collider pour eviter de recuperer des soleils
+            dandelionCollider.enabled = false;
             _isBoosted = true;
             _animator.SetBool("IsInvincible", true);
-            Debug.Log("Boost Activated");
         }
 
         private void ResetBoost()
@@ -81,9 +68,9 @@ namespace Intégration.V1.Scripts.Game.Characters
             gameObject.layer = LayerMask.NameToLayer("Default");
 
             pollenVfx.Stop();
-            //  aliveModel.SetActive(true);
+
             moveSpeed = normalMoveSpeed;
-            dandelionCollider.enabled = true; 
+            dandelionCollider.enabled = true;
             _isBoosted = false;
             _animator.SetBool("IsInvincible", false);
             ExitObstacle();
@@ -93,10 +80,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         {
             if (_isColliding)
             {
-                /*
-                Vector3 safePosition = FindSafePosition();
-                transform.position = safePosition;
-                */
                 _isColliding = false;
             }
         }
@@ -116,6 +99,5 @@ namespace Intégration.V1.Scripts.Game.Characters
                 RumbleManager.Instance.RumblePulse(Gamepad);
             }
         }
-       
     }
 }

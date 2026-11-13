@@ -40,7 +40,6 @@ namespace Intégration.V1.Scripts.Game
             }
         }
 
-
         public void DestroyDirt()
         {
             Destroy(gameObject);

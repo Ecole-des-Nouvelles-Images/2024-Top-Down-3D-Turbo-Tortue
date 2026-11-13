@@ -6,8 +6,8 @@ using UnityEngine;
 namespace Michael.Scripts.Ui
 {
     public class TurtleUi : MonoBehaviour
-    
-    { 
+
+    {
         public TurtleController TurtlePlayer;
         private BatteryManager _batteryManager;
         private void Start()
@@ -17,7 +17,6 @@ namespace Michael.Scripts.Ui
 
         void Update()
         {
-
         }
     }
 }

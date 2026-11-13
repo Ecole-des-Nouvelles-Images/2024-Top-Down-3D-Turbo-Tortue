@@ -13,7 +13,6 @@ namespace Intégration.V1.Scripts.Game.Characters
             plantedFlowers = GameObject.FindGameObjectsWithTag("Fake");
         }
 
-
         protected override void MainCapacity()
         {
             if (IsPlanted && Sun >= CapacityCost && plantedFlowers.Length != 0)
@@ -22,15 +21,12 @@ namespace Intégration.V1.Scripts.Game.Characters
                 Vector3 initialPosition = gameObject.transform.position;
                 GameObject randomSpawnPoint = plantedFlowers[Random.Range(0, plantedFlowers.Length)];
 
-                /*transform.position = new Vector3(randomSpawnPoint.transform.position.x, 0,
-                    randomSpawnPoint.transform.position.z);*/
                 Rb.MovePosition(new Vector3(randomSpawnPoint.transform.position.x, 0,
                     randomSpawnPoint.transform.position.z));
 
                 randomSpawnPoint.transform.position = new Vector3(initialPosition.x,
                     randomSpawnPoint.transform.position.y, initialPosition.z);
 
-                // Invoke("DisableKinematic",0.5f) ;
                 OnLooseSunCapacity(CapacityCost);
                 RumbleManager.Instance.RumblePulse(Gamepad);
             }
@@ -40,7 +36,6 @@ namespace Intégration.V1.Scripts.Game.Characters
         {
             Rb.isKinematic = false;
         }
-
 
         protected override void PassiveCapacity()
         {

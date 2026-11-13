@@ -5,10 +5,8 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-
 public class PlayerGamePadManager : MonoBehaviour
 {
-   // public event Action<PlayerInput> PlayerJoinedGame;
     [SerializeField] private InputAction joinAction;
     [SerializeField] private List<PlayerInput> disabledPlayerInputs;
     private int _nextPlayerinput;
@@ -24,15 +22,10 @@ public class PlayerGamePadManager : MonoBehaviour
         for (int i = 0; i < gamepads.Count; i++) {
             disabledPlayerInputs[i].gameObject.SetActive(true);
         }
-        
     }
 
-    
     void JoinAction(InputAction.CallbackContext context)
     {
-       Debug.Log( context.control.device.deviceId);
-        
-        
         if (_nextPlayerinput < disabledPlayerInputs.Count)
         {
             while (disabledPlayerInputs[_nextPlayerinput].gameObject.activeInHierarchy)
@@ -44,11 +37,8 @@ public class PlayerGamePadManager : MonoBehaviour
                 }
             }
             disabledPlayerInputs[_nextPlayerinput].gameObject.SetActive(true);
-          //  disabledPlayerInputs[_nextPlayerinput].playerIndex
-            _nextPlayerinput++;
-           
-        }
-        
-    }
 
+            _nextPlayerinput++;
+        }
+    }
 }

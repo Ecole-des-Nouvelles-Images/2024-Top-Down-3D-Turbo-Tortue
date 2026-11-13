@@ -19,7 +19,6 @@ namespace Intégration.V1.Scripts.Game.Characters
             }
         }
 
-
         protected override void PassiveCapacity()
         {
             ;

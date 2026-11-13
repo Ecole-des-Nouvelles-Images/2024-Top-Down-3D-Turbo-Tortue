@@ -20,18 +20,15 @@ namespace Intégration.V1.Scripts.Game
             Vector3 cameraPos = _camera.transform.position;
             if (Physics.Raycast(cameraPos, (_turtle.transform.position - cameraPos).normalized, out hit,
                     Mathf.Infinity, _mask))
-                //  Debug.DrawRay(cameraPos, (_turtle.transform.position - cameraPos), Color.red,50);
 
             {
                 if (hit.collider?.gameObject.tag == "SeeTroughZone")
                 {
                     gameObject.transform.DOScale(0, 0.5f);
-                    // Debug.Log("can see");
                 }
                 else
                 {
                     gameObject.transform.DOScale(1.4f, 0.5f);
-                    //  Debug.Log("Hide");
                 }
             }
         }

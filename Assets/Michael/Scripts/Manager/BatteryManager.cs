@@ -1,4 +1,3 @@
-
 using System;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,10 +15,10 @@ namespace Michael.Scripts.Manager
             get => _currentBatteryTime;
             set => _currentBatteryTime = Mathf.Clamp(value, 0f, _maxBatteryTime);
         }
-        
-        [SerializeField] private float _maxBatteryTime; 
+
+        [SerializeField] private float _maxBatteryTime;
         public float MaxBatteryTime => _maxBatteryTime;
-        
+
         [SerializeField] private GameManager _gameManager;
 
         private void Awake()
@@ -32,28 +31,24 @@ namespace Michael.Scripts.Manager
             OnBatteryDecrease += LoseBattery;
             OnSunCollected += SunCollected;
         }
-        
+
         private void OnDisable()
         {
             OnBatteryDecrease -= LoseBattery;
             OnSunCollected -= SunCollected;
         }
-        
-        
+
         void Update()
         {
             if (_gameManager.GameFinished) return;
-            
-            //Batterie qui baisse
+
             CurrentBatteryTime -= Time.deltaTime;
             if (NitroActivate)
             {
                 CurrentBatteryTime -= Time.deltaTime * 13;
             }
 
-            // Vérification de la mort de la tortue
             if (CurrentBatteryTime <= 0 && !GameManager.Instance.TurtleIsDead){
-               
                 GameManager.Instance.OnTurtleDead.Invoke();
                 GameManager.Instance.TurtleIsDead = true;
                 GameManager.Instance.WinVerification();
@@ -63,7 +58,7 @@ namespace Michael.Scripts.Manager
         private void LoseBattery(float capacityCost)
         {
             if (_gameManager.GameFinished) return;
-            
+
             CurrentBatteryTime -= capacityCost;
             GameManager.Instance.WinVerification();
         }
@@ -73,6 +68,5 @@ namespace Michael.Scripts.Manager
             if (_gameManager.GameFinished) return;
             CurrentBatteryTime += sunValue;
         }
-        
     }
 }

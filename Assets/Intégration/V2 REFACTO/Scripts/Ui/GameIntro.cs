@@ -24,19 +24,14 @@ public class GameIntro : MonoBehaviour
     [SerializeField] private float typeDelay = 0.1f;
     [SerializeField] private float pauseBetween = 0.3f;
 
-    //[SerializeField] private TMP_Text _test;
-    
     private Sequence _dialogueSeq;
 
     void Start()
     {
-        //_test.maxVisibleCharacters = 0; 
         _scientistSubtitleText.text = "";
         _turtleSubtitleText.text = "";
-        
-        
+
         Invoke(nameof(GameIntroDialogue), 1.5f);
-        
     }
 
     private void GameIntroDialogue()
@@ -47,15 +42,12 @@ public class GameIntro : MonoBehaviour
         _dialogueSeq = DOTween.Sequence();
         _dialogueSeq.SetUpdate(true);
 
-        // Fade in panel
         _dialogueSeq.Append(_introPanelCG.DOFade(1, 0.5f));
 
-        // dialogue du scientifique
         _dialogueSeq.Append(_scientistImage.DOAnchorPosX(350, slideDuration).SetEase(Ease.OutBack));
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIPopPanel));
         _dialogueSeq.Append(_scientistDialogueBox.DOScale(1, 0.3f).SetEase(Ease.OutBack));
-        
-        
+
         if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
         {
             _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "Je compte sur toi, turbo tortue"));
@@ -66,14 +58,12 @@ public class GameIntro : MonoBehaviour
             _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "I'm counting on you, turbo tortue"));
             _dialogueSeq.AppendInterval("I'm counting on you, turbo tortue".Length * typeDelay + pauseBetween);
         }
-     
+
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.ScientistDialogue));
         _dialogueSeq.Append(_scientistDialogueBox.DOScale(0, 0.3f));
-        
-        // pause entre les 2 dialogues
+
         _dialogueSeq.AppendInterval(pauseBetween);
-        
-        // dialogue de la tortue
+
         _dialogueSeq.Append(_turtleImage.DOAnchorPosX(-350, slideDuration).SetEase(Ease.OutBack));
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIPopPanel));
         _dialogueSeq.Append(_turtleDialogueBox.DOScale(1, 0.3f).SetEase(Ease.OutBack));
@@ -81,27 +71,24 @@ public class GameIntro : MonoBehaviour
         _dialogueSeq.AppendInterval("pip.pap*&^!@!#*~…bop".Length * typeDelay + pauseBetween);
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleDialogue));
         _dialogueSeq.Append(_turtleDialogueBox.DOScale(0, 0.3f));
-        
+
         _dialogueSeq.AppendInterval(pauseBetween+0.2f);
-        
-        //disparition des uis
+
         _dialogueSeq.Append(_introPanelCG.DOFade(0,1f));
         _dialogueSeq.Join(_scientistImage.DOAnchorPosX(0, slideDuration).SetEase(Ease.InBack));
         _dialogueSeq.Join(_turtleImage   .DOAnchorPosX(0,  slideDuration).SetEase(Ease.InBack));
-        
+
         _dialogueSeq.OnComplete(SkipIntro);
     }
 
     public void SkipIntro()
     {
-        Debug.Log("skipIntro");
         eventSystem.SetSelectedGameObject(null);
         _dialogueSeq.Kill();
         _introPanelCG.DOFade(0,1f).SetUpdate(true);
         Time.timeScale = 1;
     }
-    
-    
+
     private void TypeText(TextMeshProUGUI label, string message)
     {
         label.text = "";
@@ -113,9 +100,6 @@ public class GameIntro : MonoBehaviour
                 label.text = message.Substring(0, curr);
             }, total, total * typeDelay)
             .SetEase(Ease.Linear)
-            .SetUpdate(true); // ← Ajout essentiel
+            .SetUpdate(true);
     }
-    
-    
-    
 }

@@ -24,7 +24,7 @@ namespace Noah.Scripts
             audioSource.Play();
             float clipLength = audioSource.clip.length;
         }
-        
+
         public void PlayLoopSoundFXClip(AudioClip audioClip, Transform spawnTransform, float volume)
         {
             AudioSource audioSource = Instantiate(LoopsoundFXObject, spawnTransform.position, Quaternion.identity);
@@ -33,8 +33,7 @@ namespace Noah.Scripts
             audioSource.Play();
             float clipLength = audioSource.clip.length;
         }
-        
-        
+
         public void PlayRandomSoundFXClip(AudioClip[] audioClip, Transform spawnTransform, float volume)
         {
             int rand = Random.Range(0, audioClip.Length);

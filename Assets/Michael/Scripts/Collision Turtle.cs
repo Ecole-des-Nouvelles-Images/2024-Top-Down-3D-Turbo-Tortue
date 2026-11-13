@@ -6,7 +6,6 @@ using UnityEngine;
 public class CollisionTurtle : MonoBehaviour
 {
     [SerializeField] private Collider attackCollider;
-    
 
     private void OnTriggerStay(Collider other)
     {
@@ -14,7 +13,5 @@ public class CollisionTurtle : MonoBehaviour
         {
             attackCollider.enabled = false;
         }
-        
     }
-    
 }

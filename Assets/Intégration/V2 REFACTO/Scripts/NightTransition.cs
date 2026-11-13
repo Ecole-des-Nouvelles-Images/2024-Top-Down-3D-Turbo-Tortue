@@ -4,7 +4,6 @@ using UnityEngine.Rendering.Universal;
 
 public class NightTransition : MonoBehaviour
 {
-
     public float transitionDuration = 120f;
     UnityEngine.Rendering.ProbeReferenceVolume probeRefVolume;
     [SerializeField] Light _dayLight;
@@ -47,5 +46,4 @@ public class NightTransition : MonoBehaviour
         currentTween = DOTween.To(() => blendingFactor, x => blendingFactor = x, 1, transitionDuration)
             .SetEase(Ease.InOutSine);
     }
-
 }
