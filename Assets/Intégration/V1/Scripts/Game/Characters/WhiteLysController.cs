@@ -41,6 +41,8 @@ namespace Intégration.V1.Scripts.Game.Characters
             }
         }
 
+        public override bool NeedsFullSunToRevive => false;
+
         protected override void PassiveCapacity()
         {
             throw new System.NotImplementedException();

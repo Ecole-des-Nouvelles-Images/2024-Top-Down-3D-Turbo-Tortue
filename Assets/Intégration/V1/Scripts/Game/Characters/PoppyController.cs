@@ -36,6 +36,20 @@ namespace Intégration.V1.Scripts.Game.Characters
         private bool _shouldApplyGrappleForce;
         private bool isBoosted;
 
+        public bool GrappleReady => _grapplingCdTimer <= 0f && !_isgrappling;
+        public bool IsGrappling => _isgrappling;
+        public float GrappleRange => maxGrappleDistance;
+        public Vector3 GrappleOrigin => Gun.position;
+        public Vector3 GrappleDirection => Gun.forward;
+
+        public bool HasGrappleTarget(Vector3 direction, float minDistance, out float distance)
+        {
+            distance = 0f;
+            if (!Physics.Raycast(Gun.position, direction, out RaycastHit hit, maxGrappleDistance, whatIsGrappleable)) return false;
+            distance = hit.distance;
+            return hit.distance >= minDistance;
+        }
+
         protected override void Start()
         {
             base.Start();

@@ -12,6 +12,9 @@ namespace Intégration.V1.Scripts.Game.Characters
         [SerializeField] private bool _isRespawning;
         private GameObject _currentTrap;
 
+        public bool HasRespawnPoint => _currentTrap != null;
+        public Vector3 RespawnPoint => _currentTrap != null ? _currentTrap.transform.position : transform.position;
+
         protected override void PassiveCapacity()
         {
             isUnstoppable = true;

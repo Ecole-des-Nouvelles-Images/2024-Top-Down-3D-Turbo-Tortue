@@ -103,17 +103,29 @@ namespace Intégration.V2_REFACTO.Scripts
             UpdateIconCharacter();
         }
 
-        public void ShowAsAITurtleCard(Color indexColor)
+        public void ShowAsAICard(int characterIndex, bool isTurtle, Color indexColor)
         {
             _joinVisuals.SetActive(false);
             _flowerVisuals.SetActive(true);
             _playerIndexImage.gameObject.SetActive(true);
             _playerIndexImage.color = indexColor;
             LocalizedPlayerLabel.Apply(_playerIndexImage.GetComponentInChildren<TextMeshProUGUI>(true), -1);
-            _characterIcon.sprite = _characterSprites[^1];
-            _capacityImage.gameObject.SetActive(false);
             _descriptionPanel.SetActive(false);
             _readyConfirmPopUp.SetActive(true);
+
+            if (isTurtle)
+            {
+                _characterIcon.sprite = _characterSprites[^1];
+                _capacityImage.gameObject.SetActive(false);
+                return;
+            }
+
+            if (characterIndex >= 0 && characterIndex < _characterSprites.Count)
+                _characterIcon.sprite = _characterSprites[characterIndex];
+
+            bool hasCapacity = characterIndex >= 0 && characterIndex < _capacitiesSprites.Count;
+            _capacityImage.gameObject.SetActive(hasCapacity);
+            if (hasCapacity) _capacityImage.sprite = _capacitiesSprites[characterIndex];
         }
 
         public void UpdateIconCharacter()

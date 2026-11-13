@@ -315,6 +315,52 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         protected abstract void PassiveCapacity();
 
+        public bool IsAIControlled { get; set; }
+        public bool CanChangePlantState => !IsStunned && !isDead && currentPlantingCooldown <= 0f && !PauseControlller.IsPaused;
+        public bool CanReviveAlly => canReanimate && deadFlowerController != null && !IsStunned && !isDead;
+        public FlowerController ReviveTarget => deadFlowerController;
+        public virtual bool NeedsFullSunToRevive => true;
+        public float NormalMoveSpeed => normalMoveSpeed;
+
+        public void AISetMove(Vector2 input)
+        {
+            move = PauseControlller.IsPaused || isDead || IsStunned || IsPlanted ? Vector2.zero : Vector2.ClampMagnitude(input, 1f);
+        }
+
+        public bool AIPlant()
+        {
+            if (IsPlanted || !CanChangePlantState) return false;
+            move = Vector2.zero;
+            SecondaryCapacity();
+            return true;
+        }
+
+        public bool AIUnplant()
+        {
+            if (!IsPlanted || !CanChangePlantState) return false;
+            GetUnplanted();
+            return true;
+        }
+
+        public void AIUseMainCapacity()
+        {
+            if (isDead || IsStunned || PauseControlller.IsPaused) return;
+            MainCapacity();
+        }
+
+        public void AISetReviving(bool reviving)
+        {
+            if (reviving)
+            {
+                if (CanReviveAlly && (!NeedsFullSunToRevive || Sun == maxSun)) isCharging = true;
+            }
+            else
+            {
+                isCharging = false;
+                reanimateTimer = 0f;
+            }
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.CompareTag("Turtle Collider"))
@@ -429,7 +475,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             aliveModelCollider.enabled = false;
             aliveModel.SetActive(false);
             deadModel.SetActive(true);
-            GetComponent<PlayerInput>().currentActionMap = null;
+            if (_playerInput != null && _playerInput.enabled) _playerInput.currentActionMap = null;
             Sun = 0;
             isDead = true;
             _playerStats.deathNumber++;
@@ -459,7 +505,7 @@ namespace Intégration.V1.Scripts.Game.Characters
             aliveModelCollider.enabled = true;
             IsPlanted = false;
             Rb.isKinematic = false;
-            GetComponent<PlayerInput>().SwitchCurrentActionMap("Character");
+            if (_playerInput != null && _playerInput.enabled) _playerInput.SwitchCurrentActionMap("Character");
             isDead = false;
             OnDeathChanged?.Invoke(isDead);
             aliveModel.SetActive(true);

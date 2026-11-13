@@ -26,8 +26,11 @@ public class GameIntro : MonoBehaviour
 
     private Sequence _dialogueSeq;
 
+    public static bool IsPlaying { get; private set; }
+
     void Start()
     {
+        IsPlaying = true;
         _scientistSubtitleText.text = "";
         _turtleSubtitleText.text = "";
 
@@ -83,10 +86,16 @@ public class GameIntro : MonoBehaviour
 
     public void SkipIntro()
     {
+        IsPlaying = false;
         eventSystem.SetSelectedGameObject(null);
         _dialogueSeq.Kill();
         _introPanelCG.DOFade(0,1f).SetUpdate(true);
         Time.timeScale = 1;
+    }
+
+    private void OnDestroy()
+    {
+        IsPlaying = false;
     }
 
     private void TypeText(TextMeshProUGUI label, string message)

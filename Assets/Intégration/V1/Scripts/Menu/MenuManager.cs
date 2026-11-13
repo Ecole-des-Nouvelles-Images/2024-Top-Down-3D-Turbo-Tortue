@@ -121,6 +121,7 @@ namespace Intégration.V1.Scripts.Menu
            CircleTransition(circularTransition,1,1.2f);
            RemoveAllInputUsers();
            DataManager.Instance.PlayerChoice.Clear();
+           DataManager.Instance.AIFlowerChoices.Clear();
            CustomSceneManager.Instance.LoadScene(sceneName);
            AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.MenuMusic);
         }

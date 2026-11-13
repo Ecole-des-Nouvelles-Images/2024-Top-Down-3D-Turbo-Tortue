@@ -8,6 +8,8 @@ namespace Intégration.V1.Scripts.Game.Characters
     {
         [SerializeField] Shield _Shield;
 
+        public bool ShieldIsOpen => _Shield != null && _Shield._shieldOn;
+
         protected override void MainCapacity()
         {
             if (Sun >= CapacityCost && !IsPlanted)

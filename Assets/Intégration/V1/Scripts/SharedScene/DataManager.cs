@@ -21,6 +21,7 @@ namespace Intégration.V1.Scripts.SharedScene
             public InputDevice device;
         }
         public Dictionary<int, PlayerInfo> PlayerChoice = new();
+        public List<int> AIFlowerChoices = new();
 
         public GameObject loadingScreen;
         public bool CanVibrate = true;

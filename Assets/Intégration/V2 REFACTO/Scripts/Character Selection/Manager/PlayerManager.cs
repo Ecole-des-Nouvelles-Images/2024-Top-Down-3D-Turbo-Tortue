@@ -5,10 +5,14 @@ using Intégration.V1.Scripts.Game.FeedBack;
 using Intégration.V1.Scripts.Menu;
 using Intégration.V1.Scripts.SharedScene;
 using Intégration.V2_REFACTO.Scripts;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Users;
+using UnityEngine.Localization;
+using UnityEngine.Localization.Settings;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(PlayerInputManager))]
 public class PlayerManager : MonoBehaviour
@@ -21,11 +25,22 @@ public class PlayerManager : MonoBehaviour
     PlayerInputManager _playerInputManager;
     [SerializeField] private Transform _playerUIParent;
     [SerializeField] private int _minPlayers;
-    [Tooltip("Si aucun joueur ne prend la Tortue, elle est contrôlée par l'IA (permet de jouer seul en fleur).")]
     [SerializeField] private bool _allowAITurtle = true;
     private bool AllPlayersReady;
     private bool _aiTurtleMode;
-    private GameObject _aiTurtleCard;
+
+    [Header("AI Flowers")]
+    [SerializeField] private int _maxFlowers = 4;
+    [SerializeField] private int _soloTurtleDefaultAIFlowers = 3;
+    private int _aiFlowerCount;
+    private bool _aiFlowerCountTouched;
+    private readonly List<int> _aiFlowerChoices = new();
+    private readonly Dictionary<int, GameObject> _aiCards = new();
+    private TextMeshProUGUI _aiFlowersLabel;
+    private string _aiFlowersLabelText = "AI";
+    [SerializeField] private Sprite _aiFlowersRbImage;
+    [SerializeField] private Sprite _aiFlowersLbImage;
+
 
     [Header("Start Game Ui References")]
     [SerializeField] private GameObject _startgamePopUp;
@@ -61,6 +76,7 @@ public class PlayerManager : MonoBehaviour
     private void OnEnable()
     {
         RemoveOrphanInputUsers();
+        DataManager.Instance.AIFlowerChoices.Clear();
 
         foreach (var device in InputSystem.devices)
         {
@@ -73,10 +89,8 @@ public class PlayerManager : MonoBehaviour
         InputSystem.onDeviceChange += OnDeviceChange;
         OnPlayerStateChanged += CheckPlayersReady;
         OnPlayersCanceledSelection += OnCancelSelection;
-    }
-
-    private void Start()
-    {
+        LocalizationSettings.SelectedLocaleChanged += OnLocaleChanged;
+        RefreshAIFlowersLabelText();
     }
 
     private void OnDisable()
@@ -84,6 +98,7 @@ public class PlayerManager : MonoBehaviour
         InputSystem.onDeviceChange -= OnDeviceChange;
         OnPlayerStateChanged -= CheckPlayersReady;
         OnPlayersCanceledSelection -= OnCancelSelection;
+        LocalizationSettings.SelectedLocaleChanged -= OnLocaleChanged;
     }
 
     private void OnDestroy()
@@ -93,6 +108,32 @@ public class PlayerManager : MonoBehaviour
             UnRegisterPlayer(player);
             player.DeactivateInput();
         }
+    }
+
+    private void Update()
+    {
+        if (!AllPlayersReady || PlayersSelectionConfirmed || isStartingGame) return;
+
+        int delta = 0;
+        foreach (var player in playerInputsList)
+        {
+            if (player == null) continue;
+            foreach (var device in player.devices)
+            {
+                if (device is not Gamepad gamepad) continue;
+                if (gamepad.rightShoulder.wasPressedThisFrame) delta++;
+                if (gamepad.leftShoulder.wasPressedThisFrame) delta--;
+            }
+        }
+
+        if (delta == 0) return;
+
+        int previous = _aiFlowerCount;
+        _aiFlowerCountTouched = true;
+        _aiFlowerCount += delta;
+        CheckPlayersReady();
+        if (_aiFlowerCount != previous)
+            AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIButtonNavigate);
     }
 
     private static void RemoveOrphanInputUsers()
@@ -124,7 +165,7 @@ public class PlayerManager : MonoBehaviour
             if (playerSelection.CurrentState == PlayerState.Joined)
             {
                 _aiTurtleMode = false;
-                HideAITurtleCard();
+                HideAllAICards();
                 _startgamePopUp.SetActive(false);
                 _choseCharacterPopUp.SetActive(true);
                 AllPlayersReady = false;
@@ -141,12 +182,14 @@ public class PlayerManager : MonoBehaviour
             }
         }
 
-        bool canStartWithHumanTurtle = _turtleIsSelected && _playersReadyCount >= _minPlayers;
+        UpdateAIFlowerCount();
+
+        bool canStartWithHumanTurtle = _turtleIsSelected && _playersReadyCount + _aiFlowerCount >= _minPlayers;
         bool canStartWithAITurtle = _allowAITurtle && !_turtleIsSelected && _playersReadyCount >= 1;
         _aiTurtleMode = canStartWithAITurtle && !canStartWithHumanTurtle;
         if (!canStartWithHumanTurtle && !canStartWithAITurtle)
         {
-            HideAITurtleCard();
+            HideAllAICards();
             return;
         }
 
@@ -154,8 +197,49 @@ public class PlayerManager : MonoBehaviour
         _startgamePopUp.SetActive(true);
         AllPlayersReady = true;
 
-        if (_aiTurtleMode) ShowAITurtleCard();
-        else HideAITurtleCard();
+        UpdateAIFlowerChoices();
+        RefreshAICards();
+        RefreshAIFlowersLabel();
+    }
+
+    private void UpdateAIFlowerCount()
+    {
+        int humanFlowers = _playersReadyCount - (_turtleIsSelected ? 1 : 0);
+        int flowerTypes = Mathf.Max(0, CharacterCount() - 1);
+        int max = Mathf.Clamp(Mathf.Min(_maxFlowers, flowerTypes) - humanFlowers, 0, _maxFlowers);
+        bool soloTurtle = _turtleIsSelected && humanFlowers == 0;
+        int min = soloTurtle ? Mathf.Min(1, max) : 0;
+
+        if (!_aiFlowerCountTouched)
+            _aiFlowerCount = soloTurtle ? _soloTurtleDefaultAIFlowers : 0;
+
+        _aiFlowerCount = Mathf.Clamp(_aiFlowerCount, min, max);
+    }
+
+    private void UpdateAIFlowerChoices()
+    {
+        var taken = new HashSet<int>();
+        foreach (var info in DataManager.Instance.PlayerChoice.Values)
+            taken.Add(info.prefabIndex);
+
+        _aiFlowerChoices.RemoveAll(taken.Contains);
+        while (_aiFlowerChoices.Count > _aiFlowerCount)
+            _aiFlowerChoices.RemoveAt(_aiFlowerChoices.Count - 1);
+
+        int turtleIndex = TurtleIndex();
+        var available = new List<int>();
+        for (int i = 0; i < CharacterCount(); i++)
+        {
+            if (i != turtleIndex && !taken.Contains(i) && !_aiFlowerChoices.Contains(i))
+                available.Add(i);
+        }
+
+        while (_aiFlowerChoices.Count < _aiFlowerCount && available.Count > 0)
+        {
+            int pick = Random.Range(0, available.Count);
+            _aiFlowerChoices.Add(available[pick]);
+            available.RemoveAt(pick);
+        }
     }
 
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)
@@ -223,6 +307,9 @@ public class PlayerManager : MonoBehaviour
         }
         if (!isStartingGame)
         {
+            DataManager.Instance.AIFlowerChoices.Clear();
+            DataManager.Instance.AIFlowerChoices.AddRange(_aiFlowerChoices);
+
             AudioManager.Instance.ChangeMusic(AudioManager.Instance.ClipsIndex.GameMusic);
 
             switch (DataManager.Instance.CurrentMap)
@@ -238,6 +325,151 @@ public class PlayerManager : MonoBehaviour
             isStartingGame = true;
         }
     }
+
+    #region AI Cards
+
+    private Button[] CharacterButtons()
+    {
+        foreach (var player in playerInputsList)
+        {
+            if (player == null) continue;
+            var selection = player.GetComponent<PlayerSelection>();
+            if (selection != null && selection.CharacterButtons != null && selection.CharacterButtons.Length > 0)
+                return selection.CharacterButtons;
+        }
+        return Array.Empty<Button>();
+    }
+
+    private int CharacterCount() => CharacterButtons().Length;
+
+    private int TurtleIndex()
+    {
+        Button[] buttons = CharacterButtons();
+        for (int i = 0; i < buttons.Length; i++)
+        {
+            if (buttons[i] != null && buttons[i].CompareTag("Turtle")) return i;
+        }
+        return buttons.Length - 1;
+    }
+
+    private Color CharacterColor(int characterIndex)
+    {
+        Button[] buttons = CharacterButtons();
+        if (characterIndex >= 0 && characterIndex < buttons.Length && buttons[characterIndex] != null
+            && buttons[characterIndex].TryGetComponent(out UISelectionFeedBack feedback))
+            return feedback.OutlineColor;
+        return Color.white;
+    }
+
+    private void RefreshAICards()
+    {
+        var wanted = new List<int>();
+        if (_aiTurtleMode) wanted.Add(TurtleIndex());
+        wanted.AddRange(_aiFlowerChoices);
+
+        foreach (var kvp in _aiCards)
+        {
+            if (kvp.Value != null && !wanted.Contains(kvp.Key)) kvp.Value.SetActive(false);
+        }
+
+        foreach (int characterIndex in wanted)
+        {
+            GameObject card = GetOrCreateAICard(characterIndex);
+            if (card == null || card.activeSelf) continue;
+
+            card.SetActive(true);
+            card.transform.SetAsLastSibling();
+            card.transform.localScale = Vector3.one * 0.5f;
+            card.transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
+
+            if (characterIndex == TurtleIndex())
+                AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleVoice);
+            else
+                AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
+        }
+    }
+
+    private GameObject GetOrCreateAICard(int characterIndex)
+    {
+        if (_aiCards.TryGetValue(characterIndex, out GameObject existing) && existing != null) return existing;
+
+        GameObject holder = new GameObject("AI Card Holder");
+        holder.SetActive(false);
+
+        GameObject card = Instantiate(_playerInputManager.playerPrefab, holder.transform);
+        card.name = "AI Card " + characterIndex;
+
+        PlayerSelection selection = card.GetComponentInChildren<PlayerSelection>(true);
+        selection.ShowAsAICard(characterIndex, characterIndex == TurtleIndex(), CharacterColor(characterIndex));
+        DestroyImmediate(selection.gameObject);
+
+        card.SetActive(false);
+        card.transform.SetParent(_playerUIParent, false);
+        Destroy(holder);
+
+        _aiCards[characterIndex] = card;
+        return card;
+    }
+
+    private void HideAllAICards()
+    {
+        foreach (var card in _aiCards.Values)
+        {
+            if (card != null) card.SetActive(false);
+        }
+        if (_aiFlowersLabel != null) _aiFlowersLabel.gameObject.SetActive(false);
+    }
+
+    private void RefreshAIFlowersLabel()
+    {
+        if (_aiFlowersLabel == null) CreateAIFlowersLabel();
+        if (_aiFlowersLabel == null) return;
+
+        _aiFlowersLabel.gameObject.SetActive(true);
+        _aiFlowersLabel.text = $"{_aiFlowersLabelText} : {_aiFlowerCount} : <sprite index=123> - <sprite index=124>";
+    }
+
+    private void CreateAIFlowersLabel()
+    {
+        TextMeshProUGUI source = _choseCharacterPopUp.GetComponentInChildren<TextMeshProUGUI>(true);
+        if (source == null) return;
+
+        GameObject clone = Instantiate(source.gameObject, _startgamePopUp.transform, false);
+        clone.name = "AI Flowers Label";
+        foreach (var component in clone.GetComponents<MonoBehaviour>())
+        {
+            string ns = component.GetType().Namespace;
+            if (ns != null && ns.StartsWith("UnityEngine.Localization")) DestroyImmediate(component);
+        }
+
+        var rect = (RectTransform)clone.transform;
+        rect.anchorMin = new Vector2(1f, 0.5f);
+        rect.anchorMax = new Vector2(1f, 0.5f);
+        rect.pivot = new Vector2(1f, 0.5f);
+        rect.sizeDelta = new Vector2(440f, 60f);
+        rect.anchoredPosition = new Vector2(-30f, 0f);
+
+        _aiFlowersLabel = clone.GetComponent<TextMeshProUGUI>();
+        _aiFlowersLabel.alignment = TextAlignmentOptions.MidlineRight;
+        _aiFlowersLabel.enableAutoSizing = true;
+        _aiFlowersLabel.fontSizeMin = 14f;
+        _aiFlowersLabel.fontSizeMax = Mathf.Max(20f, source.fontSize * 0.6f);
+    }
+
+    private void OnLocaleChanged(Locale locale) => RefreshAIFlowersLabelText();
+
+    private void RefreshAIFlowersLabelText()
+    {
+        var handle = LocalizationSettings.StringDatabase.GetLocalizedStringAsync("Translate", "AI Flowers Label");
+        handle.Completed += operation =>
+        {
+            if (this == null || string.IsNullOrEmpty(operation.Result)) return;
+            _aiFlowersLabelText = operation.Result;
+            if (AllPlayersReady && _aiFlowersLabel != null) RefreshAIFlowersLabel();
+        };
+    }
+
+    #endregion
 
     #region Input Actions
     private void RegisterPlayer(PlayerInput player)
@@ -322,49 +554,6 @@ public class PlayerManager : MonoBehaviour
         PlayersSelectionConfirmed = false;
         _choseMapPanel.SetActive(false);
         OnPlayerStateChanged.Invoke();
-    }
-
-    private void ShowAITurtleCard()
-    {
-        if (_aiTurtleCard == null)
-        {
-            GameObject holder = new GameObject("AI Turtle Card Holder");
-            holder.SetActive(false);
-
-            _aiTurtleCard = Instantiate(_playerInputManager.playerPrefab, holder.transform);
-            _aiTurtleCard.name = "AI Turtle Card";
-
-            PlayerSelection selection = _aiTurtleCard.GetComponentInChildren<PlayerSelection>(true);
-            selection.ShowAsAITurtleCard(GetTurtleColor());
-            DestroyImmediate(selection.gameObject);
-
-            _aiTurtleCard.SetActive(false);
-            _aiTurtleCard.transform.SetParent(_playerUIParent, false);
-            Destroy(holder);
-        }
-
-        if (_aiTurtleCard.activeSelf) return;
-
-        _aiTurtleCard.SetActive(true);
-        _aiTurtleCard.transform.SetAsLastSibling();
-        _aiTurtleCard.transform.localScale = Vector3.one * 0.5f;
-        _aiTurtleCard.transform.DOScale(Vector3.one, 0.25f).SetEase(Ease.OutBack);
-        AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleVoice);
-    }
-
-    private void HideAITurtleCard()
-    {
-        if (_aiTurtleCard != null) _aiTurtleCard.SetActive(false);
-    }
-
-    private static Color GetTurtleColor()
-    {
-        foreach (Button button in FindObjectsByType<Button>(FindObjectsSortMode.None))
-        {
-            if (button.CompareTag("Turtle") && button.TryGetComponent(out UISelectionFeedBack feedback))
-                return feedback.OutlineColor;
-        }
-        return Color.white;
     }
 
     private void UpdateHoldProgress()

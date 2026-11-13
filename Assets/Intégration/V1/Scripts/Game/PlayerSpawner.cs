@@ -77,9 +77,57 @@ namespace Intégration.V1.Scripts.Game
                 }
             }
 
+            SpawnAIFlowers();
+
             if (GameManager.Instance.Turtle == null && GameManager.Instance.FlowersAlive.Count > 0)
             {
                 SpawnAITurtle();
+            }
+        }
+
+        private GameObject InstantiateWithoutInput(int prefabIndex, string objectName, GameObject holder)
+        {
+            Transform spawnPoint = spawnPoints[prefabIndex];
+            GameObject character = Instantiate(characterPrefabs[prefabIndex], spawnPoint.position, Quaternion.identity, holder.transform);
+            character.name = objectName;
+
+            var playerInput = character.GetComponent<PlayerInput>();
+            if (playerInput != null) playerInput.enabled = false;
+            return character;
+        }
+
+        private void SpawnAIFlowers()
+        {
+            var used = new HashSet<int>();
+            foreach (var info in DataManager.Instance.PlayerChoice.Values) used.Add(info.prefabIndex);
+
+            foreach (int prefabIndex in DataManager.Instance.AIFlowerChoices)
+            {
+                if (prefabIndex < 0 || prefabIndex >= characterPrefabs.Count || prefabIndex >= spawnPoints.Count) continue;
+                if (used.Contains(prefabIndex) || !characterPrefabs[prefabIndex].CompareTag("Flower")) continue;
+                if (flowerUiIndex >= FlowerUis.Count) break;
+                used.Add(prefabIndex);
+
+                GameObject holder = new GameObject("AI Flower Holder");
+                holder.SetActive(false);
+
+                GameObject flower = InstantiateWithoutInput(prefabIndex, characterPrefabs[prefabIndex].name.Trim() + " (IA)", holder);
+                var flowerController = flower.GetComponent<FlowerController>();
+                flowerController.characterIndex = prefabIndex;
+                flowerController.PlayerIndex = -1;
+                flowerController.IsAIControlled = true;
+                flower.AddComponent<FlowerAI>();
+
+                flower.transform.SetParent(transform, true);
+                Destroy(holder);
+
+                FlowerUis[flowerUiIndex].FlowerPlayer = flowerController;
+                FlowerUis[flowerUiIndex].GameObject().SetActive(true);
+                flowerUiIndex++;
+
+                GameManager.Instance.Players.Add(flower);
+                GameManager.Instance.FlowersAlive.Add(flower);
+                _targetGroup.AddMember(flower.transform, 1, 2);
             }
         }
 
@@ -94,12 +142,7 @@ namespace Intégration.V1.Scripts.Game
             GameObject inactiveHolder = new GameObject("AI Turtle Holder");
             inactiveHolder.SetActive(false);
 
-            Transform spawnPoint = spawnPoints[turtleIndex];
-            GameObject turtle = Instantiate(characterPrefabs[turtleIndex], spawnPoint.position, Quaternion.identity, inactiveHolder.transform);
-            turtle.name = "Turtle (IA)";
-
-            var playerInput = turtle.GetComponent<PlayerInput>();
-            if (playerInput != null) playerInput.enabled = false;
+            GameObject turtle = InstantiateWithoutInput(turtleIndex, "Turtle (IA)", inactiveHolder);
 
             var qteManager = turtle.GetComponent<QteManager>();
             if (qteManager != null) qteManager.IsAIControlled = true;

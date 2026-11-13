@@ -7,6 +7,8 @@ namespace Intégration.V1.Scripts.Game.Characters
     {
         [SerializeField] private GameObject[] plantedFlowers;
 
+        public bool HasDecoys => plantedFlowers != null && plantedFlowers.Length > 0;
+
         protected override void Start()
         {
             base.Start();
