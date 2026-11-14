@@ -38,6 +38,8 @@ public class PlayerManager : MonoBehaviour
     private readonly List<int> _aiFlowerChoices = new();
     private readonly List<int> _recentlyRemovedAIFlowers = new();
     private readonly Dictionary<int, GameObject> _aiCards = new();
+    private readonly Dictionary<PlayerInput, GameObject> _playerCards = new();
+    private readonly HashSet<GameObject> _cardsHiddenForAI = new();
     private TextMeshProUGUI _aiFlowersLabel;
     private string _aiFlowersLabelText = "AI";
     [SerializeField] private Sprite _aiFlowersRbImage;
@@ -169,6 +171,7 @@ public class PlayerManager : MonoBehaviour
                 _aiTurtleMode = false;
                 ReleaseAIFlowerChoices();
                 HideAllAICards();
+                RestoreHiddenPlayerCards();
                 _startgamePopUp.SetActive(false);
                 _choseCharacterPopUp.SetActive(true);
                 AllPlayersReady = false;
@@ -194,6 +197,7 @@ public class PlayerManager : MonoBehaviour
         {
             ReleaseAIFlowerChoices();
             HideAllAICards();
+            RestoreHiddenPlayerCards();
             return;
         }
 
@@ -204,6 +208,41 @@ public class PlayerManager : MonoBehaviour
         UpdateAIFlowerChoices();
         RefreshAICards();
         RefreshAIFlowersLabel();
+        UpdateIdleCardsForAI();
+    }
+
+    private void UpdateIdleCardsForAI()
+    {
+        int aiCards = (_aiTurtleMode ? 1 : 0) + _aiFlowerChoices.Count;
+        int freeSlots = _maxFlowers + 1 - _playersReadyCount - aiCards;
+
+        foreach (var player in playerInputsList)
+        {
+            if (player == null || !_playerCards.TryGetValue(player, out GameObject card) || card == null) continue;
+            var selection = player.GetComponent<PlayerSelection>();
+            if (selection == null || selection.CurrentState != PlayerState.NotJoined) continue;
+            if (!card.activeSelf && !_cardsHiddenForAI.Contains(card)) continue;
+
+            if (freeSlots > 0)
+            {
+                freeSlots--;
+                if (_cardsHiddenForAI.Remove(card)) card.SetActive(true);
+            }
+            else if (card.activeSelf)
+            {
+                card.SetActive(false);
+                _cardsHiddenForAI.Add(card);
+            }
+        }
+    }
+
+    private void RestoreHiddenPlayerCards()
+    {
+        foreach (var card in _cardsHiddenForAI)
+        {
+            if (card != null) card.SetActive(true);
+        }
+        _cardsHiddenForAI.Clear();
     }
 
     private void UpdateAIFlowerCount()
@@ -315,6 +354,7 @@ public class PlayerManager : MonoBehaviour
         }
 
         deviceToPlayerInput[device] = playerInput;
+        _playerCards[playerInput] = playerUi;
         playerInputsList.Add(playerInput);
         RegisterPlayer(playerInput);
     }

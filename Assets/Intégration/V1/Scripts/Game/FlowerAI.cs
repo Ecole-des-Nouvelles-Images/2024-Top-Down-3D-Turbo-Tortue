@@ -113,7 +113,7 @@ namespace Intégration.V1.Scripts.Game
 
         private void Start()
         {
-            _navMesh = RuntimeNavMesh.Ensure(navMeshAgentRadius, navMeshAgentHeight, navMeshSmallObstaclePadding);
+            _navMesh = RuntimeNavMesh.Ensure(gameObject, navMeshAgentRadius, navMeshAgentHeight, navMeshSmallObstaclePadding);
             _moveDir = transform.forward;
             _reactionTime = Random.Range(reactionDelay.x, reactionDelay.y);
         }
@@ -219,6 +219,12 @@ namespace Intégration.V1.Scripts.Game
             if (IsThreatened())
             {
                 _flower.AISetReviving(false);
+                if (_flower is CloverController threatenedClover && threatenedClover.HasDecoys
+                    && _flower.Sun >= _flower.CapacityCost && _flower.AIPlant())
+                {
+                    _hiddenUntil = Time.time + 2f;
+                    return;
+                }
                 SetGoal(Goal.Flee);
                 UpdateFleeDestination();
                 return;
@@ -341,6 +347,17 @@ namespace Intégration.V1.Scripts.Game
         {
             bool found = _revealedByScan && _turtleDistance < dangerDistance + 2f;
             bool closeCall = _turtleDistance < 3f && _turtleApproaching;
+
+            if (_flower is CloverController cloverAI && cloverAI.HasDecoys && _flower.Sun >= _flower.CapacityCost)
+            {
+                bool threatened = found || closeCall || (_turtleDistance < dangerDistance && _turtleApproaching);
+                if (threatened)
+                {
+                    _flower.AIUseMainCapacity();
+                    _hiddenUntil = Time.time + Random.Range(hideDuration.x, hideDuration.y);
+                    return;
+                }
+            }
 
             if (found || closeCall)
             {

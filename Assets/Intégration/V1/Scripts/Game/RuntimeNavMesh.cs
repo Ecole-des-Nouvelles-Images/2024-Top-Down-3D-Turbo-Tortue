@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.SceneManagement;
 using CharacterController = Intégration.V1.Scripts.Game.Characters.CharacterController;
 
 namespace Intégration.V1.Scripts.Game
@@ -20,11 +21,18 @@ namespace Intégration.V1.Scripts.Game
         private float _smallObstaclePadding;
         private const float SmallObstacleSize = 2f;
 
-        public static RuntimeNavMesh Ensure(float agentRadius, float agentHeight, float smallObstaclePadding)
+        public static RuntimeNavMesh Ensure(GameObject owner, float agentRadius, float agentHeight, float smallObstaclePadding)
         {
-            if (Instance != null) return Instance;
+            Scene scene = owner.scene;
+            if (Instance != null)
+            {
+                if (Instance.gameObject.scene == scene) return Instance;
+                Destroy(Instance.gameObject);
+                Instance = null;
+            }
 
             var go = new GameObject("Runtime NavMesh (IA)");
+            SceneManager.MoveGameObjectToScene(go, scene);
             Instance = go.AddComponent<RuntimeNavMesh>();
             Instance._smallObstaclePadding = Mathf.Max(0f, smallObstaclePadding);
             Instance.Build(agentRadius, agentHeight);

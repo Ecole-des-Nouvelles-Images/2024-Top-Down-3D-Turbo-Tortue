@@ -11,7 +11,7 @@ namespace Intégration.V1.Scripts.Game
     [RequireComponent(typeof(TurtleController))]
     public class TurtleAI : MonoBehaviour
     {
-        private enum Goal { Chase, Unearth, Search, CollectSun }
+        private enum Goal { Chase, Unearth, Search, CollectSun, BiteRoseTrap }
 
         private class FlowerMemory
         {
@@ -75,6 +75,8 @@ namespace Intégration.V1.Scripts.Game
 
         [Header("Pots destructibles (dash chargé à fond)")]
         [SerializeField] private float potMinDistance = 2.5f;
+        [SerializeField] private float minRunUpGap = 2f;
+        [SerializeField] private float roseTrapBiteRange = 6f;
         [SerializeField] private float potMaxDistance = 8f;
         [SerializeField] private float potCooldown = 8f;
         [Tooltip("Casse un pot qui bloque le passage si le chemin est X fois plus long que la ligne droite.")]
@@ -110,6 +112,8 @@ namespace Intégration.V1.Scripts.Game
         private float _potListRefreshTimer;
         private float _nextPot;
         private FractureObject _smashTarget;
+        private List<RoseTrap> _roseTraps = new();
+        private RoseTrap _roseTrapTarget;
         private FractureObject _forcedSmashPot;
         private float _forcedSmashUntil;
 
@@ -154,7 +158,7 @@ namespace Intégration.V1.Scripts.Game
         private void Start()
         {
             _battery = FindFirstObjectByType<BatteryManager>();
-            _navMesh = RuntimeNavMesh.Ensure(navMeshAgentRadius, bodyHeight, bodyRadius - navMeshAgentRadius);
+            _navMesh = RuntimeNavMesh.Ensure(gameObject, navMeshAgentRadius, bodyHeight, bodyRadius - navMeshAgentRadius);
             _startTime = Time.time;
             _moveDir = transform.forward;
             if (_qteManager != null) _qteManager.OnQteFinished += OnQteFinished;
@@ -202,6 +206,7 @@ namespace Intégration.V1.Scripts.Game
             {
                 _sunRefreshTimer = 0.5f;
                 _suns = new List<Sun>(FindObjectsByType<Sun>(FindObjectsSortMode.None));
+                _roseTraps = new List<RoseTrap>(FindObjectsByType<RoseTrap>(FindObjectsSortMode.None));
                 RefreshPots();
             }
 
@@ -324,6 +329,14 @@ namespace Intégration.V1.Scripts.Game
             if (nearestSun != null && sunDistance <= closeSunRange && !TargetInBiteRange())
             {
                 SetGoal(Goal.CollectSun, null, nearestSun.transform.position);
+                return;
+            }
+
+            RoseTrap roseTrap = FindNearestRoseTrap(out float roseTrapDistance);
+            if (roseTrap != null && roseTrapDistance <= roseTrapBiteRange && !TargetInBiteRange())
+            {
+                _roseTrapTarget = roseTrap;
+                SetGoal(Goal.BiteRoseTrap, null, roseTrap.transform.position);
                 return;
             }
 
@@ -524,7 +537,7 @@ namespace Intégration.V1.Scripts.Game
                 _destination = PredictPosition(_target);
 
             Vector3 toDest = Flat(_destination - transform.position);
-            float stopDistance = _goal == Goal.Unearth ? 0.8f : 0.5f;
+            float stopDistance = _goal == Goal.Unearth ? 0.8f : _goal == Goal.BiteRoseTrap ? 1.2f : 0.5f;
             if (toDest.magnitude < stopDistance)
             {
                 if (_target != null)
@@ -765,6 +778,10 @@ namespace Intégration.V1.Scripts.Game
                     if (_unearthWithDash && _turtle.CurrentState == TurtleState.Default && TryDash(_target, true)) return;
                     break;
 
+                case Goal.BiteRoseTrap:
+                    if (TryBiteRoseTrap()) return;
+                    break;
+
                 case Goal.Search:
                     if (_turtle.CurrentState == TurtleState.Default && TrySmashPot()) return;
                     if (_turtle.CurrentState == TurtleState.Default && TrySearchScan()) return;
@@ -781,6 +798,36 @@ namespace Intégration.V1.Scripts.Game
 
             Vector3 toTarget = Flat(target.transform.position - transform.position);
             if (toTarget.magnitude > biteRange || Vector3.Angle(transform.forward, toTarget) > biteAngle) return false;
+
+            if (_isBoosting) StopTurbo();
+            _turtle.AIBite();
+            _nextBite = Time.time + biteCooldown;
+            return true;
+        }
+
+        private RoseTrap FindNearestRoseTrap(out float distance)
+        {
+            RoseTrap best = null;
+            distance = float.MaxValue;
+            foreach (RoseTrap trap in _roseTraps)
+            {
+                if (trap == null) continue;
+                float d = Flat(trap.transform.position - transform.position).magnitude;
+                if (d < distance)
+                {
+                    distance = d;
+                    best = trap;
+                }
+            }
+            return best;
+        }
+
+        private bool TryBiteRoseTrap()
+        {
+            if (_roseTrapTarget == null || Time.time < _nextBite) return false;
+
+            Vector3 toTrap = Flat(_roseTrapTarget.transform.position - transform.position);
+            if (toTrap.magnitude > biteRange || Vector3.Angle(transform.forward, toTrap) > biteAngle) return false;
 
             if (_isBoosting) StopTurbo();
             _turtle.AIBite();
@@ -931,11 +978,20 @@ namespace Intégration.V1.Scripts.Game
 
                 Vector3 toPot = Flat(pot.transform.position - transform.position);
                 float distance = toPot.magnitude;
-                if (distance < potMinDistance || distance > potMaxDistance) continue;
+                if (distance > potMaxDistance) continue;
 
                 bool blocksTheWay = detour && distance < destDistance && Vector3.Angle(toPot, toDest) < 30f;
                 bool hidingSpot = _goal == Goal.Search && HiddenGuessNear(pot.transform.position, 4f);
                 if (!blocksTheWay && !hidingSpot) continue;
+
+                if (GapTo(pot) < minRunUpGap)
+                {
+                    _forcedSmashPot = pot;
+                    _forcedSmashUntil = Time.time + 4f;
+                    _backOffTimer = 0.5f;
+                    _backOffDir = -toPot.normalized;
+                    return true;
+                }
 
                 var potColliders = pot.GetComponentsInChildren<Collider>();
                 if (Probe(origin, toPot.normalized, Mathf.Max(0.1f, distance - 1f), bodyRadius * 0.6f, out _, potColliders))
@@ -973,10 +1029,10 @@ namespace Intégration.V1.Scripts.Game
         private bool TryForcedSmash()
         {
             Vector3 toPot = Flat(_forcedSmashPot.transform.position - transform.position);
-            if (toPot.magnitude < 1.5f)
+            if (GapTo(_forcedSmashPot) < minRunUpGap)
             {
-                _backOffTimer = 0.4f;
-                _backOffDir = -toPot.normalized;
+                _backOffTimer = 0.5f;
+                _backOffDir = toPot.sqrMagnitude > 0.01f ? -toPot.normalized : -transform.forward;
                 return false;
             }
 
@@ -990,6 +1046,19 @@ namespace Intégration.V1.Scripts.Game
             _nextPot = Time.time + potCooldown;
             _nextDash = Time.time + dashCooldown;
             return true;
+        }
+
+        private float GapTo(FractureObject pot)
+        {
+            float closest = float.MaxValue;
+            foreach (Collider col in pot.GetComponentsInChildren<Collider>())
+            {
+                if (!col.enabled || col.isTrigger) continue;
+                Vector3 point = col.bounds.ClosestPoint(transform.position);
+                closest = Mathf.Min(closest, Flat(point - transform.position).magnitude);
+            }
+            if (closest == float.MaxValue) closest = Flat(pot.transform.position - transform.position).magnitude;
+            return closest - bodyRadius;
         }
 
         private bool HiddenGuessNear(Vector3 position, float radius)
