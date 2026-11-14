@@ -30,6 +30,7 @@ namespace Intégration.V1.Scripts.UI
 
         private void Countdown()
         {
+            countdownText.gameObject.SetActive(true);
             if (number > 0)
             {
                 if (number == 4)
@@ -68,7 +69,6 @@ namespace Intégration.V1.Scripts.UI
             else
             {
                 countdownText.gameObject.SetActive(false);
-
                 GameManager.Instance.StartGame();
             }
         }

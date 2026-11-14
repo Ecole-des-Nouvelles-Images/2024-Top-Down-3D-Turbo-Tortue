@@ -46,7 +46,7 @@ namespace Michael.Scripts.Manager
         [SerializeField] private CinemachineTargetGroup _targetGroup;
 
         [Header("Day / Night")]
-        [SerializeField] private float _dayDuration = 120f;
+        //[SerializeField] private float _dayDuration = 120f;
         public DayNightCycle DayNight { get; private set; }
 
         [Header("Effects")]
@@ -127,7 +127,7 @@ namespace Michael.Scripts.Manager
             PlayersUi.SetActive(true);
             PlayersUi.transform.DOShakePosition(0.5f, 0.2f, 10);
             GameisStarted = true;
-            StartDayNightCycle();
+            //StartDayNightCycle();
 
             if (CrashCollider)
             {
@@ -135,13 +135,13 @@ namespace Michael.Scripts.Manager
             }
         }
 
-        private void StartDayNightCycle()
+       /* private void StartDayNightCycle()
         {
             if (DayNight != null) return;
             DayNight = gameObject.AddComponent<DayNightCycle>();
             DayNight.DayDuration = _dayDuration;
             DayNight.OnNightFall += () => CancelInvoke(nameof(SpawnSun));
-        }
+        }*/
 
         private void DisableCrashCollider()
         {

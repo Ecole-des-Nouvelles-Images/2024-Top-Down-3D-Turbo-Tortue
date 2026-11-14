@@ -12,10 +12,14 @@
   <component name="ChangeListManager">
     <list default="true" id="9aa796ef-cdad-487b-a832-1f20ccc9e50d" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/.idea.2024-Top-Down-3D-Turbo-Tortue/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.2024-Top-Down-3D-Turbo-Tortue/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Intégration/V1/Scripts/Game/TurtleAI.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Intégration/V1/Scripts/Game/TurtleAI.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Intégration/V2 REFACTO/Scripts/Character Selection/Manager/PlayerManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Intégration/V2 REFACTO/Scripts/Character Selection/Manager/PlayerManager.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Intégration/V2 REFACTO/Scripts/Character Selection/PlayerSelection.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Intégration/V2 REFACTO/Scripts/Character Selection/PlayerSelection.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Intégration/V2 REFACTO/Scripts/Ui/GameIntro.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Intégration/V2 REFACTO/Scripts/Ui/GameIntro.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Intégration/V1/Prefabs/Turtle.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Intégration/V1/Prefabs/Turtle.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Intégration/V1/Scenes/Game_Garden.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Intégration/V1/Scenes/Game_Garden.unity" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Intégration/V1/Scripts/UI/CountDown.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Intégration/V1/Scripts/UI/CountDown.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Michael/Font/TTF Zamero/Variant/ZameroSans-ExtraBold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Michael/Font/TTF Zamero/Variant/ZameroSans-ExtraBold SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Michael/Font/TTF Zamero/Variant/ZameroSans-ExtraLight SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Michael/Font/TTF Zamero/Variant/ZameroSans-ExtraLight SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Michael/Font/TTF Zamero/Variant/ZameroSans-Light SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Michael/Font/TTF Zamero/Variant/ZameroSans-Light SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Michael/Font/TTF Zamero/Variant/ZameroSans-SemiBold SDF.asset" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Michael/Font/TTF Zamero/Variant/ZameroSans-SemiBold SDF.asset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Michael/Scripts/Manager/GameManager.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Michael/Scripts/Manager/GameManager.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,8 +151,10 @@
       <option name="PROGRAM_PARAMETERS" value="" />
       <option name="WORKING_DIRECTORY" value="C:\Users\m.elie\Documents\Build unity\build turbo tortue" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -157,8 +163,10 @@
       <option name="PROGRAM_PARAMETERS" value="-projectPath &quot;C:\Users\m.elie\Documents\Unity Project\2024-Top-Down-3D-Turbo-Tortue&quot; -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\m.elie\Documents\Unity Project\2024-Top-Down-3D-Turbo-Tortue" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
@@ -167,31 +175,39 @@
       <option name="PROGRAM_PARAMETERS" value="-runTests -batchmode -projectPath &quot;C:\Users\m.elie\Documents\Unity Project\2024-Top-Down-3D-Turbo-Tortue&quot; -testResults Logs/results.xml -logFile Logs/Editor.log -testPlatform EditMode -debugCodeOptimization" />
       <option name="WORKING_DIRECTORY" value="C:\Users\m.elie\Documents\Unity Project\2024-Top-Down-3D-Turbo-Tortue" />
       <option name="PASS_PARENT_ENVS" value="1" />
+      <option name="USE_EXTERNAL_CONSOLE" value="0" />
       <option name="ENV_FILE_PATHS" value="" />
       <option name="REDIRECT_INPUT_PATH" value="" />
+      <option name="PTY_MODE" value="Auto" />
       <option name="MIXED_MODE_DEBUG" value="0" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+    <configuration name="Attach to Unity Editor &amp; Play" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="UNITY_ATTACH_AND_PLAY" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
-      <option name="coreClr" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
       <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
       <option name="selectedOptions">
         <list />
       </option>
+      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
-    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost" useMixedMode="false">
+    <configuration name="Attach to Unity Editor" type="UNITY_DEBUG_RUN_CONFIGURATION" factoryName="Unity Debug" show_console_on_std_err="false" show_console_on_std_out="false" port="50000" address="localhost">
       <option name="allowRunningInParallel" value="false" />
-      <option name="coreClr" value="false" />
       <option name="listenPortForConnections" value="false" />
       <option name="pid" />
       <option name="projectPathOnTarget" />
+      <option name="runtimes">
+        <list />
+      </option>
       <option name="selectedOptions">
         <list />
       </option>
+      <option name="useMixedMode" value="false" />
       <method v="2" />
     </configuration>
     <configuration name="Attach to" type="UnityDevicePlayer" factoryName="UnityAttachToDevicePlayer">
