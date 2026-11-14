@@ -17,6 +17,8 @@ namespace Intégration.V1.Scripts.UI
         [SerializeField] private string StartMessageFr;
         [SerializeField] private string StartMessageEn;
 
+        public TextMeshProUGUI Text => countdownText;
+
         private void Start()
         {
             Invoke("Countdown",1.6f);

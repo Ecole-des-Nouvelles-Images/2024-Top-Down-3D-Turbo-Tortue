@@ -15,6 +15,8 @@ public class NightTransition : MonoBehaviour
 
     private Tween currentTween;
 
+    public Light NightLight => _nightLight;
+
     [Header("Intensity Settings")] public float dayLightIntensityDay = 1.5f;
     public float dayLightIntensityNight = 0f;
     public float nightLightIntensityDay = 0f;

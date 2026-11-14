@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Cinemachine;
 using DG.Tweening;
+using Intégration.V1.Scripts.Game;
 using Intégration.V1.Scripts.Menu;
 using Michael.Scripts.Controller;
 using UnityEngine;
@@ -43,6 +44,10 @@ namespace Michael.Scripts.Manager
         [Header("Cameras")]
         public GameObject firstCamera;
         [SerializeField] private CinemachineTargetGroup _targetGroup;
+
+        [Header("Day / Night")]
+        [SerializeField] private float _dayDuration = 120f;
+        public DayNightCycle DayNight { get; private set; }
 
         [Header("Effects")]
         [SerializeField] private GameObject MeteorVfx;
@@ -122,11 +127,20 @@ namespace Michael.Scripts.Manager
             PlayersUi.SetActive(true);
             PlayersUi.transform.DOShakePosition(0.5f, 0.2f, 10);
             GameisStarted = true;
+            StartDayNightCycle();
 
             if (CrashCollider)
             {
                 Invoke(nameof(DisableCrashCollider),0.1f);
             }
+        }
+
+        private void StartDayNightCycle()
+        {
+            if (DayNight != null) return;
+            DayNight = gameObject.AddComponent<DayNightCycle>();
+            DayNight.DayDuration = _dayDuration;
+            DayNight.OnNightFall += () => CancelInvoke(nameof(SpawnSun));
         }
 
         private void DisableCrashCollider()
