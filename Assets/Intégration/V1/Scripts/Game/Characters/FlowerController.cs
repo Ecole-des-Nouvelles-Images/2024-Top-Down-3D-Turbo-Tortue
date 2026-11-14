@@ -475,7 +475,11 @@ namespace Intégration.V1.Scripts.Game.Characters
             aliveModelCollider.enabled = false;
             aliveModel.SetActive(false);
             deadModel.SetActive(true);
-            if (_playerInput != null && _playerInput.enabled) _playerInput.currentActionMap = null;
+            if (_playerInput != null && _playerInput.enabled)
+            {
+                _playerInput.currentActionMap = null;
+                _playerInput.actions.FindAction("Pause")?.Enable();
+            }
             Sun = 0;
             isDead = true;
             _playerStats.deathNumber++;

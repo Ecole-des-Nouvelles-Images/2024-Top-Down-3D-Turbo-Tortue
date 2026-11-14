@@ -76,6 +76,9 @@ namespace Intégration.V1.Scripts.Game
         [Header("Pots destructibles (dash chargé à fond)")]
         [SerializeField] private float potMinDistance = 2.5f;
         [SerializeField] private float minRunUpGap = 2f;
+        [SerializeField] private float noProgressTimeout = 5f;
+        [SerializeField] private float maxChaseTime = 15f;
+        [SerializeField] private float ignoreDuration = 8f;
         [SerializeField] private float roseTrapBiteRange = 6f;
         [SerializeField] private float potMaxDistance = 8f;
         [SerializeField] private float potCooldown = 8f;
@@ -114,6 +117,9 @@ namespace Intégration.V1.Scripts.Game
         private FractureObject _smashTarget;
         private List<RoseTrap> _roseTraps = new();
         private RoseTrap _roseTrapTarget;
+        private readonly Dictionary<UnityEngine.Object, float> _ignoredUntil = new();
+        private UnityEngine.Object _progressKey;
+        private float _progressBest, _progressSince, _keySince;
         private FractureObject _forcedSmashPot;
         private float _forcedSmashUntil;
 
@@ -316,8 +322,66 @@ namespace Intégration.V1.Scripts.Game
 
         #region Décision
 
+        private bool IsIgnored(UnityEngine.Object target)
+        {
+            return target != null && _ignoredUntil.TryGetValue(target, out float until) && Time.time < until;
+        }
+
+        private void UpdateProgressWatchdog()
+        {
+            UnityEngine.Object key = null;
+            Vector3 point = _destination;
+            switch (_goal)
+            {
+                case Goal.Chase:
+                case Goal.Unearth:
+                    key = _target;
+                    if (_target != null) point = _target.transform.position;
+                    break;
+                case Goal.BiteRoseTrap:
+                    key = _roseTrapTarget;
+                    if (_roseTrapTarget != null) point = _roseTrapTarget.transform.position;
+                    break;
+                case Goal.CollectSun:
+                    key = FindNearestSun(_destination, out _);
+                    break;
+            }
+
+            if (key == null)
+            {
+                _progressKey = null;
+                return;
+            }
+
+            float distance = Flat(point - transform.position).magnitude;
+            if (key != _progressKey)
+            {
+                _progressKey = key;
+                _progressBest = distance;
+                _progressSince = Time.time;
+                _keySince = Time.time;
+                return;
+            }
+
+            if (distance < _progressBest - 1f)
+            {
+                _progressBest = distance;
+                _progressSince = Time.time;
+            }
+
+            bool noProgress = Time.time - _progressSince > noProgressTimeout;
+            bool chasingTooLong = _goal == Goal.Chase && Time.time - _keySince > maxChaseTime;
+            if (!noProgress && !chasingTooLong) return;
+
+            _ignoredUntil[key] = Time.time + ignoreDuration;
+            _progressKey = null;
+            _nextRepath = 0f;
+        }
+
         private void Think()
         {
+            UpdateProgressWatchdog();
+
             Sun nearestSun = FindNearestSun(transform.position, out float sunDistance);
 
             if (BatteryRatio() < lowBatteryRatio && nearestSun != null && sunDistance < maxSunDetour)
@@ -409,6 +473,7 @@ namespace Intégration.V1.Scripts.Game
             foreach (var flower in _flowers)
             {
                 if (flower.isDead || flower.IsPlanted) continue;
+                if (IsIgnored(flower) && Flat(flower.transform.position - transform.position).magnitude > biteRange) continue;
 
                 float score = PathDistance(flower.transform.position);
                 if (flower.IsStunned) score *= 0.5f;
@@ -514,7 +579,7 @@ namespace Intégration.V1.Scripts.Game
             distance = float.MaxValue;
             foreach (Sun sun in _suns)
             {
-                if (sun == null) continue;
+                if (sun == null || IsIgnored(sun)) continue;
                 float d = Flat(sun.transform.position - from).magnitude;
                 if (d < distance) { distance = d; best = sun; }
             }
@@ -540,10 +605,15 @@ namespace Intégration.V1.Scripts.Game
             float stopDistance = _goal == Goal.Unearth ? 0.8f : _goal == Goal.BiteRoseTrap ? 1.2f : 0.5f;
             if (toDest.magnitude < stopDistance)
             {
-                if (_target != null)
+                Vector3 facePoint = _goal == Goal.BiteRoseTrap && _roseTrapTarget != null ? _roseTrapTarget.transform.position
+                    : _target != null ? _target.transform.position
+                    : _destination;
+                Vector3 face = Flat(facePoint - transform.position);
+                if (face.sqrMagnitude > 0.01f && Vector3.Angle(transform.forward, face) > 25f)
                 {
-                    Vector3 face = Flat(_target.transform.position - transform.position);
-                    if (face.sqrMagnitude > 0.01f) RotateMoveDir(face.normalized);
+                    RotateMoveDir(face.normalized);
+                    _turtle.AISetMove(new Vector2(face.normalized.x, face.normalized.z));
+                    return;
                 }
                 _turtle.AISetMove(Vector2.zero);
                 return;
@@ -811,7 +881,7 @@ namespace Intégration.V1.Scripts.Game
             distance = float.MaxValue;
             foreach (RoseTrap trap in _roseTraps)
             {
-                if (trap == null) continue;
+                if (trap == null || IsIgnored(trap)) continue;
                 float d = Flat(trap.transform.position - transform.position).magnitude;
                 if (d < distance)
                 {
