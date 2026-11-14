@@ -32,9 +32,11 @@ public class PlayerManager : MonoBehaviour
     [Header("AI Flowers")]
     [SerializeField] private int _maxFlowers = 4;
     [SerializeField] private int _soloTurtleDefaultAIFlowers = 3;
+    [SerializeField] private int _aiTurtleTargetFlowers = 3;
     private int _aiFlowerCount;
     private bool _aiFlowerCountTouched;
     private readonly List<int> _aiFlowerChoices = new();
+    private readonly List<int> _recentlyRemovedAIFlowers = new();
     private readonly Dictionary<int, GameObject> _aiCards = new();
     private TextMeshProUGUI _aiFlowersLabel;
     private string _aiFlowersLabelText = "AI";
@@ -165,6 +167,7 @@ public class PlayerManager : MonoBehaviour
             if (playerSelection.CurrentState == PlayerState.Joined)
             {
                 _aiTurtleMode = false;
+                ReleaseAIFlowerChoices();
                 HideAllAICards();
                 _startgamePopUp.SetActive(false);
                 _choseCharacterPopUp.SetActive(true);
@@ -189,6 +192,7 @@ public class PlayerManager : MonoBehaviour
         _aiTurtleMode = canStartWithAITurtle && !canStartWithHumanTurtle;
         if (!canStartWithHumanTurtle && !canStartWithAITurtle)
         {
+            ReleaseAIFlowerChoices();
             HideAllAICards();
             return;
         }
@@ -210,8 +214,12 @@ public class PlayerManager : MonoBehaviour
         bool soloTurtle = _turtleIsSelected && humanFlowers == 0;
         int min = soloTurtle ? Mathf.Min(1, max) : 0;
 
+        bool aiTurtle = !_turtleIsSelected;
+
         if (!_aiFlowerCountTouched)
-            _aiFlowerCount = soloTurtle ? _soloTurtleDefaultAIFlowers : 0;
+            _aiFlowerCount = soloTurtle ? _soloTurtleDefaultAIFlowers
+                : aiTurtle ? Mathf.Max(0, _aiTurtleTargetFlowers - humanFlowers)
+                : 0;
 
         _aiFlowerCount = Mathf.Clamp(_aiFlowerCount, min, max);
     }
@@ -224,7 +232,12 @@ public class PlayerManager : MonoBehaviour
 
         _aiFlowerChoices.RemoveAll(taken.Contains);
         while (_aiFlowerChoices.Count > _aiFlowerCount)
+        {
+            int removed = _aiFlowerChoices[^1];
             _aiFlowerChoices.RemoveAt(_aiFlowerChoices.Count - 1);
+            _recentlyRemovedAIFlowers.Remove(removed);
+            _recentlyRemovedAIFlowers.Add(removed);
+        }
 
         int turtleIndex = TurtleIndex();
         var available = new List<int>();
@@ -236,10 +249,33 @@ public class PlayerManager : MonoBehaviour
 
         while (_aiFlowerChoices.Count < _aiFlowerCount && available.Count > 0)
         {
-            int pick = Random.Range(0, available.Count);
-            _aiFlowerChoices.Add(available[pick]);
-            available.RemoveAt(pick);
+            int pick = PickAIFlower(available);
+            _aiFlowerChoices.Add(pick);
+            available.Remove(pick);
+            _recentlyRemovedAIFlowers.Remove(pick);
         }
+    }
+
+    private void ReleaseAIFlowerChoices()
+    {
+        foreach (int choice in _aiFlowerChoices)
+        {
+            _recentlyRemovedAIFlowers.Remove(choice);
+            _recentlyRemovedAIFlowers.Add(choice);
+        }
+        _aiFlowerChoices.Clear();
+    }
+
+    private int PickAIFlower(List<int> available)
+    {
+        var fresh = available.FindAll(i => !_recentlyRemovedAIFlowers.Contains(i));
+        if (fresh.Count > 0) return fresh[Random.Range(0, fresh.Count)];
+
+        foreach (int oldest in _recentlyRemovedAIFlowers)
+        {
+            if (available.Contains(oldest)) return oldest;
+        }
+        return available[Random.Range(0, available.Count)];
     }
 
     private void OnDeviceChange(InputDevice device, InputDeviceChange change)

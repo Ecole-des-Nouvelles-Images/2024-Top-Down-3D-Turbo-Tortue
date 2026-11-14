@@ -53,13 +53,13 @@ public class GameIntro : MonoBehaviour
 
         if (LocalizationSettings.SelectedLocale.Identifier.Code == "fr")
         {
-            _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "Je compte sur toi, turbo tortue"));
-            _dialogueSeq.AppendInterval("Je compte sur toi, turbo tortue".Length * typeDelay + pauseBetween);
+            _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "Je compte sur toi, turbo tortue !"));
+            _dialogueSeq.AppendInterval("Je compte sur toi, turbo tortue !".Length * typeDelay + pauseBetween);
         }
         else if ((LocalizationSettings.SelectedLocale.Identifier.Code == "en"))
         {
-            _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "I'm counting on you, turbo tortue"));
-            _dialogueSeq.AppendInterval("I'm counting on you, turbo tortue".Length * typeDelay + pauseBetween);
+            _dialogueSeq.AppendCallback(() => TypeText(_scientistSubtitleText, "I'm counting on you, turbo tortue!"));
+            _dialogueSeq.AppendInterval("I'm counting on you, turbo tortue!".Length * typeDelay + pauseBetween);
         }
 
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.ScientistDialogue));

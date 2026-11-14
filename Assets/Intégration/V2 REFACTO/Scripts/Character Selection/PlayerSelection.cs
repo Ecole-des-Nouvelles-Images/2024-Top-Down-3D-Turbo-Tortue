@@ -193,8 +193,8 @@ namespace Intégration.V2_REFACTO.Scripts
                    AudioManager.Instance.PlayRandomSound(AudioManager.Instance.ClipsIndex.FlowersVoices);
                     break;
             }
-            SetPlayerState(PlayerState.Ready);
             ConfirmChoice(_userIndex, Array.IndexOf(CharacterButtons, _characterSelected), InputDevice  );
+            SetPlayerState(PlayerState.Ready);
         }
 
         private void CheckOtherCursor()

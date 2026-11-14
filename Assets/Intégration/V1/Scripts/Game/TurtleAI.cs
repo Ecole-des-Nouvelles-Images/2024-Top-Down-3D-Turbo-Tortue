@@ -43,13 +43,13 @@ namespace Intégration.V1.Scripts.Game
         [Header("Morsure")]
         [SerializeField] private float biteRange = 2.4f;
         [SerializeField] private float biteAngle = 70f;
-        [SerializeField] private float biteCooldown = 0.8f;
+        [SerializeField] private float biteCooldown = 0.6f;
 
         [Header("Dash")]
         [SerializeField] private float dashMinDistance = 4.5f;
         [SerializeField] private float dashMaxDistance = 10f;
-        [SerializeField] private float dashCooldown = 3.5f;
-        [SerializeField, Range(0f, 1f)] private float dashChance = 0.6f;
+        [SerializeField] private float dashCooldown = 2.5f;
+        [SerializeField, Range(0f, 1f)] private float dashChance = 0.8f;
         [SerializeField] private float unearthStandOff = 4.5f;
         [SerializeField, Range(0f, 1f)] private float unearthDashChance = 0.3f;
 
@@ -57,13 +57,13 @@ namespace Intégration.V1.Scripts.Game
         [SerializeField] private float turboMinDistance = 8f;
         [SerializeField] private float turboMaxDistance = 30f;
         [Tooltip("Si la Tortue ne se rapproche pas au moins de cette vitesse (m/s), elle tente le turbo.")]
-        [SerializeField] private float turboClosingSpeed = 1.5f;
+        [SerializeField] private float turboClosingSpeed = 2.5f;
         [SerializeField] private Vector2 turboDuration = new Vector2(1.2f, 2.2f);
         [SerializeField] private float turboCooldown = 4f;
-        [SerializeField, Range(0f, 1f)] private float minBatteryForTurbo = 0.35f;
+        [SerializeField, Range(0f, 1f)] private float minBatteryForTurbo = 0.25f;
 
         [Header("Scan")]
-        [SerializeField] private float searchScanInterval = 7f;
+        [SerializeField] private float searchScanInterval = 5f;
         [SerializeField] private float scanCooldown = 4f;
         [SerializeField, Range(0f, 1f)] private float minBatteryForScan = 0.12f;
 
@@ -87,8 +87,13 @@ namespace Intégration.V1.Scripts.Game
         [SerializeField] private float maxStandUpWait = 3f;
 
         [Header("Batterie")]
-        [SerializeField, Range(0f, 1f)] private float lowBatteryRatio = 0.25f;
-        [SerializeField] private float maxSunDetour = 25f;
+        [SerializeField, Range(0f, 1f)] private float lowBatteryRatio = 0.5f;
+        [SerializeField] private float maxSunDetour = 35f;
+        [SerializeField] private float closeSunRange = 2f;
+        [SerializeField] private float passingSunRange = 6f;
+        [SerializeField] private float passingSunMaxAngle = 45f;
+        [SerializeField] private float passingSunMinTargetDistance = 5f;
+        [SerializeField, Range(0f, 1f)] private float passingSunMaxBattery = 0.9f;
 
         private TurtleController _turtle;
         private Rigidbody _rb;
@@ -316,6 +321,12 @@ namespace Intégration.V1.Scripts.Game
                 return;
             }
 
+            if (nearestSun != null && sunDistance <= closeSunRange && !TargetInBiteRange())
+            {
+                SetGoal(Goal.CollectSun, null, nearestSun.transform.position);
+                return;
+            }
+
             FlowerController visible = FindBestVisibleFlower(out float visibleScore);
             FlowerController revealed = FindNearestRevealed(out float revealedDistance);
 
@@ -337,13 +348,36 @@ namespace Intégration.V1.Scripts.Game
 
             if (visible != null)
             {
-                SetGoal(Goal.Chase, visible, PredictPosition(visible));
+                Vector3 chasePoint = PredictPosition(visible);
+                if (TryGrabPassingSun(nearestSun, sunDistance, chasePoint)) return;
+                SetGoal(Goal.Chase, visible, chasePoint);
                 return;
             }
 
             if (!_hasSearchPoint || ReachedSearchPoint())
                 PickSearchPoint();
+            if (TryGrabPassingSun(nearestSun, sunDistance, _searchPoint)) return;
             SetGoal(Goal.Search, null, _searchPoint);
+        }
+
+        private bool TargetInBiteRange()
+        {
+            return _target != null && !_target.isDead
+                   && Flat(_target.transform.position - transform.position).magnitude <= biteRange + 0.5f;
+        }
+
+        private bool TryGrabPassingSun(Sun sun, float sunDistance, Vector3 heading)
+        {
+            if (sun == null || sunDistance > passingSunRange || BatteryRatio() > passingSunMaxBattery) return false;
+
+            Vector3 toHeading = Flat(heading - transform.position);
+            if (toHeading.magnitude < passingSunMinTargetDistance) return false;
+
+            Vector3 toSun = Flat(sun.transform.position - transform.position);
+            if (sunDistance > 2.5f && Vector3.Angle(toSun, toHeading) > passingSunMaxAngle) return false;
+
+            SetGoal(Goal.CollectSun, null, sun.transform.position);
+            return true;
         }
 
         private void SetGoal(Goal goal, FlowerController target, Vector3 destination)
