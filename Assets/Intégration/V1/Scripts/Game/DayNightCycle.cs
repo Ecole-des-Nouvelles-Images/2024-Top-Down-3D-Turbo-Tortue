@@ -18,6 +18,10 @@ namespace Intégration.V1.Scripts.Game
         public Color NightColor = new Color(0.45f, 0.55f, 1f);
         [Range(0f, 1f)] public float NightIntensityRatio = 0.3f;
         public float MessageDuration = 3f;
+        [Range(0f, 1f)] public float GrassSunsetDarkness = 0.2f;
+        [Range(0f, 1f)] public float GrassNightDarkness = 0.65f;
+
+        private static readonly int GrassNightDarknessId = Shader.PropertyToID("_GrassNightDarkness");
 
         public event Action OnNightFall;
         public bool IsNight { get; private set; }
@@ -32,6 +36,7 @@ namespace Intégration.V1.Scripts.Game
 
         private void Start()
         {
+            Shader.SetGlobalFloat(GrassNightDarknessId, 0f);
             _nightTransition = FindFirstObjectByType<NightTransition>();
             Light nightLight = _nightTransition != null ? _nightTransition.NightLight : null;
 
@@ -50,6 +55,17 @@ namespace Intégration.V1.Scripts.Game
             };
         }
 
+        private void OnDestroy()
+        {
+            Shader.SetGlobalFloat(GrassNightDarknessId, 0f);
+        }
+
+        private static Tween TweenGrassDarkness(float target, float duration)
+        {
+            return DOTween.To(() => Shader.GetGlobalFloat(GrassNightDarknessId),
+                value => Shader.SetGlobalFloat(GrassNightDarknessId, value), target, duration);
+        }
+
         private void Update()
         {
             GameManager gameManager = GameManager.Instance;
@@ -65,6 +81,7 @@ namespace Intégration.V1.Scripts.Game
         {
             _sunsetStarted = true;
             float duration = Mathf.Max(0.1f, DayDuration - _elapsed);
+            TweenGrassDarkness(GrassSunsetDarkness, duration);
 
             for (int i = 0; i < _sunLights.Count; i++)
             {
@@ -79,6 +96,7 @@ namespace Intégration.V1.Scripts.Game
             IsNight = true;
             OnNightFall?.Invoke();
             ShowNightMessage();
+            TweenGrassDarkness(GrassNightDarkness, NightTransitionDuration);
 
             if (_nightTransition != null)
             {
