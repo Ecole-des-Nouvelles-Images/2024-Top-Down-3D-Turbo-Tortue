@@ -109,7 +109,27 @@ namespace Michael.Scripts.Manager
                 else
                 {
                     if (IsAIControlled) UpdateAIQte();
-                    else CheckQTEInput();
+                    else
+                    {
+                        CheckPauseInput();
+                        CheckQTEInput();
+                    }
+                }
+            }
+        }
+
+        private void CheckPauseInput()
+        {
+            GameManager gameManager = GameManager.Instance;
+            if (PauseControlller.IsPaused || _turtlePlayerInput == null || gameManager == null
+                || !gameManager.GameisStarted || gameManager.GameFinished) return;
+
+            foreach (InputDevice device in _turtlePlayerInput.devices)
+            {
+                if (device is Gamepad gamepad && gamepad.startButton.wasPressedThisFrame)
+                {
+                    PauseControlller.OnGamePaused?.Invoke();
+                    return;
                 }
             }
         }

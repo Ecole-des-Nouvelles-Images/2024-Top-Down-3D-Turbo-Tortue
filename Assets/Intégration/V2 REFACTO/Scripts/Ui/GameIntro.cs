@@ -70,8 +70,8 @@ public class GameIntro : MonoBehaviour
         _dialogueSeq.Append(_turtleImage.DOAnchorPosX(-350, slideDuration).SetEase(Ease.OutBack));
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.UIPopPanel));
         _dialogueSeq.Append(_turtleDialogueBox.DOScale(1, 0.3f).SetEase(Ease.OutBack));
-        _dialogueSeq.AppendCallback(() => TypeText(_turtleSubtitleText, "pip.pap*&^!@!#*~…bop"));
-        _dialogueSeq.AppendInterval("pip.pap*&^!@!#*~…bop".Length * typeDelay + pauseBetween);
+        _dialogueSeq.AppendCallback(() => TypeText(_turtleSubtitleText, "pip.pap*&^!@!#*~…bop ?!"));
+        _dialogueSeq.AppendInterval("pip.pap*&^!@!#*~…bop ?!".Length * typeDelay + pauseBetween);
         _dialogueSeq.JoinCallback(() => AudioManager.Instance.PlaySound(AudioManager.Instance.ClipsIndex.TurtleDialogue));
         _dialogueSeq.Append(_turtleDialogueBox.DOScale(0, 0.3f));
 

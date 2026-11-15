@@ -40,14 +40,41 @@ namespace Intégration.V1.Scripts.Game.Characters
         public bool IsGrappling => _isgrappling;
         public float GrappleRange => maxGrappleDistance;
         public Vector3 GrappleOrigin => Gun.position;
-        public Vector3 GrappleDirection => Gun.forward;
+        public Vector3 GrappleDirection => AimDirection(Gun.forward);
+
+        private const float GroundNormalThreshold = 0.7f;
+        private readonly RaycastHit[] _grappleHits = new RaycastHit[16];
 
         public bool HasGrappleTarget(Vector3 direction, float minDistance, out float distance)
         {
             distance = 0f;
-            if (!Physics.Raycast(Gun.position, direction, out RaycastHit hit, maxGrappleDistance, whatIsGrappleable)) return false;
+            if (!TryGrappleRay(AimDirection(direction), maxGrappleDistance, out RaycastHit hit)) return false;
             distance = hit.distance;
             return hit.distance >= minDistance;
+        }
+
+        private Vector3 AimDirection(Vector3 direction)
+        {
+            Vector3 flat = new Vector3(direction.x, 0f, direction.z);
+            return flat.sqrMagnitude > 0.0001f ? flat.normalized : transform.forward;
+        }
+
+        private bool TryGrappleRay(Vector3 direction, float distance, out RaycastHit best)
+        {
+            best = default;
+            int count = Physics.RaycastNonAlloc(Gun.position, direction, _grappleHits, distance, whatIsGrappleable,
+                QueryTriggerInteraction.Ignore);
+            bool found = false;
+            for (int i = 0; i < count; i++)
+            {
+                RaycastHit hit = _grappleHits[i];
+                if (hit.collider.transform.IsChildOf(transform)) continue;
+                if (hit.normal.y > GroundNormalThreshold) continue;
+                if (found && hit.distance >= best.distance) continue;
+                best = hit;
+                found = true;
+            }
+            return found;
         }
 
         protected override void Start()
@@ -152,11 +179,11 @@ namespace Intégration.V1.Scripts.Game.Characters
             {
                 float currentGrappleDistance = Mathf.Clamp(grappleSpeed * _grappleHoldTimer, 0f, maxGrappleDistance);
 
+                Vector3 aim = AimDirection(Gun.forward);
                 lr.SetPosition(0, Gun.position);
-                lr.SetPosition(1, Gun.position + Gun.forward * currentGrappleDistance);
+                lr.SetPosition(1, Gun.position + aim * currentGrappleDistance);
 
-                RaycastHit hit;
-                if (Physics.Raycast(Gun.position, Gun.forward, out hit, currentGrappleDistance, whatIsGrappleable))
+                if (TryGrappleRay(aim, currentGrappleDistance, out RaycastHit hit))
                 {
                     grapplePoint = hit.point;
                     impactGrappleParticules.transform.position = grapplePoint;
@@ -208,9 +235,14 @@ namespace Intégration.V1.Scripts.Game.Characters
 
         private void OnCollisionEnter(Collision other)
         {
-            if (other.gameObject != null)
+            if (!_shouldApplyGrappleForce) return;
+            for (int i = 0; i < other.contactCount; i++)
             {
-                StopGrapple();
+                if (other.GetContact(i).normal.y <= GroundNormalThreshold)
+                {
+                    StopGrapple();
+                    return;
+                }
             }
         }
 

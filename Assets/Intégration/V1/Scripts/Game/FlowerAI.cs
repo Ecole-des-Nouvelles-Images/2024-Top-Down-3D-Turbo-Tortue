@@ -75,6 +75,11 @@ namespace Intégration.V1.Scripts.Game
         private float _scatterUntil;
         private float _hiddenUntil;
         private bool _hideSpotChosen;
+        private float _hideWaitStart = -1f;
+        private float _nearDestSince = -1f;
+        private bool _pathPartial;
+        private bool _destinationBlocked;
+        private readonly Dictionary<Sun, float> _unreachableSuns = new();
         private float _nextFleeRepath;
         private float _threatSince = -1f;
         private float _reactionTime;
@@ -250,6 +255,12 @@ namespace Intégration.V1.Scripts.Game
             _flower.AISetReviving(false);
 
             Sun sun = FindSafeSun();
+            if (_goal == Goal.CollectSun && _destinationBlocked && sun != null)
+            {
+                _unreachableSuns[sun] = Time.time + 6f;
+                _destinationBlocked = false;
+                sun = FindSafeSun();
+            }
             if (_flower.Sun < _flower.maxSun && sun != null)
             {
                 SetGoal(Goal.CollectSun);
@@ -263,16 +274,36 @@ namespace Intégration.V1.Scripts.Game
             {
                 _destination = PickHideSpot();
                 _hasDestination = true;
+                _destinationBlocked = false;
                 _hideSpotChosen = true;
             }
 
-            if (Flat(_destination - transform.position).magnitude < 1.2f && _turtleDistance > dangerDistance)
+            bool atSpot = Flat(_destination - transform.position).magnitude < 1.5f || _destinationBlocked
+                          || (_nearDestSince >= 0f && Time.time - _nearDestSince > 2.5f);
+            if (!atSpot)
+            {
+                _hideWaitStart = -1f;
+                return;
+            }
+
+            if (_turtleDistance > dangerDistance || (!_turtleApproaching && _turtleDistance > panicDistance && _hideWaitStart >= 0f && Time.time - _hideWaitStart > 1f))
             {
                 if (_flower.AIPlant())
                 {
                     _hiddenUntil = Time.time + Random.Range(hideDuration.x, hideDuration.y);
                     _hideSpotChosen = false;
+                    _hideWaitStart = -1f;
+                    _nearDestSince = -1f;
+                    return;
                 }
+            }
+
+            if (_hideWaitStart < 0f) _hideWaitStart = Time.time;
+            else if (Time.time - _hideWaitStart > 2f)
+            {
+                _hideSpotChosen = false;
+                _hideWaitStart = -1f;
+                _nearDestSince = -1f;
             }
         }
 
@@ -286,7 +317,7 @@ namespace Intégration.V1.Scripts.Game
                 _hasDestination = true;
             }
 
-            bool arrived = Flat(_destination - transform.position).magnitude < 2f;
+            bool arrived = Flat(_destination - transform.position).magnitude < 2f || _destinationBlocked;
             if (arrived || Time.time > _scatterUntil)
             {
                 _scattering = false;
@@ -391,6 +422,9 @@ namespace Intégration.V1.Scripts.Game
             {
                 _goal = goal;
                 _nextRepath = 0f;
+                _nearDestSince = -1f;
+                _hideWaitStart = -1f;
+                _destinationBlocked = false;
                 if (goal != Goal.Hide) _hideSpotChosen = false;
             }
         }
@@ -454,6 +488,7 @@ namespace Intégration.V1.Scripts.Game
             foreach (Sun sun in _suns)
             {
                 if (sun == null) continue;
+                if (_unreachableSuns.TryGetValue(sun, out float ignoreUntil) && Time.time < ignoreUntil) continue;
                 Vector3 position = sun.transform.position;
                 if (TurtleNear(position, minSunDistanceFromTurtle) || ClaimedByOther(position)) continue;
 
@@ -632,8 +667,15 @@ namespace Intégration.V1.Scripts.Game
                 _destination = _reviveTarget.transform.position;
 
             Vector3 toDest = Flat(_destination - transform.position);
-            float stopDistance = _goal == Goal.Revive ? 0.8f : 0.4f;
-            if (toDest.magnitude < stopDistance)
+            float distance = toDest.magnitude;
+            float stopDistance = _goal == Goal.Revive ? 0.8f : _goal == Goal.Hide ? 1f : 0.6f;
+            if (distance < 3f)
+            {
+                if (_nearDestSince < 0f) _nearDestSince = Time.time;
+            }
+            else _nearDestSince = -1f;
+
+            if (distance < stopDistance)
             {
                 _flower.AISetMove(Vector2.zero);
                 return;
@@ -647,15 +689,32 @@ namespace Intégration.V1.Scripts.Game
             }
             else
             {
-                desired = Flat(NextWaypoint() - transform.position).normalized;
+                Vector3 waypoint = NextWaypoint();
+                if (_pathPartial && _cornerIndex >= _corners.Length - 1
+                                 && Flat(waypoint - transform.position).magnitude < waypointReach)
+                {
+                    _destinationBlocked = true;
+                    _flower.AISetMove(Vector2.zero);
+                    return;
+                }
+                desired = Flat(waypoint - transform.position).normalized;
                 if (desired == Vector3.zero) desired = toDest.normalized;
                 desired = ApplyRepulsion(desired);
-                DetectStuck();
+                if (_goal == Goal.Flee || distance >= 3f) DetectStuck();
             }
 
             if (_moveDir == Vector3.zero) _moveDir = transform.forward;
-            _moveDir = Flat(Vector3.RotateTowards(_moveDir, desired, turnSpeed * Mathf.Deg2Rad * Time.deltaTime, 0f)).normalized;
-            _flower.AISetMove(new Vector2(_moveDir.x, _moveDir.z));
+            bool slowDown = _goal != Goal.Flee && distance < 3f;
+            float turn = turnSpeed * (slowDown ? 2f : 1f);
+            _moveDir = Flat(Vector3.RotateTowards(_moveDir, desired, turn * Mathf.Deg2Rad * Time.deltaTime, 0f)).normalized;
+
+            float speed = 1f;
+            if (slowDown)
+            {
+                speed = Mathf.Lerp(0.35f, 1f, distance / 3f);
+                if (Vector3.Dot(_moveDir, desired) < 0.5f) speed *= 0.4f;
+            }
+            _flower.AISetMove(new Vector2(_moveDir.x, _moveDir.z) * speed);
         }
 
         private Vector3 NextWaypoint()
@@ -664,16 +723,20 @@ namespace Intégration.V1.Scripts.Game
 
             if (Time.time >= _nextRepath || Flat(_pathTarget - _destination).magnitude > 1.5f)
             {
+                if (Flat(_pathTarget - _destination).magnitude > 1.5f) _destinationBlocked = false;
                 _nextRepath = Time.time + repathInterval;
                 _pathTarget = _destination;
                 if (_navMesh.CalculatePath(transform.position, _destination, _navPath) && _navPath.corners.Length > 0)
                 {
                     _corners = _navPath.corners;
                     _cornerIndex = Mathf.Min(1, _corners.Length - 1);
+                    _pathPartial = _navPath.status == NavMeshPathStatus.PathPartial;
+                    if (!_pathPartial) _destinationBlocked = false;
                 }
                 else
                 {
                     _corners = new Vector3[0];
+                    _pathPartial = false;
                 }
             }
 

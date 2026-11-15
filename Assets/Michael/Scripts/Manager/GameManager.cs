@@ -47,7 +47,7 @@ namespace Michael.Scripts.Manager
 
         [Header("Day / Night")]
         //[SerializeField] private float _dayDuration = 120f;
-        public DayNightCycle DayNight { get; private set; }
+        //public DayNightCycle DayNight { get; private set; }
 
         [Header("Effects")]
         [SerializeField] private GameObject MeteorVfx;
